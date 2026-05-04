@@ -10,3 +10,6 @@ This code was run on VSC using a Windows 11 device. The compilation line used wa
 
 ### Modifying the main file, `main.cpp`
 These guidelines are for a user who wishes to use the classes in this program, but modify the main file provided (or make their own).
+
+## Notes
+- Probably in main circuit function you want to have components be pointers - see in assignment 5 why you wanted FourMomentum to be a pointer to explain a choice of pointers

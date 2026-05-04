@@ -30,7 +30,7 @@ public:
     Component() = delete; //no default component
 
     //Declare parameterised constructor
-    Component(int value);
+    Component(const double frequency_in); //frequency_in should not be modified
 
     //Destructor
     virtual ~Component() {}
