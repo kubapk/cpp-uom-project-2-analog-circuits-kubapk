@@ -1,1 +1,12 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/94zuNg70)
+### Kuba Kane
+# PHYS30762 Project - Analogue Circuits
+
+## Program Summary
+A brief summary of the program will go here
+
+## User Guidelines
+### Running the program as-is
+This code was run on VSC using a Windows 11 device. The compilation line used was `g++ -std=c++17 main.cpp Neutrino.cpp Tau.cpp Muon.cpp Electron.cpp Lepton.cpp FourMomentum.cpp -o main.exe -Wall`. The program can then be run by calling the file `main.exe`.
+
+### Modifying the main file, `main.cpp`
+These guidelines are for a user who wishes to use the classes in this program, but modify the main file provided (or make their own).
