@@ -27,7 +27,7 @@ protected:
 
 public:
     //Default constructor
-    Component() = delete; //no default component
+    Component() = delete; //no default component //JUST REMOVE THE LINE? BETTER THAN DELETE?
 
     //Declare parameterised constructor
     Component(const double frequency_in); //frequency_in should not be modified
