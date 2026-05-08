@@ -27,7 +27,8 @@ protected:
 
 public:
     //Default constructor
-    Component() = delete; //no default component //JUST REMOVE THE LINE? BETTER THAN DELETE?
+    Component(); //IS THERE POINT IN HAVING DEFAULT WHICH SETS ALL TO 0?
+    //Sets all to 0 - what does paramterised do with impedance, phase_diff?
 
     //Declare parameterised constructor
     Component(const double frequency_in); //frequency_in should not be modified

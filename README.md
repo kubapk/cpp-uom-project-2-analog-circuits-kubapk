@@ -13,6 +13,9 @@ These guidelines are for a user who wishes to use the classes in this program, b
 
 ## Notes
 - A resistor has a defined resistance, so it should be a VARIABLE of the resistor - user can then specify what type of resistor / its resistance
+- if the derived class doesn’t manage any resources itself, it does not need its own destructor - uses virtual destructor from Component
+- since get_frequency is pure virtual, no point in implementing it - but could implement a validation function which is later used
+- ALL properties can be set via constructor of Component so that it can be used by derived classes - otherwise resistor has impedance but it is never actually set/assigned to resistance
 
 ## To do
 - Probably in main circuit function you want to have components be pointers - see in assignment 5 why you wanted FourMomentum to be a pointer to explain a choice of pointers

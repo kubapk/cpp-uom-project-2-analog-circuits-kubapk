@@ -1,0 +1,40 @@
+/*
+____________________________________________
+RESISTOR IMPLEMENTATION
+(Part of PHYS30762 Analogue Circuit Project)
+____________________________________________
+Implementation file for Resistor class.
+
+Created by Kuba Kane (ID: 11019699)
+Created on Mon 08 May 2026
+*/
+
+#include<iostream>
+#include "Resistor.h"
+
+
+//CONSTRUCTORS
+//Default constructor
+Resistor::Resistor() :
+    Component(), resistance{0} {}
+
+//Paramterised constructor
+Resistor::Resistor(const double frequency_in, const double resistance_in) :
+    Component(frequency_in), resistance{resistance_in} {}
+
+
+//SETTERS
+
+
+//Setter for frequency
+/* Could have the setter below - but its pointless because in .h we have defined it as pure virtual
+so it will be ovewritten anyway
+void Component::set_frequency(const double frequency_in)
+{
+  frequency = frequency_in;
+}
+*/
+
+//MEMBER FUNCTIONS
+
+//FRIEND FUNCTIONS

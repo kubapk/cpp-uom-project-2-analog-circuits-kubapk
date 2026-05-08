@@ -13,6 +13,10 @@ Created on Mon 04 May 2026
 #include "Component.h"
 
 //CONSTRUCTORS
+//Default constructor
+Component::Component() :
+  frequency{0}, impedance{0}, phase_difference{0} {}
+
 //Paramterised constructor
 Component::Component(const double frequency_in) :
     frequency{frequency_in} {}
@@ -30,7 +34,7 @@ Component::Component(const double frequency_in) :
 //Maybe validation comes after implementing everything else
 
 //Setter for frequency
-/* Could have the setter below - but its pointless because in .h we have defined it as pure virtua;
+/* Could have the setter below - but its pointless because in .h we have defined it as pure virtual
 so it will be ovewritten anyway
 void Component::set_frequency(const double frequency_in)
 {
