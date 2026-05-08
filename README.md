@@ -16,6 +16,9 @@ These guidelines are for a user who wishes to use the classes in this program, b
 - if the derived class doesn’t manage any resources itself, it does not need its own destructor - uses virtual destructor from Component
 - since get_frequency is pure virtual, no point in implementing it - but could implement a validation function which is later used
 - ALL properties can be set via constructor of Component so that it can be used by derived classes - otherwise resistor has impedance but it is never actually set/assigned to resistance
+- Impedance is a property which is derived from other properties of a component, so it should not be stored as a data member - this would mean that it would need to be updated constantly anytime one of the other component features are changed (MS says only setter for frequency - suggests nothing else needs to be stored, as in general all data members should have setters)
+- Info function to print out all info of a component
+- If you add more functions to derived Component classes, can have base info function so that you can print out name - otherwise add name as a property in the base class
 
 ## To do
 - Probably in main circuit function you want to have components be pointers - see in assignment 5 why you wanted FourMomentum to be a pointer to explain a choice of pointers

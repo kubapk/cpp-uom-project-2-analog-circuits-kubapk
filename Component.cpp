@@ -15,7 +15,7 @@ Created on Mon 04 May 2026
 //CONSTRUCTORS
 //Default constructor
 Component::Component() :
-  frequency{0}, impedance{0}, phase_difference{0} {}
+  frequency{0} {}
 
 //Paramterised constructor
 Component::Component(const double frequency_in) :
@@ -43,5 +43,13 @@ void Component::set_frequency(const double frequency_in)
 */
 
 //MEMBER FUNCTIONS
+void Component::component_info() const
+{
+  std::cout<<"Component name"<<std::endl;
+  std::cout<<"Impedance = "<<get_impedance()<<std::endl;
+  std::cout<<"Frequency = "<<frequency<<std::endl;
+  std::cout<<"Impedance magnitude = "<<get_impedance_magnitude()<<std::endl;
+  std::cout<<"Phase difference = "<<get_phase_difference()<<std::endl;
+}
 
 //FRIEND FUNCTIONS

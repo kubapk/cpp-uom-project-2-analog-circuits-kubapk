@@ -22,16 +22,14 @@ class Component
 {
 protected:
     double frequency;
-    std::complex<double> impedance;
-    double phase_difference;
 
 public:
     //Default constructor
-    Component(); //IS THERE POINT IN HAVING DEFAULT WHICH SETS ALL TO 0?
-    //Sets all to 0 - what does paramterised do with impedance, phase_diff?
+    Component();
 
     //Declare parameterised constructor
-    Component(const double frequency_in); //frequency_in should not be modified
+    Component(const double frequency_in); 
+    //frequency_in, impedance_in are const as should not be modified
 
     //Destructor
     virtual ~Component() {}
@@ -44,10 +42,11 @@ public:
     //Getters
     virtual const double& get_frequency() const = 0;
     virtual const std::complex<double>& get_impedance() const = 0;
-    virtual const double& get_impedance_magnitude() const = 0;
-    virtual const double& get_phase_difference() const = 0;
+    virtual const double& get_impedance_magnitude() const;
+    virtual const double& get_phase_difference() const;
 
     //Member functions
+    void component_info() const;
 
     //Friend functions
 };

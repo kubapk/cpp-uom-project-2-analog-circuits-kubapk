@@ -40,7 +40,7 @@ public:
 
     //Getters
     const double& get_frequency() const {return frequency;}
-    const std::complex<double>& get_impedance() const {return impedance;}
+    const std::complex<double>& get_impedance() const {return (resistance, 0);}
     const double& get_impedance_magnitude() const {}
     const double& get_phase_difference() const;
 
