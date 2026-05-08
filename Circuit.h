@@ -48,10 +48,13 @@ public:
     const int& get_components() const;
     const CircuitType& get_type() const;
     const double& get_frequency() const;
-    
+
     const std::complex<double> get_impedance() const;
     const double get_impedance_magnitude() const;
     const double get_phase_difference() const;
+
+    //Member functions
+    void add_component()
 };
 
 #endif
