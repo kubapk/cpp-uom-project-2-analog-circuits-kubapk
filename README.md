@@ -9,7 +9,7 @@ A brief summary of the program will go here
 This code was run on VSC using a Windows 11 device. The compilation line used was `g++ -std=c++17 main.cpp Neutrino.cpp Tau.cpp Muon.cpp Electron.cpp Lepton.cpp FourMomentum.cpp -o main.exe -Wall`. The program can then be run by calling the file `main.exe`.
 
 Test run line:
-`g++ -std=c++17 test.cpp Resistor.cpp Capacitor.cpp Inductor.cpp Component.cpp -o test.exe -Wall`
+`g++ -std=c++17 test.cpp Circuit.cpp Resistor.cpp Capacitor.cpp Inductor.cpp Component.cpp -o test.exe -Wall`
 
 ### Modifying the main file, `main.cpp`
 These guidelines are for a user who wishes to use the classes in this program, but modify the main file provided (or make their own).
@@ -28,6 +28,10 @@ circuit.add_component(std::move(r));
 ```
 - That's to say, the frequency cannot be modified via a component's setter - so we just need to ensure everything is handled correctly via the circuit setters 
 - We do not need to be concerned with the constructor, since it initially has no components - the frequency set there can only be set at the beginning
+
+
+### Rule of 0/3/5
+- Circuit class involves a smart pointer, we must implement the rule of 3 at least (to define destruction & copy semantics). As we need to move components from their library into a circuit (and Circuit is derived from Component), we have to use std::move and so we need move semantics and so must implement the rule of 5.
 
 
 ### Constructor of Component class
@@ -60,3 +64,4 @@ circuit.add_component(std::move(r));
 ## To do
 - Probably in main circuit function you want to have components be pointers - see in assignment 5 why you wanted FourMomentum to be a pointer to explain a choice of pointers
 - Use alias for complex object as in std::map example
+- typedef std::complex<double> complex;?

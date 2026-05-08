@@ -1,0 +1,91 @@
+/*
+____________________________________________
+CIRCUIT IMPLEMENTATION
+(Part of PHYS30762 Analogue Circuit Project)
+____________________________________________
+Implementation file for Circuit class.
+
+Created by Kuba Kane (ID: 11019699)
+Created on Fri 08 May 2026
+*/
+
+#include<iostream>
+#include "Circuit.h"
+
+
+//CONSTRUCTORS
+//Default constructor
+Circuit::Circuit(CircuitType type_in) :
+    Component(), type{type_in} {}
+
+//Paramterised constructor
+Circuit::Circuit(const double frequency_in, CircuitType type_in) :
+    Component(frequency_in), type{type_in} {}
+
+
+//SETTERS
+//Setter for frequency
+void Circuit::set_frequency(const double frequency_in) 
+{
+    frequency = frequency_in;
+
+    //Syncronise: Set frequency of each component to match frequency_in
+    for(const auto& component_ptr_i : components)
+        component_ptr_i->set_frequency(frequency_in);
+    //"component_ptr_i" is std::unique_ptr<Component> but can let compiler decide with auto
+    //cannot pass component_ptr_i by value as unique pointer cannot be copied (it can only have one owner at once)
+    //Set the reference to std::unique_ptr<Component> to be const as it shouldn't be modified -
+    //each component in components should not change
+}
+
+//Setter for type
+void Circuit::set_type(const CircuitType type_in)
+{
+    type = type_in;
+}
+
+
+//GETTERS
+//Getter for frequency
+const double& Circuit::get_frequency() const {return frequency;}
+
+//Getter for impedance
+const std::complex<double> Circuit::get_impedance() const
+{
+    std::complex<double> total_impedance(0.0, 0.0);
+
+    if(components.empty())
+        return total_impedance;
+
+    else if(type == CircuitType::Series)
+    {
+        for(const auto& component_ptr_i : components)
+            total_impedance += component_ptr_i->get_impedance();
+
+        return total_impedance;
+    }
+    else
+    {
+        for(const auto& component_ptr_i : components)
+            total_impedance += 1.0/(component_ptr_i->get_impedance());
+
+        return 1.0/total_impedance;
+    }
+    //Switch not used as the cases don't depend on same variable
+}
+
+const double Circuit::get_impedance_magnitude() const {return abs(get_impedance());}
+const double Circuit::get_phase_difference() const {return arg(get_impedance());}
+
+
+//MEMBER FUNCTIONS
+//Function to add component to circuit
+void Circuit::add_component(std::unique_ptr<Component> component_ptr)
+{
+    //Syncronise: Set the frequency of component to match that of circuit
+    component_ptr->set_frequency(frequency);
+
+    //Add component to vector
+    components.emplace_back(component_ptr);
+
+}

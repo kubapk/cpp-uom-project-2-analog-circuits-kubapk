@@ -35,13 +35,14 @@ private:
 
 public:
     //Declare default constructor
-    Circuit();
+    Circuit(CircuitType type_in); //cannot have circuit without defined type
+    //this circuit will have f = 0Hz
 
     //Declare parameterised constructor
-    Circuit(CircuitType type_in);
+    Circuit(const double frequency_in, CircuitType type_in);
 
-    //Destructor
-    ~Circuit() {};
+    //Destructor inherented from Component class
+    //RULE OF 5
 
     //Setters
     void set_frequency(const double frequency_in);
@@ -57,7 +58,9 @@ public:
     const double get_phase_difference() const;
 
     //Member functions
-    void add_component()
+    void add_component(std::unique_ptr<Component> component_ptr_in);
+    //Using pointer to component means the input parameter of this function
+    //can be any of derived classes - can be directly added to vector
 };
 
 #endif
