@@ -21,21 +21,24 @@ Created on Fri 08 May 2026
 #include "Component.h"
 using std::vector;
 
+
+//Enumerator class for circuit type
 enum class CircuitType {Series, Parallel};
 
-class Circuit
+
+//Circuit class inherits from Component
+class Circuit : public Component
 {
 private:
     vector<std::unique_ptr<Component>> components;
     CircuitType type;
-    double frequency;
 
 public:
     //Declare default constructor
     Circuit();
 
     //Declare parameterised constructor
-    Circuit();
+    Circuit(CircuitType type_in);
 
     //Destructor
     ~Circuit() {};
