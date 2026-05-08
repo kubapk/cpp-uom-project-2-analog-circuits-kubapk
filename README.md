@@ -29,6 +29,13 @@ These guidelines are for a user who wishes to use the classes in this program, b
 - Use template class since all of them are very similar?
 - Angular frequency is a function in base class? Best to avoid repeated code
 - Restrict user to selecting from a file / database of given capacitors/resistors/inductors
+- Components in Circuit class stored as a vector of unique pointers to Component abstract class objects so that objects of derived classes can also be stored
+- Pure virtual functions to set and get frequency are required in base Component class - technically should not be a property of the components since the source (e.g. battery) drives the same frequency V (as sin wave) - in that case frequency should be a component of circuit (not of components) and components can take this frequency as an input
+- Why not shared pointer for vector of components? Components would need to be shared by multiple owners, e.g. two different circuits sharing the ownership of the same resistor - no advantage to this given the complexities shared pointers bring in terms of when they go out of scope etc.
+- Circuit class uses rule of 3 since there are smart pointers where we wish to use copy semantics - Do you need Circuit c2 = c1?
+- Right now Circuit class will update the frequency of all of the components??
+- User can create library of components - these are components they are allowed to construct their circuit, but these components must be defined in a validationf file? E.g. specific real resistors are specified in validation file, and user can add the ones they want to their library? Disallow user from adding something into library which already exists
 
 ## To do
 - Probably in main circuit function you want to have components be pointers - see in assignment 5 why you wanted FourMomentum to be a pointer to explain a choice of pointers
+- Use alias for complex object as in std::map example
