@@ -41,8 +41,9 @@ public:
     //Declare parameterised constructor
     Circuit(const double frequency_in, CircuitType type_in);
 
-    //Destructor inherented from Component class
-    //RULE OF 5
+    //Destructor inherited from Component class
+    
+    //Copy/move semantics needed if we don't want to copy/move a Circuit?
 
     //Setters
     void set_frequency(const double frequency_in);

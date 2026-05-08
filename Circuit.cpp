@@ -86,6 +86,6 @@ void Circuit::add_component(std::unique_ptr<Component> component_ptr)
     component_ptr->set_frequency(frequency);
 
     //Add component to vector
-    components.emplace_back(component_ptr);
+    components.emplace_back(std::move(component_ptr));
 
 }

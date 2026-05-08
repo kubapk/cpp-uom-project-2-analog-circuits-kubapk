@@ -32,6 +32,14 @@ circuit.add_component(std::move(r));
 
 ### Rule of 0/3/5
 - Circuit class involves a smart pointer, we must implement the rule of 3 at least (to define destruction & copy semantics). As we need to move components from their library into a circuit (and Circuit is derived from Component), we have to use std::move and so we need move semantics and so must implement the rule of 5.
+- Need to manually copy over all components of circuit if I want to use copy semantics?
+- When deleting a derived object through a base pointer, C++ must destroy the derived-specific state first, then the base part afterward (since derived objects depend on base, you cannot delete base first), e.g.
+```
+Component* ptr = new Circuit(...); //Circuit object stored as a pointer to a Component object
+delete ptr;
+```
+Here, Circuit members destroyed first, then Component members - correct (virtual destructor in Component ensures it is ovewritten with Circuit destructor)
+- 
 
 
 ### Constructor of Component class
@@ -40,7 +48,15 @@ circuit.add_component(std::move(r));
 
 ### Shared or unique pointer
 - Why not shared pointer for vector of components? Components would need to be shared by multiple owners, e.g. two different circuits sharing the ownership of the same resistor - no advantage to this given the complexities shared pointers bring in terms of when they go out of scope etc.
+- If you use shared_ptr, then multiple owners are allowed, and so the object which is being added to the Circuit could be modified? The user still has access to that object
 
+### Adding components to the circuit (std::move)
+- std::move(component_ptr) is required to add the component to the vector of components so the ownership transfers to the pointer inside the vector
+- This is because unique_ptr cannot have multiple owners
+- Related to lvalue & rvalue - lvalues have an adress and rvalues do not (x=5) - rvalues are temporary, and we can only do move semantics on rvalues (n lvalue as something the user still needs to use, whereas if it an rvalue it is seen as something the user doesn’t mind having emptied.)
+- When we define r in the code above, it is an lvalue, and so to add it to the vector we need to change its pointer, i.e. move it, and this requires us to change it to an rvalue - done via the std::move command
+- Note this can't be fixed via using move/copy semantics of the Component or Circuit classes - the issue is with moving the UNIQUE_PTR itself, not an object which contains a UNIQUE_PTR 
+- That's why when we define copy/move semantics of Circuit which contains a pointer, but we can do it via std::move thanks to it being a smart pointer
 
 
 ## Notes
@@ -65,3 +81,5 @@ circuit.add_component(std::move(r));
 - Probably in main circuit function you want to have components be pointers - see in assignment 5 why you wanted FourMomentum to be a pointer to explain a choice of pointers
 - Use alias for complex object as in std::map example
 - typedef std::complex<double> complex;?
+- Overrride info func for circuit so that it prints out info of all components & have base class virtual info func which is reused - allows for names to be printed
+- Circuit class able to detect how many resistors, capacitors, etc in total

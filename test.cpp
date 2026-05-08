@@ -32,10 +32,21 @@ int main()
 
         //Build simple series circuit
         //Components to add
-        r1_ptr = 
-
+        std::cout<<"\nSimple series circuit"<<std::endl;
         Circuit test_circuit(1000, CircuitType::Series);
-        test_circuit.add_component(r1);
+
+        std::cout<<">>Added resistor:"<<std::endl;
+        std::unique_ptr<Component> r1_ptr = std::make_unique<Resistor>(100, 50);
+        r1_ptr->info();
+        test_circuit.add_component(std::move(r1_ptr));
+
+        std::cout<<">>Added capacitor:"<<std::endl;
+        std::unique_ptr<Component> c1_ptr = std::make_unique<Capacitor>(1000, 50);
+        c1_ptr->info();
+        test_circuit.add_component(std::move(c1_ptr));
+
+
+        std::cout<<"\nCombined circuit impedance: "<<test_circuit.get_impedance()<<std::endl;
 
     }
     catch(const std::exception& e)
