@@ -9,7 +9,7 @@ A brief summary of the program will go here
 This code was run on VSC using a Windows 11 device. The compilation line used was `g++ -std=c++17 main.cpp Neutrino.cpp Tau.cpp Muon.cpp Electron.cpp Lepton.cpp FourMomentum.cpp -o main.exe -Wall`. The program can then be run by calling the file `main.exe`.
 
 Test run line:
-`g++ -std=c++17 test.cpp Resistor.cpp Capacitor.cpp Component.cpp -o test.exe -Wall`
+`g++ -std=c++17 test.cpp Resistor.cpp Capacitor.cpp Inductor.cpp Component.cpp -o test.exe -Wall`
 
 ### Modifying the main file, `main.cpp`
 These guidelines are for a user who wishes to use the classes in this program, but modify the main file provided (or make their own).
@@ -26,6 +26,9 @@ These guidelines are for a user who wishes to use the classes in this program, b
 - Do not allow maths constant to be redefined twice - ifdef for maths consts?
 - Use phase difference to print out a message saying whether current leads or lags voltage
 - inductors have positive phase angle, capacitors negative phase angle -> enforce this?
+- Use template class since all of them are very similar?
+- Angular frequency is a function in base class? Best to avoid repeated code
+- Restrict user to selecting from a file / database of given capacitors/resistors/inductors
 
 ## To do
 - Probably in main circuit function you want to have components be pointers - see in assignment 5 why you wanted FourMomentum to be a pointer to explain a choice of pointers

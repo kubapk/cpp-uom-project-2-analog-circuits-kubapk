@@ -18,8 +18,6 @@ Created on Fri 08 May 2026
 #include "Component.h"
 
 class Capacitor : public Component
-//public ensures Component protected members remain protected, and public members
-//remain public
 {
 private:
     double capacitance; //Farads, F

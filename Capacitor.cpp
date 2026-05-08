@@ -32,7 +32,7 @@ void Capacitor::set_frequency(const double frequency_in)
     frequency = frequency_in;
 }
 
-//Setter for resistance
+//Setter for capacitance
 void Capacitor::set_capacitance(const double capacitance_in)
 {
     capacitance = capacitance_in;
