@@ -73,6 +73,7 @@ int main()
         realistic_parallel.add_component(std::make_unique<Circuit>(std::move(realistic_series)));
         realistic_parallel.add_component(std::make_unique<Resistor>(45, 40)); //freq, resistance
         std::cout<<"Realistic parallel circuit impedance: "<<realistic_parallel.get_impedance()<<std::endl;
+        realistic_parallel.info();
 
 
 

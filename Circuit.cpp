@@ -89,3 +89,10 @@ void Circuit::add_component(std::unique_ptr<Component> component_ptr)
     components.emplace_back(std::move(component_ptr));
 
 }
+
+//Info member function
+void Circuit::info() const
+{
+    std::cout<<"Circuit"<<std::endl;
+    base_info();
+}

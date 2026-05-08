@@ -62,6 +62,8 @@ public:
     void add_component(std::unique_ptr<Component> component_ptr_in);
     //Using pointer to component means the input parameter of this function
     //can be any of derived classes - can be directly added to vector
+    
+    void info() const;
 };
 
 #endif

@@ -42,3 +42,12 @@ const double& Resistor::get_frequency() const {return frequency;}
 const std::complex<double> Resistor::get_impedance() const {return std::complex<double> (resistance, 0.0);}
 const double Resistor::get_impedance_magnitude() const {return abs(get_impedance());}
 const double Resistor::get_phase_difference() const {return arg(get_impedance());}
+
+
+//SETTERS
+void Resistor::info() const
+{
+    std::cout<<"Component type: Resistor"<<std::endl;
+    std::cout<<"Resistance: "<<resistance<<" Ohms"<<std::endl;
+    base_info();
+}

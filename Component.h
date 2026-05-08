@@ -23,6 +23,9 @@ class Component
 protected:
     double frequency; //Hz
 
+    //Protected function to print info in base Component class which can be reused
+    void base_info() const;
+
 public:
     //Default constructor
     Component();
@@ -48,7 +51,7 @@ public:
     //cannot be returned by reference as they return temporary objects
 
     //Member functions
-    void info() const;
+    virtual void info() const = 0;
 
     //Friend functions
 };

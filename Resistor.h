@@ -43,6 +43,9 @@ public:
     const double get_impedance_magnitude() const;
     const double get_phase_difference() const;
 
+    //Member functions
+    void info() const;
+
 };
 
 #endif

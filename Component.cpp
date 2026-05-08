@@ -43,13 +43,13 @@ void Component::set_frequency(const double frequency_in)
 */
 
 //MEMBER FUNCTIONS
-void Component::info() const
+//Base info protected member function
+void Component::base_info() const
 {
-  std::cout<<"Component name"<<std::endl;
-  std::cout<<"Impedance = "<<get_impedance()<<std::endl;
-  std::cout<<"Frequency = "<<frequency<<std::endl;
-  std::cout<<"Impedance magnitude = "<<get_impedance_magnitude()<<std::endl;
-  std::cout<<"Phase difference = "<<get_phase_difference()<<std::endl;
+  std::cout<<"Impedance = "<<get_impedance()<<" Ohms"<<std::endl;
+  std::cout<<"Frequency = "<<frequency<<" Hertz"<<std::endl;
+  std::cout<<"Impedance magnitude = "<<get_impedance_magnitude()<<" Ohms"<<std::endl;
+  std::cout<<"Phase difference = "<<get_phase_difference()<<" rad"<<std::endl;
 }
 
 //FRIEND FUNCTIONS

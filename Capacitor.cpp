@@ -40,8 +40,10 @@ void Capacitor::set_capacitance(const double capacitance_in)
 
 
 //GETTERS
+//Frequency getter
 const double& Capacitor::get_frequency() const {return frequency;}
 
+//Impedance getter
 const std::complex<double> Capacitor::get_impedance() const
 //Z_C = -iX_C, X_C = 1/wC
 {
@@ -52,3 +54,13 @@ const std::complex<double> Capacitor::get_impedance() const
 
 const double Capacitor::get_impedance_magnitude() const {return abs(get_impedance());}
 const double Capacitor::get_phase_difference() const {return arg(get_impedance());}
+
+
+//MEMBER FUNCTIONS
+//Info member function
+void Capacitor::info() const
+{
+    std::cout<<"Component type: Capacitor"<<std::endl;
+    std::cout<<"Capacitance: "<<capacitance<<" Farads"<<std::endl;
+    base_info();
+}

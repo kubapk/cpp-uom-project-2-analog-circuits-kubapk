@@ -40,8 +40,10 @@ void Inductor::set_inductance(const double inductance_in)
 
 
 //GETTERS
+//Frequency getter
 const double& Inductor::get_frequency() const {return frequency;}
 
+//Impedance getter
 const std::complex<double> Inductor::get_impedance() const
 //Z_C = iX_L, X_L = wL
 {
@@ -52,3 +54,13 @@ const std::complex<double> Inductor::get_impedance() const
 
 const double Inductor::get_impedance_magnitude() const {return abs(get_impedance());}
 const double Inductor::get_phase_difference() const {return arg(get_impedance());}
+
+
+//MEMBER FUNCTION
+//Info member function
+void Inductor::info() const
+{
+    std::cout<<"Component type: Capacitor"<<std::endl;
+    std::cout<<"Inductance: "<<inductance<<" Henries"<<std::endl;
+    base_info();
+}

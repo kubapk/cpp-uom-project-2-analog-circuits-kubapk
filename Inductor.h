@@ -40,6 +40,9 @@ public:
     const std::complex<double> get_impedance() const;
     const double get_impedance_magnitude() const;
     const double get_phase_difference() const;
+
+    //Member functions
+    void info() const;
 };
 
 #endif
