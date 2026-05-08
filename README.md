@@ -56,7 +56,9 @@ Here, Circuit members destroyed first, then Component members - correct (virtual
 - Related to lvalue & rvalue - lvalues have an adress and rvalues do not (x=5) - rvalues are temporary, and we can only do move semantics on rvalues (n lvalue as something the user still needs to use, whereas if it an rvalue it is seen as something the user doesn’t mind having emptied.)
 - When we define r in the code above, it is an lvalue, and so to add it to the vector we need to change its pointer, i.e. move it, and this requires us to change it to an rvalue - done via the std::move command
 - Note this can't be fixed via using move/copy semantics of the Component or Circuit classes - the issue is with moving the UNIQUE_PTR itself, not an object which contains a UNIQUE_PTR 
-- That's why when we define copy/move semantics of Circuit which contains a pointer, but we can do it via std::move thanks to it being a smart pointer
+- That's why when we define copy/move semantics of Circuit which contains a smart pointer, but we can do it via std::move thanks to it being a smart pointer
+- Long story short: if you want to MOVE where unique_ptr is (its address), you must use std::move 
+- If you create unique_ptr as a temporary, i.e. `test_circuit.add_component(std::make_unique<Resistor>(100, 50));` then there is no need to move it (it is already an lvalue which can be assigned to the pointer in the vector)
 
 
 ## Notes
@@ -82,4 +84,4 @@ Here, Circuit members destroyed first, then Component members - correct (virtual
 - Use alias for complex object as in std::map example
 - typedef std::complex<double> complex;?
 - Overrride info func for circuit so that it prints out info of all components & have base class virtual info func which is reused - allows for names to be printed
-- Circuit class able to detect how many resistors, capacitors, etc in total
+- Circuit class able to detect how many resistors, capacitors, etc in total (component_info, component_list, info)
