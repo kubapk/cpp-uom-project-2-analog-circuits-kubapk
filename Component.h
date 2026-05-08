@@ -21,7 +21,7 @@ Created on Mon 04 May 2026
 class Component
 {
 protected:
-    double frequency;
+    double frequency; //Hz
 
 public:
     //Default constructor
@@ -41,12 +41,14 @@ public:
 
     //Getters
     virtual const double& get_frequency() const = 0;
-    virtual const std::complex<double>& get_impedance() const = 0;
-    virtual const double& get_impedance_magnitude() const;
-    virtual const double& get_phase_difference() const;
+    virtual const std::complex<double> get_impedance() const = 0;
+    virtual const double get_impedance_magnitude() const = 0;
+    virtual const double get_phase_difference() const = 0;
+    //get_impedance, get_impedance_magnitude, get_phase_difference 
+    //cannot be returned by reference as they return temporary objects
 
     //Member functions
-    void component_info() const;
+    void info() const;
 
     //Friend functions
 };

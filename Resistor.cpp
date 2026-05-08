@@ -6,7 +6,7 @@ ____________________________________________
 Implementation file for Resistor class.
 
 Created by Kuba Kane (ID: 11019699)
-Created on Mon 08 May 2026
+Created on Fri 08 May 2026
 */
 
 #include<iostream>
@@ -24,17 +24,21 @@ Resistor::Resistor(const double frequency_in, const double resistance_in) :
 
 
 //SETTERS
-
-
 //Setter for frequency
-/* Could have the setter below - but its pointless because in .h we have defined it as pure virtual
-so it will be ovewritten anyway
-void Component::set_frequency(const double frequency_in)
+void Resistor::set_frequency(const double frequency_in) 
 {
-  frequency = frequency_in;
+    frequency = frequency_in;
 }
-*/
 
-//MEMBER FUNCTIONS
+//Setter for resistance
+void Resistor::set_resistance(const double resistance_in)
+{
+    resistance = resistance_in;
+}
 
-//FRIEND FUNCTIONS
+
+//GETTERS
+const double& Resistor::get_frequency() const {return frequency;}
+const std::complex<double> Resistor::get_impedance() const {return std::complex<double> (resistance, 0.0);}
+const double Resistor::get_impedance_magnitude() const {return abs(get_impedance());}
+const double Resistor::get_phase_difference() const {return arg(get_impedance());}

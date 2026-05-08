@@ -8,6 +8,9 @@ A brief summary of the program will go here
 ### Running the program as-is
 This code was run on VSC using a Windows 11 device. The compilation line used was `g++ -std=c++17 main.cpp Neutrino.cpp Tau.cpp Muon.cpp Electron.cpp Lepton.cpp FourMomentum.cpp -o main.exe -Wall`. The program can then be run by calling the file `main.exe`.
 
+Test run line:
+`g++ -std=c++17 test.cpp Resistor.cpp Capacitor.cpp Component.cpp -o test.exe -Wall`
+
 ### Modifying the main file, `main.cpp`
 These guidelines are for a user who wishes to use the classes in this program, but modify the main file provided (or make their own).
 
@@ -19,6 +22,10 @@ These guidelines are for a user who wishes to use the classes in this program, b
 - Impedance is a property which is derived from other properties of a component, so it should not be stored as a data member - this would mean that it would need to be updated constantly anytime one of the other component features are changed (MS says only setter for frequency - suggests nothing else needs to be stored, as in general all data members should have setters)
 - Info function to print out all info of a component
 - If you add more functions to derived Component classes, can have base info function so that you can print out name - otherwise add name as a property in the base class
+- Get impedance magnitude & phase difference can be non-virtual in base class as they both do the same thing no matter the component
+- Do not allow maths constant to be redefined twice - ifdef for maths consts?
+- Use phase difference to print out a message saying whether current leads or lags voltage
+- inductors have positive phase angle, capacitors negative phase angle -> enforce this?
 
 ## To do
 - Probably in main circuit function you want to have components be pointers - see in assignment 5 why you wanted FourMomentum to be a pointer to explain a choice of pointers

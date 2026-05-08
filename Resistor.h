@@ -29,20 +29,19 @@ public:
     Resistor();
 
     //Declare parameterised constructor
-    Resistor(const double frequency_in, const double resistance_in); //frequency_in should not be modified
+    Resistor(const double frequency_in, const double resistance_in);
 
-
-    //Move/copy semantics if there is pointer involved
+    //Destructor from Component class used
 
     //Setters
-    void set_frequency(const double frequency_in) {frequency=frequency_in;}
-    void set_resistance(const double resistance_in) {resistance=resistance_in;}
+    void set_frequency(const double frequency_in);
+    void set_resistance(const double resistance_in);
 
     //Getters
-    const double& get_frequency() const {return frequency;}
-    const std::complex<double>& get_impedance() const {return (resistance, 0);}
-    const double& get_impedance_magnitude() const {}
-    const double& get_phase_difference() const;
+    const double& get_frequency() const;
+    const std::complex<double> get_impedance() const;
+    const double get_impedance_magnitude() const;
+    const double get_phase_difference() const;
 
 };
 

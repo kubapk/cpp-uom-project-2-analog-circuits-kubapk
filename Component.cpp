@@ -43,7 +43,7 @@ void Component::set_frequency(const double frequency_in)
 */
 
 //MEMBER FUNCTIONS
-void Component::component_info() const
+void Component::info() const
 {
   std::cout<<"Component name"<<std::endl;
   std::cout<<"Impedance = "<<get_impedance()<<std::endl;
