@@ -18,11 +18,11 @@ Created on Fri 08 May 2026
 //CONSTRUCTORS
 //Default constructor
 Inductor::Inductor() :
-    Component(INDUCTOR_TEXT), inductance{0} {}
+    Component(), inductance{0} {}
 
 //Paramterised constructor
 Inductor::Inductor(const double frequency_in, const double inductance_in) :
-    Component(frequency_in, INDUCTOR_TEXT), inductance{inductance_in} {}
+    Component(frequency_in), inductance{inductance_in} {}
 
 
 //SETTERS
@@ -54,6 +54,7 @@ const std::complex<double> Inductor::get_impedance() const
 
 const double Inductor::get_impedance_magnitude() const {return abs(get_impedance());}
 const double Inductor::get_phase_difference() const {return arg(get_impedance());}
+const ComponentType Inductor::get_type() const {return ComponentType::Inductor;}
 
 
 //MEMBER FUNCTION

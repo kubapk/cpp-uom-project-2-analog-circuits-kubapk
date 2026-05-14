@@ -18,29 +18,38 @@ Created on Mon 04 May 2026
 #include<complex> //for using complex numbers
 using std::string;
 
+
+//Enumerator class for all types of components
+//Useful for counts used in Circuit class and avoiding repeating code
+enum class ComponentType
+{
+    Resistor,
+    Capacitor,
+    Inductor,
+    Circuit
+};
+
+
 //Abstract component class
 class Component
 {
 protected:
+    //Variables
     double frequency; //Hz
-    const string type;
      
-    //Protected function to print info in base Component class which can be reused
-    void base_info() const;
+    //Functions
+    void base_info() const; //info in common for all components
 
 public:
     //Default constructor
-    Component(const string type_in);
-    //component must be a specific type
+    Component();
 
     //Declare parameterised constructor
-    Component(const double frequency_in, const string type_in); 
-    //frequency_in, impedance_in are const as should not be modified
+    Component(const double frequency_in); 
+    static string type_to_string(const ComponentType type_in);
 
     //Destructor
     virtual ~Component() {}
-
-    //Move/copy semantics if there is pointer involved
 
     //Setters
     virtual void set_frequency(const double frequency_in) = 0;
@@ -50,9 +59,8 @@ public:
     virtual const std::complex<double> get_impedance() const = 0;
     virtual const double get_impedance_magnitude() const = 0;
     virtual const double get_phase_difference() const = 0;
-    const string get_type() const {return type;}
-
-    //get_impedance, get_impedance_magnitude, get_phase_difference 
+    virtual const ComponentType get_type() const = 0;
+    //get_impedance, get_impedance_magnitude, get_phase_difference, get_type 
     //cannot be returned by reference as they return temporary objects
 
     //Member functions
@@ -61,7 +69,6 @@ public:
     //want to print out the info of any arbitrary component so component_info
     //is not used for Circuit class
 
-    //Friend functions
 };
 
 #endif

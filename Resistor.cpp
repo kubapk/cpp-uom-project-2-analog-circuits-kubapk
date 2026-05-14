@@ -16,11 +16,11 @@ Created on Fri 08 May 2026
 //CONSTRUCTORS
 //Default constructor
 Resistor::Resistor() :
-    Component(RESISTOR_TEXT), resistance{0} {}
+    Component(), resistance{0} {}
 
 //Paramterised constructor
 Resistor::Resistor(const double frequency_in, const double resistance_in) :
-    Component(frequency_in, RESISTOR_TEXT), resistance{resistance_in} {}
+    Component(frequency_in), resistance{resistance_in} {}
 
 
 //SETTERS
@@ -42,6 +42,7 @@ const double& Resistor::get_frequency() const {return frequency;}
 const std::complex<double> Resistor::get_impedance() const {return std::complex<double> (resistance, 0.0);}
 const double Resistor::get_impedance_magnitude() const {return abs(get_impedance());}
 const double Resistor::get_phase_difference() const {return arg(get_impedance());}
+const ComponentType Resistor::get_type() const {return ComponentType::Resistor;}
 
 
 //SETTERS

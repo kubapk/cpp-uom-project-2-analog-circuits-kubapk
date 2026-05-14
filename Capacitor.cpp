@@ -22,7 +22,7 @@ Capacitor::Capacitor() :
 
 //Paramterised constructor
 Capacitor::Capacitor(const double frequency_in, const double capacitance_in) :
-    Component(frequency_in, CAPACITOR_TEXT), capacitance{capacitance_in} {}
+    Component(frequency_in), capacitance{capacitance_in} {}
 
 
 //SETTERS
@@ -54,6 +54,7 @@ const std::complex<double> Capacitor::get_impedance() const
 
 const double Capacitor::get_impedance_magnitude() const {return abs(get_impedance());}
 const double Capacitor::get_phase_difference() const {return arg(get_impedance());}
+const ComponentType Capacitor::get_type() const {return ComponentType::Capacitor;}
 
 
 //MEMBER FUNCTIONS

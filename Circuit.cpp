@@ -16,11 +16,11 @@ using std::string;
 //CONSTRUCTORS
 //Default constructor
 Circuit::Circuit(ConnectionType connection_in) :
-    Component(CIRCUIT_TEXT), connection{connection_in} {}
+    Component(), connection{connection_in} {}
 
 //Paramterised constructor
 Circuit::Circuit(const double frequency_in, ConnectionType connection_in) :
-    Component(frequency_in, CIRCUIT_TEXT), connection{connection_in} {}
+    Component(frequency_in), connection{connection_in} {}
 
 
 //SETTERS
@@ -78,6 +78,7 @@ const double Circuit::get_impedance_magnitude() const {return abs(get_impedance(
 const double Circuit::get_phase_difference() const {return arg(get_impedance());}
 
 const int Circuit::get_number_components() const {return components.size();}
+const ComponentType Circuit::get_type() const {return ComponentType::Circuit;}
 
 
 //MEMBER FUNCTIONS

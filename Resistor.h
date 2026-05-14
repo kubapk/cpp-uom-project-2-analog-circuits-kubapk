@@ -23,7 +23,6 @@ class Resistor : public Component
 {
 private:
     double resistance;
-    static constexpr const char* RESISTOR_TEXT = "Resistor";
     //char* as string is array of const characters, and char is better at being 
     //compile time const compared to string (string may use dynamic memory allocation
     //even though unecessary)
@@ -46,6 +45,7 @@ public:
     const std::complex<double> get_impedance() const;
     const double get_impedance_magnitude() const;
     const double get_phase_difference() const;
+    const ComponentType get_type() const;
 
     //Member functions
     void info() const;

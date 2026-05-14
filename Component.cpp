@@ -15,12 +15,12 @@ using std::string;
 
 //CONSTRUCTORS
 //Default constructor
-Component::Component(const string type_in) :
-  frequency{0}, type{type_in} {}
+Component::Component() :
+  frequency{0} {}
 
 //Paramterised constructor
-Component::Component(const double frequency_in, const string type_in) :
-    frequency{frequency_in}, type{type_in} {}
+Component::Component(const double frequency_in) :
+    frequency{frequency_in} {}
 
 //Copy constructor
 //Copy assignment operator
@@ -54,11 +54,28 @@ void Component::base_info() const
   if(impedance_imag >= 0)
     symbol = "+ ";
 
-  std::cout<<"Component type: "<<type<<std::endl;
+  std::cout<<"Type: "<<type_to_string(get_type())<<std::endl;
   std::cout<<"Impedance: "<<impedance_real<<" "<<symbol<<impedance_imag<<"i Ohms"<<std::endl;
   std::cout<<"Frequency: "<<frequency<<" Hertz"<<std::endl;
   std::cout<<"Impedance magnitude: "<<get_impedance_magnitude()<<" Ohms"<<std::endl;
   std::cout<<"Phase difference: "<<get_phase_difference()<<" rad"<<std::endl;
 }
 
-//FRIEND FUNCTIONS
+//Static member function to convert types to string output
+string Component::type_to_string(const ComponentType type_in)
+{
+  switch(type_in)
+  {
+    case ComponentType::Resistor:
+      return "Resistor";
+
+    case ComponentType::Capacitor:
+      return "Capacitor";
+
+    case ComponentType::Inductor:
+      return "Inductor";
+
+    case ComponentType::Circuit:
+      return "Circuit";
+  }
+}

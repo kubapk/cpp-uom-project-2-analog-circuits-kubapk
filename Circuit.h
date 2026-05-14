@@ -60,6 +60,8 @@ public:
     const double get_phase_difference() const;
     const int get_number_components() const;
 
+    const ComponentType get_type() const;
+
     //Member functions
     void add_component(std::unique_ptr<Component> component_ptr_in);
     //Using pointer to component means the input parameter of this function
