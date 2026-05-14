@@ -21,6 +21,7 @@ class Capacitor : public Component
 {
 private:
     double capacitance; //Farads, F
+    static constexpr const char* CAPACITOR_TEXT = "Capacitor";
 
 public:
     //Default constructor

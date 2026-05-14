@@ -15,12 +15,12 @@ using std::string;
 
 //CONSTRUCTORS
 //Default constructor
-Component::Component() :
-  frequency{0} {}
+Component::Component(const string type_in) :
+  frequency{0}, type{type_in} {}
 
 //Paramterised constructor
-Component::Component(const double frequency_in) :
-    frequency{frequency_in} {}
+Component::Component(const double frequency_in, const string type_in) :
+    frequency{frequency_in}, type{type_in} {}
 
 //Copy constructor
 //Copy assignment operator
@@ -54,8 +54,8 @@ void Component::base_info() const
   if(impedance_imag >= 0)
     symbol = "+ ";
 
+  std::cout<<"Component type: "<<type<<std::endl;
   std::cout<<"Impedance: "<<impedance_real<<" "<<symbol<<impedance_imag<<"i Ohms"<<std::endl;
-
   std::cout<<"Frequency: "<<frequency<<" Hertz"<<std::endl;
   std::cout<<"Impedance magnitude: "<<get_impedance_magnitude()<<" Ohms"<<std::endl;
   std::cout<<"Phase difference: "<<get_phase_difference()<<" rad"<<std::endl;

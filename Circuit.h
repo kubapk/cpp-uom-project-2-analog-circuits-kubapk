@@ -23,7 +23,7 @@ using std::vector;
 
 
 //Enumerator class for circuit type
-enum class CircuitType {Series, Parallel};
+enum class ConnectionType {Series, Parallel};
 
 
 //Circuit class inherits from Component
@@ -31,15 +31,16 @@ class Circuit : public Component
 {
 private:
     vector<std::unique_ptr<Component>> components;
-    CircuitType type;
+    ConnectionType connection;
+    static constexpr const char* CIRCUIT_TEXT = "Circuit";
 
 public:
     //Declare default constructor
-    Circuit(CircuitType type_in); //cannot have circuit without defined type
+    Circuit(ConnectionType connection_in); //cannot have circuit without defined type
     //this circuit will have f = 0Hz
 
     //Declare parameterised constructor
-    Circuit(const double frequency_in, CircuitType type_in);
+    Circuit(const double frequency_in, ConnectionType connection_in);
 
     //Destructor inherited from Component class
     
@@ -47,11 +48,11 @@ public:
 
     //Setters
     void set_frequency(const double frequency_in);
-    void set_type(const CircuitType type_in); //allows user to change mind of how circuit is connected
+    void set_connection(const ConnectionType connection_in); //allows user to change mind of how circuit is connected
 
     //Getters
     const int& get_components() const;
-    const CircuitType& get_type() const;
+    const ConnectionType& get_connection() const;
     const double& get_frequency() const;
 
     const std::complex<double> get_impedance() const;

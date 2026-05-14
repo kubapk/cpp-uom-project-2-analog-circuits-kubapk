@@ -18,11 +18,11 @@ Created on Fri 08 May 2026
 //CONSTRUCTORS
 //Default constructor
 Inductor::Inductor() :
-    Component(), inductance{0} {}
+    Component(INDUCTOR_TEXT), inductance{0} {}
 
 //Paramterised constructor
 Inductor::Inductor(const double frequency_in, const double inductance_in) :
-    Component(frequency_in), inductance{inductance_in} {}
+    Component(frequency_in, INDUCTOR_TEXT), inductance{inductance_in} {}
 
 
 //SETTERS

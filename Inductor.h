@@ -21,6 +21,7 @@ class Inductor : public Component
 {
 private:
     double inductance; //Henrys, H
+    static constexpr const char* INDUCTOR_TEXT = "Inductor";
 
 public:
     //Default constructor

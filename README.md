@@ -60,6 +60,26 @@ Here, Circuit members destroyed first, then Component members - correct (virtual
 - Long story short: if you want to MOVE where unique_ptr is (its address), you must use std::move 
 - If you create unique_ptr as a temporary, i.e. `test_circuit.add_component(std::make_unique<Resistor>(100, 50));` then there is no need to move it (it is already an lvalue which can be assigned to the pointer in the vector)
 
+### Printing components in circuit
+- Initital difficulty in using component->info(), since Circuit is also inherented from Component and so any nested circuits would also be printed, and it becomes quite cofusing which component belongs to which nested circuit
+- Also difficult to read as different layers were all being printed with the same indentation etc
+- Introduced component_info() function as virtual function in Component class, which for the true components would jusr reprint their info function
+- For the Circuit class however, component_info() took all elements in its "components" vector and printed out their component_info() (and importantly not info()) function, and so nested circuits info were not printed themsleves - only the components inside each nested circuit were printed
+```
+NEW LAYER
+ print loop
+
+```
+But need a way to determine this layer (i.e. give it a name - or just generic layers?)
+
+### Counting the number of components
+- Requires recursive function as a component might be a Circuit itself, in which case need to count the number of components inside that component as well
+- Want to count total number of resistors, capacitors, inductors as well as number of nested series and parallel circuits
+- Store the type as a data member inside the Component class which is then a constant inside the derived classes, and can be used to identify which of the components are which when doing the count
+- It also allows for the component type to be printed in the base function, and as such reduce repeated code
+- Another alternative is to use an enum class which stores the type, which although avoids any errors in different ways of writing a string or user changes (it must be written as is or C++ doesn't recognise it, even before compiling), is an overcomplication (adding an enum class can make it more difficult to follow/messy)
+- Attempted to write `const string type{"Resistor"};` in Resistor class with `const string type;` in Component class - creates two different type variables (the one inhereted from Component and the one defined in Resistor class), When calling type the derived type gets used
+
 
 ## Notes
 - A resistor has a defined resistance, so it should be a VARIABLE of the resistor - user can then specify what type of resistor / its resistance
@@ -79,6 +99,7 @@ Here, Circuit members destroyed first, then Component members - correct (virtual
 - Right now Circuit class will update the frequency of all of the components??
 - User can create library of components - these are components they are allowed to construct their circuit, but these components must be defined in a validationf file? E.g. specific real resistors are specified in validation file, and user can add the ones they want to their library? Disallow user from adding something into library which already exists
 - Danger of user changing enumerator class for circuit type?
+- If get amplitude and phase is the same in all classes, no need for virtual - just define it as a normal function in Component class
 
 ## To do
 - Probably in main circuit function you want to have components be pointers - see in assignment 5 why you wanted FourMomentum to be a pointer to explain a choice of pointers

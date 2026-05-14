@@ -22,7 +22,7 @@ Capacitor::Capacitor() :
 
 //Paramterised constructor
 Capacitor::Capacitor(const double frequency_in, const double capacitance_in) :
-    Component(frequency_in), capacitance{capacitance_in} {}
+    Component(frequency_in, CAPACITOR_TEXT), capacitance{capacitance_in} {}
 
 
 //SETTERS

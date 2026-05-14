@@ -15,12 +15,12 @@ using std::string;
 
 //CONSTRUCTORS
 //Default constructor
-Circuit::Circuit(CircuitType type_in) :
-    Component(), type{type_in} {}
+Circuit::Circuit(ConnectionType connection_in) :
+    Component(CIRCUIT_TEXT), connection{connection_in} {}
 
 //Paramterised constructor
-Circuit::Circuit(const double frequency_in, CircuitType type_in) :
-    Component(frequency_in), type{type_in} {}
+Circuit::Circuit(const double frequency_in, ConnectionType connection_in) :
+    Component(frequency_in, CIRCUIT_TEXT), connection{connection_in} {}
 
 
 //SETTERS
@@ -38,10 +38,10 @@ void Circuit::set_frequency(const double frequency_in)
     //each component in components should not change
 }
 
-//Setter for type
-void Circuit::set_type(const CircuitType type_in)
+//Setter for connection type
+void Circuit::set_connection(const ConnectionType connection_in)
 {
-    type = type_in;
+    connection = connection_in;
 }
 
 
@@ -57,7 +57,7 @@ const std::complex<double> Circuit::get_impedance() const
     if(components.empty())
         return total_impedance;
 
-    else if(type == CircuitType::Series)
+    else if(connection == ConnectionType::Series)
     {
         for(const auto& component_ptr_i : components)
             total_impedance += component_ptr_i->get_impedance();
@@ -97,7 +97,7 @@ void Circuit::info() const
 {
     std::cout<<"CIRCUIT"<<std::endl;
     std::cout<<"Circuit type: ";
-    if(type == CircuitType::Series)
+    if(connection == ConnectionType::Series)
         std::cout<<"Series "<<std::endl;
     else
         std::cout<<"Parallel"<<std::endl;

@@ -16,11 +16,11 @@ Created on Fri 08 May 2026
 //CONSTRUCTORS
 //Default constructor
 Resistor::Resistor() :
-    Component(), resistance{0} {}
+    Component(RESISTOR_TEXT), resistance{0} {}
 
 //Paramterised constructor
 Resistor::Resistor(const double frequency_in, const double resistance_in) :
-    Component(frequency_in), resistance{resistance_in} {}
+    Component(frequency_in, RESISTOR_TEXT), resistance{resistance_in} {}
 
 
 //SETTERS

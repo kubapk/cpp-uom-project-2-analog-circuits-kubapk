@@ -16,22 +16,25 @@ Created on Mon 04 May 2026
 
 #include<iostream>
 #include<complex> //for using complex numbers
+using std::string;
 
 //Abstract component class
 class Component
 {
 protected:
     double frequency; //Hz
-
+    const string type;
+     
     //Protected function to print info in base Component class which can be reused
     void base_info() const;
 
 public:
     //Default constructor
-    Component();
+    Component(const string type_in);
+    //component must be a specific type
 
     //Declare parameterised constructor
-    Component(const double frequency_in); 
+    Component(const double frequency_in, const string type_in); 
     //frequency_in, impedance_in are const as should not be modified
 
     //Destructor
@@ -47,6 +50,8 @@ public:
     virtual const std::complex<double> get_impedance() const = 0;
     virtual const double get_impedance_magnitude() const = 0;
     virtual const double get_phase_difference() const = 0;
+    const string get_type() const {return type;}
+
     //get_impedance, get_impedance_magnitude, get_phase_difference 
     //cannot be returned by reference as they return temporary objects
 

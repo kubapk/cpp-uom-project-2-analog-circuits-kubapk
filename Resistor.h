@@ -23,6 +23,10 @@ class Resistor : public Component
 {
 private:
     double resistance;
+    static constexpr const char* RESISTOR_TEXT = "Resistor";
+    //char* as string is array of const characters, and char is better at being 
+    //compile time const compared to string (string may use dynamic memory allocation
+    //even though unecessary)
 
 public:
     //Default constructor
