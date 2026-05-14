@@ -60,7 +60,12 @@ const double Capacitor::get_phase_difference() const {return arg(get_impedance()
 //Info member function
 void Capacitor::info() const
 {
-    std::cout<<"Component type: Capacitor"<<std::endl;
+    std::cout<<"CAPACITOR"<<std::endl;
     std::cout<<"Capacitance: "<<capacitance<<" Farads"<<std::endl;
     base_info();
+}
+
+void Capacitor::component_info() const
+{
+    info();
 }

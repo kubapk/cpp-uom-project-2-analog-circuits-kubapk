@@ -11,7 +11,7 @@ Created on Fri 08 May 2026
 
 #include<iostream>
 #include "Circuit.h"
-
+using std::string;
 
 //CONSTRUCTORS
 //Default constructor
@@ -77,6 +77,8 @@ const std::complex<double> Circuit::get_impedance() const
 const double Circuit::get_impedance_magnitude() const {return abs(get_impedance());}
 const double Circuit::get_phase_difference() const {return arg(get_impedance());}
 
+const int Circuit::get_number_components() const {return components.size();}
+
 
 //MEMBER FUNCTIONS
 //Function to add component to circuit
@@ -93,6 +95,31 @@ void Circuit::add_component(std::unique_ptr<Component> component_ptr)
 //Info member function
 void Circuit::info() const
 {
-    std::cout<<"Circuit"<<std::endl;
+    std::cout<<"CIRCUIT"<<std::endl;
+    std::cout<<"Circuit type: ";
+    if(type == CircuitType::Series)
+        std::cout<<"Series "<<std::endl;
+    else
+        std::cout<<"Parallel"<<std::endl;
+
     base_info();
+    std::cout<<"Number of components: "<<get_number_components()<<std::endl;
+    //This needs to be recursive - find number of components in circuits inside circuits etc.
+
+}
+
+void Circuit::component_info() const
+{
+    std::cout<<string(10, '=')<<" Circuit component info "<<string(10, '=')<<std::endl;
+
+    for(const auto& component : components)
+        {
+            component->component_info();
+            std::cout<<std::endl;
+        }
+        //"i" is std::unique_ptr<Component> where "Component" changes dependent on the inhereted class
+        //cannot pass i by value as smart pointers (used in Circuit derived from Component) cannot be copied 
+        //- pass by reference
+        //Set the reference to std::unique_ptr<Lepton> (i.e "i") to be const as it shouldn't be modified -
+        //each component in components should not change
 }

@@ -57,6 +57,7 @@ public:
     const std::complex<double> get_impedance() const;
     const double get_impedance_magnitude() const;
     const double get_phase_difference() const;
+    const int get_number_components() const;
 
     //Member functions
     void add_component(std::unique_ptr<Component> component_ptr_in);
@@ -64,6 +65,7 @@ public:
     //can be any of derived classes - can be directly added to vector
     
     void info() const;
+    void component_info() const;
 };
 
 #endif

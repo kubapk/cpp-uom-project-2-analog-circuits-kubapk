@@ -60,7 +60,12 @@ const double Inductor::get_phase_difference() const {return arg(get_impedance())
 //Info member function
 void Inductor::info() const
 {
-    std::cout<<"Component type: Capacitor"<<std::endl;
+    std::cout<<"INDUCTOR"<<std::endl;
     std::cout<<"Inductance: "<<inductance<<" Henries"<<std::endl;
     base_info();
+}
+
+void Inductor::component_info() const
+{
+    info();
 }

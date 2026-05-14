@@ -11,6 +11,7 @@ Created on Mon 04 May 2026
 
 #include<iostream>
 #include "Component.h"
+using std::string;
 
 //CONSTRUCTORS
 //Default constructor
@@ -46,10 +47,18 @@ void Component::set_frequency(const double frequency_in)
 //Base info protected member function
 void Component::base_info() const
 {
-  std::cout<<"Impedance = "<<get_impedance()<<" Ohms"<<std::endl;
-  std::cout<<"Frequency = "<<frequency<<" Hertz"<<std::endl;
-  std::cout<<"Impedance magnitude = "<<get_impedance_magnitude()<<" Ohms"<<std::endl;
-  std::cout<<"Phase difference = "<<get_phase_difference()<<" rad"<<std::endl;
+  string symbol{""};
+  double impedance_real{get_impedance().real()};
+  double impedance_imag{get_impedance().imag()}; 
+
+  if(impedance_imag >= 0)
+    symbol = "+ ";
+
+  std::cout<<"Impedance: "<<impedance_real<<" "<<symbol<<impedance_imag<<"i Ohms"<<std::endl;
+
+  std::cout<<"Frequency: "<<frequency<<" Hertz"<<std::endl;
+  std::cout<<"Impedance magnitude: "<<get_impedance_magnitude()<<" Ohms"<<std::endl;
+  std::cout<<"Phase difference: "<<get_phase_difference()<<" rad"<<std::endl;
 }
 
 //FRIEND FUNCTIONS

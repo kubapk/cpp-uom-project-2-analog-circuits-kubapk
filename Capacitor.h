@@ -43,6 +43,7 @@ public:
 
     //Member functions
     void info() const;
+    void component_info() const;
 };
 
 #endif

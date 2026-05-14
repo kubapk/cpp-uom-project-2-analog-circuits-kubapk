@@ -64,19 +64,19 @@ int main()
         //0.5nH - 100 nH
         std::cout<<"\nRealistic combined circuit"<<std::endl;
 
-        Circuit realistic_series(60, CircuitType::Series);
-        realistic_series.add_component(std::make_unique<Capacitor>(50, 10e-12)); //freq, capacitance
+        Circuit realistic_series(60, CircuitType::Series); //freq, circuit type
+        realistic_series.add_component(std::make_unique<Capacitor>(50, 10e-12)); //freq, capacitance (10x10-12)
         realistic_series.add_component(std::make_unique<Capacitor>(50, 10e-9));
         std::cout<<"Realistic series circuit impedance: "<<realistic_series.get_impedance()<<std::endl;
+        std::cout<<"Realistic series circuit frequency: "<<realistic_series.get_frequency()<<std::endl;
 
-        Circuit realistic_parallel(70, CircuitType::Parallel);
+        Circuit realistic_parallel(70, CircuitType::Parallel); //freq, circuit type
         realistic_parallel.add_component(std::make_unique<Circuit>(std::move(realistic_series)));
         realistic_parallel.add_component(std::make_unique<Resistor>(45, 40)); //freq, resistance
         std::cout<<"Realistic parallel circuit impedance: "<<realistic_parallel.get_impedance()<<std::endl;
+        std::cout<<"Realistic parallel circuit frequency: "<<realistic_parallel.get_frequency()<<std::endl;
         realistic_parallel.info();
-
-
-
+        realistic_parallel.component_info();
 
     }
     catch(const std::exception& e)

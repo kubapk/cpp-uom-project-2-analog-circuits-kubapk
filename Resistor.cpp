@@ -47,7 +47,12 @@ const double Resistor::get_phase_difference() const {return arg(get_impedance())
 //SETTERS
 void Resistor::info() const
 {
-    std::cout<<"Component type: Resistor"<<std::endl;
+    std::cout<<"RESISTOR"<<std::endl;
     std::cout<<"Resistance: "<<resistance<<" Ohms"<<std::endl;
     base_info();
+}
+
+void Resistor::component_info() const
+{
+    info();
 }

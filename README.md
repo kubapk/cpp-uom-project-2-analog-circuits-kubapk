@@ -6,7 +6,7 @@ A brief summary of the program will go here
 
 ## User Guidelines
 ### Running the program as-is
-This code was run on VSC using a Windows 11 device. The compilation line used was `g++ -std=c++17 main.cpp Neutrino.cpp Tau.cpp Muon.cpp Electron.cpp Lepton.cpp FourMomentum.cpp -o main.exe -Wall`. The program can then be run by calling the file `main.exe`.
+This code was run on VSC using a Windows 11 device. The compilation line used was `ADDHERE`. The program can then be run by calling the file `main.exe`.
 
 Test run line:
 `g++ -std=c++17 test.cpp Circuit.cpp Resistor.cpp Capacitor.cpp Inductor.cpp Component.cpp -o test.exe -Wall`
@@ -78,6 +78,7 @@ Here, Circuit members destroyed first, then Component members - correct (virtual
 - Circuit class uses rule of 3 since there are smart pointers where we wish to use copy semantics - Do you need Circuit c2 = c1?
 - Right now Circuit class will update the frequency of all of the components??
 - User can create library of components - these are components they are allowed to construct their circuit, but these components must be defined in a validationf file? E.g. specific real resistors are specified in validation file, and user can add the ones they want to their library? Disallow user from adding something into library which already exists
+- Danger of user changing enumerator class for circuit type?
 
 ## To do
 - Probably in main circuit function you want to have components be pointers - see in assignment 5 why you wanted FourMomentum to be a pointer to explain a choice of pointers

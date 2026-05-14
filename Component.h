@@ -51,7 +51,10 @@ public:
     //cannot be returned by reference as they return temporary objects
 
     //Member functions
-    virtual void info() const = 0;
+    virtual void info() const = 0; //info including circuits
+    virtual void component_info() const = 0; //info just for components
+    //want to print out the info of any arbitrary component so component_info
+    //is not used for Circuit class
 
     //Friend functions
 };
