@@ -25,7 +25,7 @@ using std::vector;
 //Struct for counting component types
 //Struct more effective than class as we don't need any class-like features
 //(no methods or functions are needed, and hence no encapsulation)
-struct CircuitCounter
+struct CircuitStats
 {
     int num_resistors{0};
     int num_capacitors{0};
@@ -82,6 +82,7 @@ public:
     
     void info() const;
     void component_info() const;
+    CircuitStats count_components() const;
 };
 
 #endif
