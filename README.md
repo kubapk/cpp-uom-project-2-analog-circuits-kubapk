@@ -79,6 +79,8 @@ But need a way to determine this layer (i.e. give it a name - or just generic la
 - It also allows for the component type to be printed in the base function, and as such reduce repeated code
 - Another alternative is to use an enum class which stores the type, which although avoids any errors in different ways of writing a string or user changes (it must be written as is or C++ doesn't recognise it, even before compiling), is an overcomplication (adding an enum class can make it more difficult to follow/messy)
 - Attempted to write `const string type{"Resistor"};` in Resistor class with `const string type;` in Component class - creates two different type variables (the one inhereted from Component and the one defined in Resistor class), When calling type the derived type gets used
+- Benefit of using enum class in the end is that it allows for all of the different components to be stored in one place and accessed when needed 
+- Also, the counter function needs to compare the type getter of each component to the different possible values of the components. Where do these values come from? Without enum class, need to type out the different possibilities again, leading ot even more potential issues with capitalisaiton etc, as well as more repeated code
 
 
 ## Notes

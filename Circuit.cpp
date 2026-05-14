@@ -109,6 +109,7 @@ void Circuit::info() const
 
 }
 
+//Info of all components in circuit (excluding circuits themselves)
 void Circuit::component_info() const
 {
     std::cout<<string(10, '=')<<" Circuit component info "<<string(10, '=')<<std::endl;
@@ -123,4 +124,13 @@ void Circuit::component_info() const
         //- pass by reference
         //Set the reference to std::unique_ptr<Lepton> (i.e "i") to be const as it shouldn't be modified -
         //each component in components should not change
+}
+
+//Counter member function
+CircuitStats Circuit::count_components() const
+{
+    //Stats for this circuit
+    CircuitStats stats;
+    //ASAP - AND MUST MOVE ONTO OTHER PARTS 
+
 }

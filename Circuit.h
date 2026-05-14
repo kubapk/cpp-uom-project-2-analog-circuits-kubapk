@@ -22,6 +22,19 @@ Created on Fri 08 May 2026
 using std::vector;
 
 
+//Struct for counting component types
+//Struct more effective than class as we don't need any class-like features
+//(no methods or functions are needed, and hence no encapsulation)
+struct CircuitCounter
+{
+    int num_resistors{0};
+    int num_capacitors{0};
+    int num_inductors{0};
+    int num_nested_series{0};
+    int numb_nested_parallel{0};
+};
+
+
 //Enumerator class for circuit type
 enum class ConnectionType {Series, Parallel};
 
