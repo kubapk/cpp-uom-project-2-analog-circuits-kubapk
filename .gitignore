@@ -36,3 +36,5 @@
 
 # Latex
 *.synctex.gz
+*.aux
+*.log
