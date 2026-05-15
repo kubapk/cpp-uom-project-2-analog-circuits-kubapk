@@ -81,6 +81,7 @@ But need a way to determine this layer (i.e. give it a name - or just generic la
 - Attempted to write `const string type{"Resistor"};` in Resistor class with `const string type;` in Component class - creates two different type variables (the one inhereted from Component and the one defined in Resistor class), When calling type the derived type gets used
 - Benefit of using enum class in the end is that it allows for all of the different components to be stored in one place and accessed when needed 
 - Also, the counter function needs to compare the type getter of each component to the different possible values of the components. Where do these values come from? Without enum class, need to type out the different possibilities again, leading ot even more potential issues with capitalisaiton etc, as well as more repeated code
+- Use dyamic cast over static cast, even though you check that type of Component is Circuit, as it is safer - dynamic cast returns null ptr so problem can be caught (IMPLEMENT TRY CATCH)
 
 
 ## Notes

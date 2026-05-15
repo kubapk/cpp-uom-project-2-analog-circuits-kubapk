@@ -31,7 +31,7 @@ struct CircuitStats
     int num_capacitors{0};
     int num_inductors{0};
     int num_nested_series{0};
-    int numb_nested_parallel{0};
+    int num_nested_parallel{0};
 };
 
 

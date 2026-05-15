@@ -96,16 +96,19 @@ void Circuit::add_component(std::unique_ptr<Component> component_ptr)
 //Info member function
 void Circuit::info() const
 {
-    std::cout<<"CIRCUIT"<<std::endl;
-    std::cout<<"Circuit type: ";
+    base_info();
+
+    std::cout<<"Overall circuit type: ";
     if(connection == ConnectionType::Series)
         std::cout<<"Series "<<std::endl;
     else
         std::cout<<"Parallel"<<std::endl;
 
-    base_info();
-    std::cout<<"Number of components: "<<get_number_components()<<std::endl;
-    //This needs to be recursive - find number of components in circuits inside circuits etc.
+    std::cout<<"Number of reistors: "<<count_components().num_resistors<<std::endl;
+    std::cout<<"Number of capacitors: "<<count_components().num_capacitors<<std::endl;
+    std::cout<<"Number of inductors: "<<count_components().num_inductors<<std::endl;
+    std::cout<<"Number of nested series circuits: "<<count_components().num_nested_series<<std::endl;
+    std::cout<<"Number of nested parallel circuits: "<<count_components().num_nested_parallel<<std::endl;
 
 }
 
@@ -115,10 +118,10 @@ void Circuit::component_info() const
     std::cout<<string(10, '=')<<" Circuit component info "<<string(10, '=')<<std::endl;
 
     for(const auto& component : components)
-        {
-            component->component_info();
-            std::cout<<std::endl;
-        }
+    {
+        component->component_info();
+        std::cout<<std::endl;
+    }
         //"i" is std::unique_ptr<Component> where "Component" changes dependent on the inhereted class
         //cannot pass i by value as smart pointers (used in Circuit derived from Component) cannot be copied 
         //- pass by reference
@@ -129,8 +132,67 @@ void Circuit::component_info() const
 //Counter member function
 CircuitStats Circuit::count_components() const
 {
-    //Stats for this circuit
+    //Stats for this circuit (level 1)
     CircuitStats stats;
-    //ASAP - AND MUST MOVE ONTO OTHER PARTS 
 
+    //Loop over all components in this circuit
+    for(const auto& component_ptr : components)
+    {
+        //If component of level 1 circuit is a nested circuit
+        if(component_ptr->get_type() == ComponentType::Circuit)
+        {
+            //In level 1, even though we have checkd it is Circuit, it is stored as
+            //std::unique_ptr<Component> so must cast to std::unique_ptr<Circuit> as
+            //Component doesn't have count_components() member function
+            //so must cast to std::unique_ptr<Circuit> - cast only works on raw
+            //pointer so must also use .get() from smart pointers to get raw pointer
+            //from unique pointer
+            //do not handle raw pointer, e..g delete component.get();, since this deletes twice
+            //(Unqiue ptr tries to delete again)
+
+            //Raw pointer to level 2 circuit
+            Circuit* sub_circuit_ptr = dynamic_cast<Circuit*>(component_ptr.get());
+
+            //Check if sub_circuit (level 2) is parallel or series and update stats
+            if(sub_circuit_ptr->connection == ConnectionType::Series)
+                stats.num_nested_series++;
+            else
+                stats.num_nested_parallel++; 
+
+            //Apply component counter to nested circuit
+            CircuitStats sub_stats = sub_circuit_ptr->count_components();
+
+            //Repeat checks for all components in level 2 circuit
+            
+            stats.num_resistors += sub_stats.num_resistors;
+            stats.num_capacitors += sub_stats.num_capacitors;
+            stats.num_inductors += sub_stats.num_inductors;
+            stats.num_nested_series += sub_stats.num_nested_series; //requires entering level 3 to update count
+            stats.num_nested_parallel += sub_stats.num_nested_parallel; //requires entering level 3
+        }
+
+        //If component of level 1 circuit is not nested circuit
+        else
+        {
+            switch(component_ptr->get_type())
+            {
+                case ComponentType::Resistor:
+                    stats.num_resistors++; //add 1
+                    break;
+
+                case ComponentType::Capacitor:
+                    stats.num_capacitors++;
+                    break;
+                
+                case ComponentType::Inductor:
+                    stats.num_inductors++;
+                    break; 
+
+                default:
+                    break;
+            }
+        }
+    }
+
+    return stats;
 }

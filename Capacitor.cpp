@@ -61,9 +61,8 @@ const ComponentType Capacitor::get_type() const {return ComponentType::Capacitor
 //Info member function
 void Capacitor::info() const
 {
-    std::cout<<"CAPACITOR"<<std::endl;
-    std::cout<<"Capacitance: "<<capacitance<<" Farads"<<std::endl;
     base_info();
+    std::cout<<"Capacitance: "<<capacitance<<" Farads"<<std::endl;
 }
 
 void Capacitor::component_info() const

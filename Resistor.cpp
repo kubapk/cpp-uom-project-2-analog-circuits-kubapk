@@ -48,9 +48,8 @@ const ComponentType Resistor::get_type() const {return ComponentType::Resistor;}
 //SETTERS
 void Resistor::info() const
 {
-    std::cout<<"RESISTOR"<<std::endl;
-    std::cout<<"Resistance: "<<resistance<<" Ohms"<<std::endl;
     base_info();
+    std::cout<<"Resistance: "<<resistance<<" Ohms"<<std::endl;
 }
 
 void Resistor::component_info() const

@@ -61,9 +61,8 @@ const ComponentType Inductor::get_type() const {return ComponentType::Inductor;}
 //Info member function
 void Inductor::info() const
 {
-    std::cout<<"INDUCTOR"<<std::endl;
-    std::cout<<"Inductance: "<<inductance<<" Henries"<<std::endl;
     base_info();
+    std::cout<<"Inductance: "<<inductance<<" Henries"<<std::endl;
 }
 
 void Inductor::component_info() const

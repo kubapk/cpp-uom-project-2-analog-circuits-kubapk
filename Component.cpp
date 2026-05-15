@@ -11,6 +11,7 @@ Created on Mon 04 May 2026
 
 #include<iostream>
 #include "Component.h"
+#include<stdexcept>
 using std::string;
 
 //CONSTRUCTORS
@@ -54,7 +55,7 @@ void Component::base_info() const
   if(impedance_imag >= 0)
     symbol = "+ ";
 
-  std::cout<<"Type: "<<type_to_string(get_type())<<std::endl;
+  std::cout<<"==="<<type_to_string(get_type())<<"==="<<std::endl;
   std::cout<<"Impedance: "<<impedance_real<<" "<<symbol<<impedance_imag<<"i Ohms"<<std::endl;
   std::cout<<"Frequency: "<<frequency<<" Hertz"<<std::endl;
   std::cout<<"Impedance magnitude: "<<get_impedance_magnitude()<<" Ohms"<<std::endl;
@@ -78,4 +79,5 @@ string Component::type_to_string(const ComponentType type_in)
     case ComponentType::Circuit:
       return "Circuit";
   }
+  throw std::logic_error("Unknown component type when trying to convert type to string.");
 }
