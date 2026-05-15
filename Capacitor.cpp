@@ -23,10 +23,11 @@ Capacitor::Capacitor() :
     Capacitor(0.0, 0.0) {}
 
 //Paramterised constructor
-Capacitor::Capacitor(const double frequency_in, const double capacitance_in) :
+Capacitor::Capacitor(const double frequency_in, const double capacitance_in, const bool assign_id ) :
     Component(frequency_in), capacitance{capacitance_in}
     {
-        component_id = "C"+std::to_string(++capacitor_counter); //add 1 to counter
+        if(assign_id)
+            component_id = "C"+std::to_string(++capacitor_counter); //add 1 to counter
     }
 
 //Copy constructor
@@ -34,7 +35,7 @@ Capacitor::Capacitor(const Capacitor& cap):
     Component(cap),
     capacitance{cap.capacitance}
     {
-        component_id = "R"+std::to_string(++capacitor_counter);
+        component_id = "C"+std::to_string(++capacitor_counter);
     }
 
 //Copy assignment operator
@@ -70,7 +71,7 @@ void Capacitor::set_capacitance(const double capacitance_in)
 const double& Capacitor::get_frequency() const {return frequency;}
 
 //Impedance getter
-const std::complex<double> Capacitor::get_impedance() const
+std::complex<double> Capacitor::get_impedance() const
 //Z_C = -iX_C, X_C = 1/wC
 {
     double angular_freq{2.0 * M_PI * frequency};
@@ -78,9 +79,10 @@ const std::complex<double> Capacitor::get_impedance() const
     return std::complex<double> (0, -1/(angular_freq*capacitance));
 }
 
-const double Capacitor::get_impedance_magnitude() const {return abs(get_impedance());}
-const double Capacitor::get_phase_difference() const {return arg(get_impedance());}
-const ComponentType Capacitor::get_type() const {return ComponentType::Capacitor;}
+double Capacitor::get_impedance_magnitude() const {return abs(get_impedance());}
+double Capacitor::get_phase_difference() const {return arg(get_impedance());}
+ComponentType Capacitor::get_type() const {return ComponentType::Capacitor;}
+const double& Capacitor::get_capacitance() const {return capacitance;}
 
 
 //MEMBER FUNCTIONS

@@ -58,11 +58,12 @@ public:
 
     //Getters
     virtual const double& get_frequency() const = 0;
-    virtual const std::complex<double> get_impedance() const = 0;
-    virtual const double get_impedance_magnitude() const = 0;
-    virtual const double get_phase_difference() const = 0;
-    virtual const ComponentType get_type() const = 0;
+    virtual std::complex<double> get_impedance() const = 0;
+    virtual double get_impedance_magnitude() const = 0;
+    virtual double get_phase_difference() const = 0;
+    virtual ComponentType get_type() const = 0;
     const string& get_id() const;
+
     //get_impedance, get_impedance_magnitude, get_phase_difference, get_type 
     //cannot be returned by reference as they return temporary objects
 

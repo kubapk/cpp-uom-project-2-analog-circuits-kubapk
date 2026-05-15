@@ -28,7 +28,7 @@ public:
     Capacitor();
 
     //Declare parameterised constructor
-    Capacitor(const double frequency_in, const double capacitance_in);
+    Capacitor(const double frequency_in, const double capacitance_in, const bool assign_id = true);
 
     //Destructor from Component class used
 
@@ -44,10 +44,11 @@ public:
 
     //Getters
     const double& get_frequency() const;
-    const std::complex<double> get_impedance() const;
-    const double get_impedance_magnitude() const;
-    const double get_phase_difference() const;
-    const ComponentType get_type() const;
+    std::complex<double> get_impedance() const;
+    double get_impedance_magnitude() const;
+    double get_phase_difference() const;
+    ComponentType get_type() const;
+    const double& get_capacitance() const;
 
     //Member functions
     void info() const;

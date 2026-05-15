@@ -138,7 +138,6 @@ Copy assignment operator is more like changing the properties of a component (si
 - if the derived class doesn’t manage any resources itself, it does not need its own destructor - uses virtual destructor from Component
 - since get_frequency is pure virtual, no point in implementing it - but could implement a validation function (range of frequencies) which is later used
 - Info function to print out all info of a component
-- If you add more functions to derived Component classes, can have base info function so that you can print out name - otherwise add name as a property in the base class
 - Get impedance magnitude & phase difference can be non-virtual in base class as they both do the same thing no matter the component
 - Do not allow maths constant to be redefined twice - ifdef for maths consts?
 - Use phase difference to print out a message saying whether current leads or lags voltage
@@ -159,6 +158,5 @@ Copy assignment operator is more like changing the properties of a component (si
 - Probably in main circuit function you want to have components be pointers - see in assignment 5 why you wanted FourMomentum to be a pointer to explain a choice of pointers
 - Use alias for complex object as in std::map example
 - typedef std::complex<double> complex;?
-- Overrride info func for circuit so that it prints out info of all components & have base class virtual info func which is reused - allows for names to be printed
-- Circuit class able to detect how many resistors, capacitors, etc in total (component_info, component_list, info)
-- Ensure with shared ptr that delete is done correcrly (multiple owners)
+- Circuit class able to detect how many resistors, capacitors, etc in total (component_info, component_list, all_info)
+- Potential issue with assignment operator - try copying components and see if any error comes up

@@ -22,10 +22,11 @@ Circuit::Circuit(ConnectionType connection_in) :
     Circuit(0.0, connection_in) {}
 
 //Parameterised constructor
-Circuit::Circuit(const double frequency_in, ConnectionType connection_in) :
+Circuit::Circuit(const double frequency_in, ConnectionType connection_in, const bool assign_id) :
     Component(frequency_in), connection{connection_in}
     {
-        component_id = "CIRC"+std::to_string(++circuit_counter); //add 1 to counter
+        if(assign_id)
+            component_id = "CIRC"+std::to_string(++circuit_counter); //add 1 to counter
     }
 
 //Copy constructor
@@ -42,7 +43,7 @@ Circuit::Circuit(const Circuit& circ):
             //it is abstract - require clone() function to deal with each component
             //individually
         
-        component_id = "R"+std::to_string(++circuit_counter);
+        component_id = "CIRC"+std::to_string(++circuit_counter);
     }
 
 //Copy assignment operator
@@ -77,7 +78,6 @@ Circuit& Circuit::operator=(const Circuit& circ)
 //Use std::move from smart pointer
 
 
-
 //SETTERS
 //Setter for frequency
 void Circuit::set_frequency(const double frequency_in) 
@@ -105,7 +105,7 @@ void Circuit::set_connection(const ConnectionType connection_in)
 const double& Circuit::get_frequency() const {return frequency;}
 
 //Getter for impedance
-const std::complex<double> Circuit::get_impedance() const
+std::complex<double> Circuit::get_impedance() const
 {
     std::complex<double> total_impedance(0.0, 0.0);
 
@@ -129,11 +129,10 @@ const std::complex<double> Circuit::get_impedance() const
     //Switch not used as the cases don't depend on same variable
 }
 
-const double Circuit::get_impedance_magnitude() const {return abs(get_impedance());}
-const double Circuit::get_phase_difference() const {return arg(get_impedance());}
-
-const int Circuit::get_number_components() const {return components.size();}
-const ComponentType Circuit::get_type() const {return ComponentType::Circuit;}
+double Circuit::get_impedance_magnitude() const {return abs(get_impedance());}
+double Circuit::get_phase_difference() const {return arg(get_impedance());}
+ComponentType Circuit::get_type() const {return ComponentType::Circuit;}
+const ConnectionType& Circuit::get_connection() const {return connection;}
 
 
 //MEMBER FUNCTIONS

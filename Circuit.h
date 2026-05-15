@@ -53,7 +53,7 @@ public:
     //this circuit will have f = 0Hz
 
     //Declare parameterised constructor
-    Circuit(const double frequency_in, ConnectionType connection_in);
+    Circuit(const double frequency_in, ConnectionType connection_in, const bool assign_id = true);
 
     //Destructor inherited from Component class
     
@@ -76,16 +76,12 @@ public:
     void set_connection(const ConnectionType connection_in); //allows user to change mind of how circuit is connected
 
     //Getters
-    const int& get_components() const;
-    const ConnectionType& get_connection() const;
     const double& get_frequency() const;
-
-    const std::complex<double> get_impedance() const;
-    const double get_impedance_magnitude() const;
-    const double get_phase_difference() const;
-    const int get_number_components() const;
-
-    const ComponentType get_type() const;
+    std::complex<double> get_impedance() const;
+    double get_impedance_magnitude() const;
+    double get_phase_difference() const;
+    ComponentType get_type() const;
+    const ConnectionType& get_connection() const;
 
     //Member functions
     void add_component(std::unique_ptr<Component> component_ptr_in);

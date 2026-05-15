@@ -32,7 +32,7 @@ public:
     Resistor();
 
     //Declare parameterised constructor
-    Resistor(const double frequency_in, const double resistance_in);
+    Resistor(const double frequency_in, const double resistance_in, const bool assign_id = true);
 
     //Destructor from Component class used
 
@@ -50,11 +50,12 @@ public:
 
     //Getters
     const double& get_frequency() const;
-    const std::complex<double> get_impedance() const;
-    const double get_impedance_magnitude() const;
-    const double get_phase_difference() const;
-    const ComponentType get_type() const;
-
+    std::complex<double> get_impedance() const;
+    double get_impedance_magnitude() const;
+    double get_phase_difference() const;
+    ComponentType get_type() const;
+    const double& get_resistance() const;
+    
     //Member functions
     void info() const;
     void component_info() const;

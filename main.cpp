@@ -25,10 +25,10 @@ int main()
         vector<std::unique_ptr<Component>> library;
 
         //Add components to the library
-        library.push_back(std::make_unique<Resistor>(50, 100)); //freq, resistace
-        library.push_back(std::make_unique<Capacitor>(50, 10e-6)); //freq, resistance
-        library.push_back(std::make_unique<Inductor>(50, 0.01)); //freq, resistance
-        library.push_back(std::make_unique<Resistor>(20, 100)); //freq, resistace
+        library.push_back(std::make_unique<Resistor>(50, 100, false)); //freq, resistace, assignID
+        library.push_back(std::make_unique<Capacitor>(50, 10e-6, false)); //freq, resistance, assignID
+        library.push_back(std::make_unique<Inductor>(50, 0.01, false)); //freq, inductance, assignID
+        library.push_back(std::make_unique<Resistor>(20, 100, false)); //freq, resistance, assignID
 
         Circuit series_circuit(60, ConnectionType::Series);
         series_circuit.add_component(library[0]->clone());

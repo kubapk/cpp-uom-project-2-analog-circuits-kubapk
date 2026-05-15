@@ -23,10 +23,11 @@ Inductor::Inductor() :
     Inductor(0.0, 0.0) {}
 
 //Paramterised constructor
-Inductor::Inductor(const double frequency_in, const double inductance_in) :
+Inductor::Inductor(const double frequency_in, const double inductance_in, const bool assign_id) :
     Component(frequency_in), inductance{inductance_in}
     {
-        component_id = "I"+std::to_string(++inductor_counter); //add 1 to counter
+        if(assign_id)
+            component_id = "I"+std::to_string(++inductor_counter); //add 1 to counter
     }
 
 //Copy constructor
@@ -34,7 +35,7 @@ Inductor::Inductor(const Inductor& ind):
     Component(ind),
     inductance{ind.inductance}
     {
-        component_id = "R"+std::to_string(++inductor_counter);
+        component_id = "I"+std::to_string(++inductor_counter);
     }
 
 //Copy assignment operator
@@ -69,7 +70,7 @@ void Inductor::set_inductance(const double inductance_in)
 const double& Inductor::get_frequency() const {return frequency;}
 
 //Impedance getter
-const std::complex<double> Inductor::get_impedance() const
+std::complex<double> Inductor::get_impedance() const
 //Z_C = iX_L, X_L = wL
 {
     double angular_freq{2.0 * M_PI * frequency};
@@ -77,9 +78,10 @@ const std::complex<double> Inductor::get_impedance() const
     return std::complex<double> (0, angular_freq*inductance);
 }
 
-const double Inductor::get_impedance_magnitude() const {return abs(get_impedance());}
-const double Inductor::get_phase_difference() const {return arg(get_impedance());}
-const ComponentType Inductor::get_type() const {return ComponentType::Inductor;}
+double Inductor::get_impedance_magnitude() const {return abs(get_impedance());}
+double Inductor::get_phase_difference() const {return arg(get_impedance());}
+ComponentType Inductor::get_type() const {return ComponentType::Inductor;}
+const double& Inductor::get_inductance() const {return inductance;}
 
 
 //MEMBER FUNCTION

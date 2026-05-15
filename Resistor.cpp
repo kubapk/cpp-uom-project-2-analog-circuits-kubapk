@@ -23,10 +23,11 @@ Resistor::Resistor() :
     //Use parameterised constructor to avoid repeating ID update code
 
 //Paramterised constructor
-Resistor::Resistor(const double frequency_in, const double resistance_in) :
+Resistor::Resistor(const double frequency_in, const double resistance_in, const bool assign_id) :
     Component(frequency_in), resistance{resistance_in} 
     {
-        component_id = "R"+std::to_string(++resistor_counter); //add 1 to counter
+        if(assign_id)
+            component_id = "R"+std::to_string(++resistor_counter); //add 1 to counter
     }
 
 //Copy constructor
@@ -67,10 +68,11 @@ void Resistor::set_resistance(const double resistance_in)
 
 //GETTERS
 const double& Resistor::get_frequency() const {return frequency;}
-const std::complex<double> Resistor::get_impedance() const {return std::complex<double> (resistance, 0.0);}
-const double Resistor::get_impedance_magnitude() const {return abs(get_impedance());}
-const double Resistor::get_phase_difference() const {return arg(get_impedance());}
-const ComponentType Resistor::get_type() const {return ComponentType::Resistor;}
+std::complex<double> Resistor::get_impedance() const {return std::complex<double> (resistance, 0.0);}
+double Resistor::get_impedance_magnitude() const {return abs(get_impedance());}
+double Resistor::get_phase_difference() const {return arg(get_impedance());}
+ComponentType Resistor::get_type() const {return ComponentType::Resistor;}
+const double& Resistor::get_resistance() const {return resistance;}
 
 
 //MEMBER FUNCTIONS
