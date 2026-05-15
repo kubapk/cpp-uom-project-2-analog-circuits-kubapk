@@ -57,7 +57,19 @@ public:
 
     //Destructor inherited from Component class
     
-    //Copy/move semantics needed if we don't want to copy/move a Circuit?
+    //Declare copy constructor & assignment operator
+    Circuit(const Circuit&); //constructor
+    Circuit& operator=(const Circuit&); //assignment op
+
+    //Declare copy & move assignment operators
+    Circuit(Circuit&&) noexcept = default; //constructor
+    Circuit& operator=(Circuit&&) noexcept = default; //assignment op
+    //if exception thrown during move, the vector stays in a broken state
+    //User cannot handle the exception because everything is in an nondeterministic state
+    //compiler doesn't like this so may use copy instead - but here we are moving pointers
+    //so there is no risk - we tell compiler that move will not throw any exceptions
+    //use default move semantics as unique_ptr has std::move (transfers ownership of all pointers
+    //in vector)
 
     //Setters
     void set_frequency(const double frequency_in);

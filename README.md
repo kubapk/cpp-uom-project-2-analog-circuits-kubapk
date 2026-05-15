@@ -6,7 +6,7 @@ A brief summary of the program will go here
 
 ## User Guidelines
 ### Running the program as-is
-This code was run on VSC using a Windows 11 device. The compilation line used was `ADDHERE`. The program can then be run by calling the file `main.exe`.
+This code was run on VSC using a Windows 11 device. The compilation line used was `g++ -std=c++17 main.cpp Circuit.cpp Resistor.cpp Capacitor.cpp Inductor.cpp Component.cpp -o main.exe -Wall`. The program can then be run by calling the file `main.exe`.
 
 Test run line:
 `g++ -std=c++17 test.cpp Circuit.cpp Resistor.cpp Capacitor.cpp Inductor.cpp Component.cpp -o test.exe -Wall`
@@ -39,7 +39,8 @@ Component* ptr = new Circuit(...); //Circuit object stored as a pointer to a Com
 delete ptr;
 ```
 Here, Circuit members destroyed first, then Component members - correct (virtual destructor in Component ensures it is ovewritten with Circuit destructor)
-- 
+- Clone requires Circuit to be copyable so need rule of 3 at least
+- Give user freedom to move one Circuit to another so implement rule of 5
 
 
 ### Constructor of Component class
@@ -99,6 +100,13 @@ The only places where frequeny is updated when we add component (this is done be
 
 - Imagine the library as the lab demonstrator having a selection of components which they want you to use. The lab demonstrator is the owner of these components, and they have infinitely many copies of each of them. You can add one of the components to your circuit, in which case you ask the component to clone itself. You are now the owner of this copy of the component. When you add it to the circuit, std::move changes the owner from yourself to the circuit.  
 - Avoid code repetition if you want to use more than one component with the same properties (would need ot be added twice to the library)
+
+### Push back vs emplace back
+- https://www.geeksforgeeks.org/cpp/push_back-vs-emplace_back-in-cpp-stl-vectors/
+- Push back is a disavtange when we declare new objects within push_back, as this means the copy constructor of that object needs to be called
+- Every time there is push_back, cpp will create a new vector which COPEIS the new value from parameter which is being push backed and it also COPIES all values in the old vector to the new vector (this copying of all values can be reduced by declaring vector size in advance)
+- Emplace back does not need copy constructor as it can insert the object without calling the copy constructor
+- Pushing back pointers however, this has no effect as there is no new object which is being added - it already exists in memory if it is a pointer
 
 
 ## Notes

@@ -33,6 +33,9 @@ int main()
         series_circuit.add_component(library[0]->clone()); //freq, capacitance (10x10-12)
         series_circuit.add_component(library[1]->clone());
 
+        series_circuit.info();
+        series_circuit.component_info();
+
         //Or make it a map so you can call it by a name - i.e. give the component a nickname
         //(all nicknames would need to be unique - could not have two components exactly the same as
         //how would you extract one and not the other?)

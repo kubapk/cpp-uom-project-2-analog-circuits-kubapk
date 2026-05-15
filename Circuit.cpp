@@ -22,6 +22,48 @@ Circuit::Circuit(ConnectionType connection_in) :
 Circuit::Circuit(const double frequency_in, ConnectionType connection_in) :
     Component(frequency_in), connection{connection_in} {}
 
+//Copy constructor
+Circuit::Circuit(const Circuit& circ)
+{
+    //Deep copy of all pointers inside "components" in "circ" Circuit object
+    for(const auto& component_ptr : circ.components)
+        //Copy "circ" into current class object - push_back each component from "circ"
+        components.push_back(component_ptr->clone());
+        //need to push back object of type unique_ptr<Component> so could have
+        //components.push_back(std::make_unique<Component>(*circ.component_ptr))
+        //but this tries to create a new component object, which cannot be done since
+        //it is abstract - require clone() function to deal with each component
+        //individually
+}
+
+//Copy assignment operator
+Circuit& Circuit::operator=(const Circuit& circ)
+{
+    //If not self assignment
+    if(&circ != this)
+    {
+        components.clear(); //empty current vector first
+        
+        for(const auto& component_ptr : circ.components)
+            components.push_back(component_ptr->clone());
+    }
+
+    return *this; //if self-assignment, *this is just returned with no modification
+
+}
+//Unlike copy constructor, assignment operator already has an object (which is being allocated to LHS) - must free
+//any dynamically allocated memory first
+//However, unique_ptr's assignment operator automatically destroys the old object before taking ownership of the new one
+//so don't need to free anything
+//but here we cannot use the assignment operator as we have a VECTOR of pointers, and we cannot assign vectors (they may be 
+//of different dimensions)
+//Need to use push_back and so must clear memory first
+//Not issue with copy constructor as it does not already have an object 
+
+//Move constructor
+//Use std::move from smart pointer
+
+
 
 //SETTERS
 //Setter for frequency
@@ -201,4 +243,5 @@ CircuitStats Circuit::count_components() const
 std::unique_ptr<Component> Circuit::clone() const
 {
     return std::make_unique<Circuit>(*this);
+    //Requires circuit to be copyable - rule of 5
 }
