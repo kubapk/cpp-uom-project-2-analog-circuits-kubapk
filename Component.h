@@ -16,6 +16,7 @@ Created on Mon 04 May 2026
 
 #include<iostream>
 #include<complex> //for using complex numbers
+#include<memory> //for unique ptr
 using std::string;
 
 
@@ -68,6 +69,8 @@ public:
     virtual void component_info() const = 0; //info just for components
     //want to print out the info of any arbitrary component so component_info
     //is not used for Circuit class
+
+    virtual std::unique_ptr<Component> clone() const = 0;
 
 };
 

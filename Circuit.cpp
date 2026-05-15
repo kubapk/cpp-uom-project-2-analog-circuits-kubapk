@@ -196,3 +196,9 @@ CircuitStats Circuit::count_components() const
 
     return stats;
 }
+
+//Clone member function
+std::unique_ptr<Component> Circuit::clone() const
+{
+    return std::make_unique<Circuit>(*this);
+}

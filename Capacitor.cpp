@@ -69,3 +69,9 @@ void Capacitor::component_info() const
 {
     info();
 }
+
+//Clone member function
+std::unique_ptr<Component> Capacitor::clone() const
+{
+    return std::make_unique<Capacitor>(*this);
+}

@@ -45,7 +45,7 @@ const double Resistor::get_phase_difference() const {return arg(get_impedance())
 const ComponentType Resistor::get_type() const {return ComponentType::Resistor;}
 
 
-//SETTERS
+//MEMBER FUNCTIONS
 void Resistor::info() const
 {
     base_info();
@@ -55,4 +55,12 @@ void Resistor::info() const
 void Resistor::component_info() const
 {
     info();
+}
+
+//Clone member function
+std::unique_ptr<Component> Resistor::clone() const
+{
+    return std::make_unique<Resistor>(*this);
+    //this is a ptr to the Resistor object itself, and clone
+    //returns a copy of the object (dereferences "this")
 }

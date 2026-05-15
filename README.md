@@ -83,6 +83,23 @@ But need a way to determine this layer (i.e. give it a name - or just generic la
 - Also, the counter function needs to compare the type getter of each component to the different possible values of the components. Where do these values come from? Without enum class, need to type out the different possibilities again, leading ot even more potential issues with capitalisaiton etc, as well as more repeated code
 - Use dyamic cast over static cast, even though you check that type of Component is Circuit, as it is safer - dynamic cast returns null ptr so problem can be caught (IMPLEMENT TRY CATCH)
 
+### Library of components
+- User should be able to take a component from a library and use it in a given circuit, and hence cannot use std::move as in test
+- Cannot use shared ptr: if two circuits share the same Resistor object, then changing its frequency/value in one circuit could accidentally affect the other circuit too
+- Shared ptr messes up the program logic - when a component is added to a circuit, that circuit now owns that component and so controls its frequency (frequency propagates to all components)
+- If shared ptr, then when same component is added to second circuit, it changes the frequency of that component again - this may initially not seem like a problem (we add to one circuit and then another and they update the frequency when the component is added), but what if we add the same component to two circuits, and then ask to print out the results? 
+```
+circuit1.setFrequency(50);
+circuit2.setFrequency(1000);  // overwrites the component's frequency!
+circuit1.print();             // component now thinks f=1000
+```
+The only places where frequeny is updated when we add component (this is done beforehand), and where we set frequency of circuit (it sets for all components in circuit also) - so then component will have frequency of circuit 2 even though we want to print info for circuit 1 
+
+- select components from the library to use in circuits, leaving the library intact --> cannot use unique_ptr and std::move 
+
+- Imagine the library as the lab demonstrator having a selection of components which they want you to use. The lab demonstrator is the owner of these components, and they have infinitely many copies of each of them. You can add one of the components to your circuit, in which case you ask the component to clone itself. You are now the owner of this copy of the component. When you add it to the circuit, std::move changes the owner from yourself to the circuit.  
+- Avoid code repetition if you want to use more than one component with the same properties (would need ot be added twice to the library)
+
 
 ## Notes
 - A resistor has a defined resistance, so it should be a VARIABLE of the resistor - user can then specify what type of resistor / its resistance
@@ -103,6 +120,7 @@ But need a way to determine this layer (i.e. give it a name - or just generic la
 - User can create library of components - these are components they are allowed to construct their circuit, but these components must be defined in a validationf file? E.g. specific real resistors are specified in validation file, and user can add the ones they want to their library? Disallow user from adding something into library which already exists
 - Danger of user changing enumerator class for circuit type?
 - If get amplitude and phase is the same in all classes, no need for virtual - just define it as a normal function in Component class
+- If component is not in library, you cannot add it to a circuit
 
 ## To do
 - Probably in main circuit function you want to have components be pointers - see in assignment 5 why you wanted FourMomentum to be a pointer to explain a choice of pointers
@@ -110,3 +128,4 @@ But need a way to determine this layer (i.e. give it a name - or just generic la
 - typedef std::complex<double> complex;?
 - Overrride info func for circuit so that it prints out info of all components & have base class virtual info func which is reused - allows for names to be printed
 - Circuit class able to detect how many resistors, capacitors, etc in total (component_info, component_list, info)
+- Ensure with shared ptr that delete is done correcrly (multiple owners)

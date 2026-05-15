@@ -69,3 +69,9 @@ void Inductor::component_info() const
 {
     info();
 }
+
+//Clone member function
+std::unique_ptr<Component> Inductor::clone() const
+{
+    return std::make_unique<Inductor>(*this);
+}

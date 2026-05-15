@@ -15,6 +15,7 @@ Created on Mon 04 May 2026
 #define RESISTOR_H
 
 #include<iostream>
+#include<memory>
 #include "Component.h"
 
 class Resistor : public Component
@@ -50,6 +51,7 @@ public:
     //Member functions
     void info() const;
     void component_info() const;
+    std::unique_ptr<Component> clone() const;
 
 };
 

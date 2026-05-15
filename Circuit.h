@@ -83,6 +83,7 @@ public:
     void info() const;
     void component_info() const;
     CircuitStats count_components() const;
+    std::unique_ptr<Component> clone() const;
 };
 
 #endif

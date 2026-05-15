@@ -45,6 +45,7 @@ public:
     //Member functions
     void info() const;
     void component_info() const;
+    std::unique_ptr<Component> clone() const;
 };
 
 #endif
