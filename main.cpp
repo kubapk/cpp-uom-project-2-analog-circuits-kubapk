@@ -28,12 +28,18 @@ int main()
         library.push_back(std::make_unique<Resistor>(50, 100)); //freq, resistace
         library.push_back(std::make_unique<Capacitor>(50, 10e-6)); //freq, resistance
         library.push_back(std::make_unique<Inductor>(50, 0.01)); //freq, resistance
+        library.push_back(std::make_unique<Resistor>(20, 100)); //freq, resistace
 
         Circuit series_circuit(60, ConnectionType::Series);
-        series_circuit.add_component(library[0]->clone()); //freq, capacitance (10x10-12)
+        series_circuit.add_component(library[0]->clone());
         series_circuit.add_component(library[1]->clone());
+        series_circuit.add_component(library[0]->clone());
+        series_circuit.add_component(library[3]->clone());
 
+        std::cout<<"Circuit info"<<std::endl;
         series_circuit.info();
+
+        std::cout<<"\nCircuit component info"<<std::endl;
         series_circuit.component_info();
 
         //Or make it a map so you can call it by a name - i.e. give the component a nickname

@@ -44,6 +44,13 @@ void Component::set_frequency(const double frequency_in)
 }
 */
 
+//Getter
+//Component ID getter
+const string& Component::get_id() const
+{
+  return component_id;
+}
+
 //MEMBER FUNCTIONS
 //Base info protected member function
 void Component::base_info() const
@@ -56,6 +63,7 @@ void Component::base_info() const
     symbol = "+ ";
 
   std::cout<<"==="<<type_to_string(get_type())<<"==="<<std::endl;
+  std::cout<<"ID: "<<component_id<<std::endl;
   std::cout<<"Impedance: "<<impedance_real<<" "<<symbol<<impedance_imag<<"i Ohms"<<std::endl;
   std::cout<<"Frequency: "<<frequency<<" Hertz"<<std::endl;
   std::cout<<"Impedance magnitude: "<<get_impedance_magnitude()<<" Ohms"<<std::endl;

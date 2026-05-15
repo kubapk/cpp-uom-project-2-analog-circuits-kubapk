@@ -37,6 +37,7 @@ class Component
 protected:
     //Variables
     double frequency; //Hz
+    string component_id;
      
     //Functions
     void base_info() const; //info in common for all components
@@ -61,6 +62,7 @@ public:
     virtual const double get_impedance_magnitude() const = 0;
     virtual const double get_phase_difference() const = 0;
     virtual const ComponentType get_type() const = 0;
+    const string& get_id() const;
     //get_impedance, get_impedance_magnitude, get_phase_difference, get_type 
     //cannot be returned by reference as they return temporary objects
 

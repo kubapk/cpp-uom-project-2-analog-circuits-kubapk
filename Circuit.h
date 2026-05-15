@@ -45,7 +45,7 @@ class Circuit : public Component
 private:
     vector<std::unique_ptr<Component>> components;
     ConnectionType connection;
-    static constexpr const char* CIRCUIT_TEXT = "Circuit";
+    static int circuit_counter; 
 
 public:
     //Declare default constructor

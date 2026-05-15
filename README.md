@@ -108,6 +108,11 @@ The only places where frequeny is updated when we add component (this is done be
 - Emplace back does not need copy constructor as it can insert the object without calling the copy constructor
 - Pushing back pointers however, this has no effect as there is no new object which is being added - it already exists in memory if it is a pointer
 
+### Component IDs
+- Option 1: Each derived class stores its own counter which increments every time the constructor of that derived class is called
+- Option 2: Base class stores counters for each component, and a switch is used to update appropriate counter based on ComponentType 
+- Option 2 is overcomplication
+
 
 ## Notes
 - A resistor has a defined resistance, so it should be a VARIABLE of the resistor - user can then specify what type of resistor / its resistance

@@ -24,9 +24,8 @@ class Resistor : public Component
 {
 private:
     double resistance;
-    //char* as string is array of const characters, and char is better at being 
-    //compile time const compared to string (string may use dynamic memory allocation
-    //even though unecessary)
+    static int resistor_counter; 
+    //static so there is one counter for for all resistors, not one counter for each resistor object
 
 public:
     //Default constructor

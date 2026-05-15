@@ -12,15 +12,22 @@ Created on Fri 08 May 2026
 #include<iostream>
 #include "Resistor.h"
 
+//Set counter to 0
+int Resistor::resistor_counter{0};
+
 
 //CONSTRUCTORS
 //Default constructor
 Resistor::Resistor() :
-    Component(), resistance{0} {}
+    Resistor(0.0, 0.0) {}
+    //Use parameterised constructor to avoid repeating ID update code
 
 //Paramterised constructor
 Resistor::Resistor(const double frequency_in, const double resistance_in) :
-    Component(frequency_in), resistance{resistance_in} {}
+    Component(frequency_in), resistance{resistance_in} 
+    {
+        component_id = "R"+std::to_string(++resistor_counter); //add 1 to counter
+    }
 
 
 //SETTERS

@@ -14,15 +14,20 @@ Created on Fri 08 May 2026
 #include<cmath>
 #include "Capacitor.h"
 
+//Set counter to 0
+int Capacitor::capacitor_counter{0};
 
 //CONSTRUCTORS
 //Default constructor
 Capacitor::Capacitor() :
-    Component(), capacitance{0} {}
+    Capacitor(0.0, 0.0) {}
 
 //Paramterised constructor
 Capacitor::Capacitor(const double frequency_in, const double capacitance_in) :
-    Component(frequency_in), capacitance{capacitance_in} {}
+    Component(frequency_in), capacitance{capacitance_in}
+    {
+        component_id = "C"+std::to_string(++capacitor_counter); //add 1 to counter
+    }
 
 
 //SETTERS

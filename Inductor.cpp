@@ -14,15 +14,20 @@ Created on Fri 08 May 2026
 #include<cmath>
 #include "Inductor.h"
 
+//Set counter to 0
+int Inductor::inductor_counter{0};
 
 //CONSTRUCTORS
 //Default constructor
 Inductor::Inductor() :
-    Component(), inductance{0} {}
+    Inductor(0.0, 0.0) {}
 
 //Paramterised constructor
 Inductor::Inductor(const double frequency_in, const double inductance_in) :
-    Component(frequency_in), inductance{inductance_in} {}
+    Component(frequency_in), inductance{inductance_in}
+    {
+        component_id = "I"+std::to_string(++inductor_counter); //add 1 to counter
+    }
 
 
 //SETTERS

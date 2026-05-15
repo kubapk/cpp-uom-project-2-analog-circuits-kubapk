@@ -21,6 +21,7 @@ class Inductor : public Component
 {
 private:
     double inductance; //Henrys, H
+    static int inductor_counter; 
 
 public:
     //Default constructor

@@ -13,14 +13,20 @@ Created on Fri 08 May 2026
 #include "Circuit.h"
 using std::string;
 
+//Set counter to 0
+int Circuit::circuit_counter{0};
+
 //CONSTRUCTORS
 //Default constructor
 Circuit::Circuit(ConnectionType connection_in) :
-    Component(), connection{connection_in} {}
+    Circuit(0.0, connection_in) {}
 
 //Paramterised constructor
 Circuit::Circuit(const double frequency_in, ConnectionType connection_in) :
-    Component(frequency_in), connection{connection_in} {}
+    Component(frequency_in), connection{connection_in}
+    {
+        component_id = "CIRC"+std::to_string(++circuit_counter); //add 1 to counter
+    }
 
 //Copy constructor
 Circuit::Circuit(const Circuit& circ)
@@ -157,8 +163,6 @@ void Circuit::info() const
 //Info of all components in circuit (excluding circuits themselves)
 void Circuit::component_info() const
 {
-    std::cout<<string(10, '=')<<" Circuit component info "<<string(10, '=')<<std::endl;
-
     for(const auto& component : components)
     {
         component->component_info();
