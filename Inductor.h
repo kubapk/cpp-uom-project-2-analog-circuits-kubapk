@@ -32,6 +32,12 @@ public:
 
     //Destructor from Component class used
 
+    //Declare copy constructor (update ID)
+    Inductor(const Inductor&);
+
+    //Declare copy assignment operator (do not copy ID)
+    Inductor& operator=(const Inductor&);
+
     //Setters
     void set_frequency(const double frequency_in);
     void set_inductance(const double inductance_in);

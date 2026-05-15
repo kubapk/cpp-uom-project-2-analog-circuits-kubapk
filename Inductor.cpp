@@ -29,6 +29,26 @@ Inductor::Inductor(const double frequency_in, const double inductance_in) :
         component_id = "I"+std::to_string(++inductor_counter); //add 1 to counter
     }
 
+//Copy constructor
+Inductor::Inductor(const Inductor& ind):
+    Component(ind),
+    inductance{ind.inductance}
+    {
+        component_id = "R"+std::to_string(++inductor_counter);
+    }
+
+//Copy assignment operator
+Inductor& Inductor::operator=(const Inductor& ind)
+{
+    if(&ind != this)
+    {
+        frequency = ind.frequency;
+        inductance = ind.inductance;
+        //component_id not copied or updated
+    }
+
+    return *this;
+}    
 
 //SETTERS
 //Setter for frequency

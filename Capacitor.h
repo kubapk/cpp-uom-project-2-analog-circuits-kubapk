@@ -32,6 +32,12 @@ public:
 
     //Destructor from Component class used
 
+    //Declare copy constructor (update ID)
+    Capacitor(const Capacitor&);
+
+    //Declare copy assignment operator (do not copy ID)
+    Capacitor& operator=(const Capacitor&);
+
     //Setters
     void set_frequency(const double frequency_in);
     void set_capacitance(const double capacitance_in);

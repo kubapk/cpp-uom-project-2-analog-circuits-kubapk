@@ -36,6 +36,14 @@ public:
 
     //Destructor from Component class used
 
+    //Declare copy constructor (update ID)
+    Resistor(const Resistor&);
+
+    //Declare copy assignment operator (do not copy ID)
+    Resistor& operator=(const Resistor&);
+
+    //Default move constructor & assignment op
+
     //Setters
     void set_frequency(const double frequency_in);
     void set_resistance(const double resistance_in);

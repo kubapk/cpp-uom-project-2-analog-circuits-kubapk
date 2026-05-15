@@ -111,7 +111,26 @@ The only places where frequeny is updated when we add component (this is done be
 ### Component IDs
 - Option 1: Each derived class stores its own counter which increments every time the constructor of that derived class is called
 - Option 2: Base class stores counters for each component, and a switch is used to update appropriate counter based on ComponentType 
-- Option 2 is overcomplication
+- Option 2 is overcomplication?
+- When a component is copied from the library, does it get a new ID or does it keep the same one? When its added to a circuit, its frequency may change and so technically it is not the same object - better to make all copies get a unique ID - they are stored elswhere in memory in any case so are not actually the same
+- This requires defining a custom copy constructor 
+- This is different for copy assignment operator, which involves 2 objects that already exist, e.g.
+```
+Resistor r1(50, 100); // Res1
+Resistor r2(50, 200); // Res2
+
+r2 = r1;
+```
+In this case r2 frequency is changed from 200 to 100. But it is still r2, it should not be given a new ID
+- On the other hand, we have r1 and want to make a new resistor with exactly the same properties as r1
+```
+Resistor r1(50, 100); // Res1
+Resistor r2{r1};     
+```
+Then r2 should not be given the same ID as r1, but rather its own ID - it is a copy of it and so then could be placed in a different circuit with a different frequency - if we wanted to move r1, we use move which keeps the same ID
+Copy assignment operator is more like changing the properties of a component (since it requires that it already exists) - there would be no point in assigning a new ID
+- So no need for custom copy assignment operator or move semantics
+- Rule of 3/5 is not applied here since there is not objects of non-class type (like pointer), the Components do not manually manage the memory and so the default ones are ok as long as the desired task is performed
 
 
 ## Notes
@@ -134,6 +153,7 @@ The only places where frequeny is updated when we add component (this is done be
 - Danger of user changing enumerator class for circuit type?
 - If get amplitude and phase is the same in all classes, no need for virtual - just define it as a normal function in Component class
 - If component is not in library, you cannot add it to a circuit
+- component_id = "R"+std::to_string(++resistor_counter); is repeated twice
 
 ## To do
 - Probably in main circuit function you want to have components be pointers - see in assignment 5 why you wanted FourMomentum to be a pointer to explain a choice of pointers

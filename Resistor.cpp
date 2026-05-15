@@ -29,6 +29,27 @@ Resistor::Resistor(const double frequency_in, const double resistance_in) :
         component_id = "R"+std::to_string(++resistor_counter); //add 1 to counter
     }
 
+//Copy constructor
+Resistor::Resistor(const Resistor& res):
+    Component(res), //use default copy constructor from Component class (freq & ID)
+    resistance{res.resistance} //copy res resistance into current resistance
+{
+    component_id = "R"+std::to_string(++resistor_counter);
+}
+
+//Copy assignment operator
+Resistor& Resistor::operator=(const Resistor& res)
+{
+    if(&res != this)
+    {
+        frequency = res.frequency;
+        resistance = res.resistance;
+        //component_id not copied or updated
+    }
+
+    return *this;
+}
+
 
 //SETTERS
 //Setter for frequency

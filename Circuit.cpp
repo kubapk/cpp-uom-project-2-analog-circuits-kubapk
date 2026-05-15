@@ -21,7 +21,7 @@ int Circuit::circuit_counter{0};
 Circuit::Circuit(ConnectionType connection_in) :
     Circuit(0.0, connection_in) {}
 
-//Paramterised constructor
+//Parameterised constructor
 Circuit::Circuit(const double frequency_in, ConnectionType connection_in) :
     Component(frequency_in), connection{connection_in}
     {
@@ -29,18 +29,21 @@ Circuit::Circuit(const double frequency_in, ConnectionType connection_in) :
     }
 
 //Copy constructor
-Circuit::Circuit(const Circuit& circ)
-{
-    //Deep copy of all pointers inside "components" in "circ" Circuit object
-    for(const auto& component_ptr : circ.components)
-        //Copy "circ" into current class object - push_back each component from "circ"
-        components.push_back(component_ptr->clone());
-        //need to push back object of type unique_ptr<Component> so could have
-        //components.push_back(std::make_unique<Component>(*circ.component_ptr))
-        //but this tries to create a new component object, which cannot be done since
-        //it is abstract - require clone() function to deal with each component
-        //individually
-}
+Circuit::Circuit(const Circuit& circ):
+    Component(circ), connection(circ.connection)
+    {
+        //Deep copy of all pointers inside "components" in "circ" Circuit object
+        for(const auto& component_ptr : circ.components)
+            //Copy "circ" into current class object - push_back each component from "circ"
+            components.push_back(component_ptr->clone());
+            //need to push back object of type unique_ptr<Component> so could have
+            //components.push_back(std::make_unique<Component>(*circ.component_ptr))
+            //but this tries to create a new component object, which cannot be done since
+            //it is abstract - require clone() function to deal with each component
+            //individually
+        
+        component_id = "R"+std::to_string(++circuit_counter);
+    }
 
 //Copy assignment operator
 Circuit& Circuit::operator=(const Circuit& circ)
@@ -48,6 +51,10 @@ Circuit& Circuit::operator=(const Circuit& circ)
     //If not self assignment
     if(&circ != this)
     {
+        frequency = circ.frequency;
+        connection = circ.connection;
+        //component_id not copied or updated
+
         components.clear(); //empty current vector first
         
         for(const auto& component_ptr : circ.components)

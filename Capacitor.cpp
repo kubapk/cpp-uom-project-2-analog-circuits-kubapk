@@ -29,7 +29,28 @@ Capacitor::Capacitor(const double frequency_in, const double capacitance_in) :
         component_id = "C"+std::to_string(++capacitor_counter); //add 1 to counter
     }
 
+//Copy constructor
+Capacitor::Capacitor(const Capacitor& cap):
+    Component(cap),
+    capacitance{cap.capacitance}
+    {
+        component_id = "R"+std::to_string(++capacitor_counter);
+    }
 
+//Copy assignment operator
+Capacitor& Capacitor::operator=(const Capacitor& cap)
+{
+    if(&cap != this)
+    {
+        frequency = cap.frequency;
+        capacitance = cap.capacitance;
+        //component_id not copied or updated
+    }
+
+    return *this;
+}
+
+    
 //SETTERS
 //Setter for frequency
 void Capacitor::set_frequency(const double frequency_in) 

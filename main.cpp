@@ -36,6 +36,9 @@ int main()
         series_circuit.add_component(library[0]->clone());
         series_circuit.add_component(library[3]->clone());
 
+        //Instead have a map which means the components from the library can be called with something that the user
+        //recognises - that way it is clear what is being called
+
         std::cout<<"Circuit info"<<std::endl;
         series_circuit.info();
 
