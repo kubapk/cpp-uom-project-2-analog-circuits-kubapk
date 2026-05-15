@@ -63,6 +63,7 @@ public:
     virtual double get_phase_difference() const = 0;
     virtual ComponentType get_type() const = 0;
     const string& get_id() const;
+    string get_behaviour() const;
 
     //get_impedance, get_impedance_magnitude, get_phase_difference, get_type 
     //cannot be returned by reference as they return temporary objects

@@ -1,0 +1,6 @@
+#name;min_resistance;max_resistance;tolerance;max_frequency
+Air core inductor;1e-9;1e-3;0.05;1e9
+Ferrite core inductor;1e-6;10;0.10;1e7
+Power inductor;1e-6;1;0.20;1e5
+RF choke;1e-9;1e-4;0.05;1e9
+Toroidal inductor;1e-6;10;0.10;1e6

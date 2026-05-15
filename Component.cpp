@@ -51,6 +51,24 @@ const string& Component::get_id() const
   return component_id;
 }
 
+//Behaviour getter
+string Component::get_behaviour() const
+{
+  constexpr double tolerance = 1e-12; //much smaller than any phase parameters 
+  //but greater than double precison (1e-15)
+  double phase{get_phase_difference()};
+
+  if(phase > tolerance) //phase>0
+    return "Inductive (voltage leads current)";
+  
+  else if(phase < -tolerance) //phase<0
+    return "Capacitive (current leads voltage)";
+
+  else
+    return "Resistive";
+}
+
+
 //MEMBER FUNCTIONS
 //Base info protected member function
 void Component::base_info() const
@@ -68,6 +86,7 @@ void Component::base_info() const
   std::cout<<"Frequency: "<<frequency<<" Hertz"<<std::endl;
   std::cout<<"Impedance magnitude: "<<get_impedance_magnitude()<<" Ohms"<<std::endl;
   std::cout<<"Phase difference: "<<get_phase_difference()<<" rad"<<std::endl;
+  std::cout<<"Behaviour: "<<get_behaviour()<<std::endl;
 }
 
 //Static member function to convert types to string output
