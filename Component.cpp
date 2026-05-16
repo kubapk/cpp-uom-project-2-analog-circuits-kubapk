@@ -10,8 +10,9 @@ Created on Mon 04 May 2026
 */
 
 #include<iostream>
-#include "Component.h"
 #include<stdexcept>
+#include<string>
+#include "Component.h"
 using std::string;
 
 //CONSTRUCTORS

@@ -16,7 +16,13 @@ Created on Mon 04 May 2026
 
 #include<iostream>
 #include<memory>
+#include<vector>
+#include<string>
 #include "Component.h"
+#include "ValidationRecord.h"
+using std::vector;
+using std::string;
+
 
 class Resistor : public Component
 //public ensures Component protected members remain protected, and public members
@@ -24,8 +30,10 @@ class Resistor : public Component
 {
 private:
     double resistance;
+    double tolerance;
     static int resistor_counter; 
     //static so there is one counter for for all resistors, not one counter for each resistor object
+    static vector<ValidationRecord> valid_resistors;
 
 public:
     //Default constructor
@@ -60,6 +68,7 @@ public:
     void info() const;
     void component_info() const;
     std::unique_ptr<Component> clone() const;
+    static void load_valid_resistors(const string& resistor_file_name);
 
 };
 

@@ -10,6 +10,7 @@ Created on Fri 08 May 2026
 */
 
 #include<iostream>
+#include<string>
 #include "Circuit.h"
 using std::string;
 

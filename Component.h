@@ -17,6 +17,7 @@ Created on Mon 04 May 2026
 #include<iostream>
 #include<complex> //for using complex numbers
 #include<memory> //for unique ptr
+#include<string>
 using std::string;
 
 
