@@ -34,6 +34,7 @@ private:
     static int resistor_counter; 
     //static so there is one counter for for all resistors, not one counter for each resistor object
     static vector<ValidationRecord> valid_resistors;
+    void validate_resistor(string& name_in, double resistance_in, double tolerance_in, double frequency_in);
 
 public:
     //Default constructor
