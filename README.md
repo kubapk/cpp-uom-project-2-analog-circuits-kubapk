@@ -49,7 +49,7 @@ In the case where `series_circuit` is not initialised via a unqiue pointer, tryi
 ## Additional information
 For more information on this program, including how it works and design choices, please see [analogue_circuits_report.pdf](Report/analog_circuits_report.pdf).
 
-For an enlarged version of the UML diagram, please see [analogue_circuits_uml.pdf](Report/analog_circuits_report.pdf), or visit the link https://lucid.app/lucidchart/df2df27e-50a9-475c-90f7-234e81378d8d/view.
+For an enlarged version of the UML diagram, please see [analogue_circuits_uml.pdf](Report/analog_circuits_uml.pdf), or visit the link https://lucid.app/lucidchart/df2df27e-50a9-475c-90f7-234e81378d8d/view.
 
 
 ## Program reasoning
