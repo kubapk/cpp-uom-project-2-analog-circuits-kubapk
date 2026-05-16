@@ -28,7 +28,7 @@ Component::Component(const double frequency_in) :
 
 //SETTERS
 //Validation for setter
-//You may want private member function which does general validatio needed in setter and 
+//You may want private member function which does general validation needed in setter and 
 //parameterised constructor 
 //Maybe validation comes after implementing everything else
 
