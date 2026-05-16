@@ -119,7 +119,10 @@
 \vspace{5pt}
 
 \section{Introduction}
-Text goes here
+This program allows users to build analogue circuits using resistors, capacitors, and inductors (which are all classes derived from an abstract  base \verb|Component| class). A \verb|Circuit| class can be set to be series or parallel, and any number of components can be added to it, which is then stores as a vector of components (specifically a vector of unique pointers to components). Since the \verb|Circuit| class is inherited from the \verb|Component| class itself, it is possible to add series circuits to parallel circuits, or vice versa, and therefore construct circuits of any topology.
+
+In the main file of this program, a \textit{library} of components is created, which stores different types of resistors, capacitors and inductors. These components are validated through the use of validation files, such that if the user tries to initialise a component with properties which do not match those specified in the validation file, an error message will be returned. 
+
 
 \section{Code design and implementation}
 Text goes here
