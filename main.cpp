@@ -11,21 +11,22 @@ Created on Fri 15 May 2026
 #include<iostream>
 #include<stdexcept>
 #include<vector>
+#include<memory>
 #include "Resistor.h"
 #include "Capacitor.h"
 #include "Inductor.h"
 #include "Circuit.h"
 using std::vector;
 
-void print_all_circuit_info(const Circuit& circuit_in, const string& circuit_name)
+void print_all_circuit_info(const std::unique_ptr<Circuit>& circuit_in, const string& circuit_name)
 {
     std::cout<<std::endl;
     std::cout<<circuit_name<<" info\n"<<string(60, '-')<<std::endl;
-    circuit_in.info();
+    circuit_in->info();
 
     std::cout<<std::endl;
     std::cout<<circuit_name<<" component info\n"<<string(60, '-')<<std::endl;
-    circuit_in.component_info();
+    circuit_in->component_info();
 }
 
 int main()
@@ -52,42 +53,37 @@ int main()
         auto wirebound_cloned = library[0]->clone();
         
         //Create a series circuit with resistor, inductor, capacitor (RLC)
-        Circuit rlc_circuit(50, ConnectionType::Series);
-        rlc_circuit.add_component(std::move(wirebound_cloned)); //Wirebound resistor
-        rlc_circuit.add_component(library[4]->clone()); //Tantalum capacitor
-        rlc_circuit.add_component(library[2]->clone()); //Power inductor
+        auto rlc_circuit = std::make_unique<Circuit>(50, ConnectionType::Series);
+        rlc_circuit->add_component(std::move(wirebound_cloned)); //Wirebound resistor
+        rlc_circuit->add_component(library[4]->clone()); //Tantalum capacitor
+        rlc_circuit->add_component(library[2]->clone()); //Power inductor
 
         //Print info about RLC circuit
         print_all_circuit_info(rlc_circuit, "RLC circuit");
 
         //Create another series circuit with inductor & capacitor (LC)
-        Circuit lc_circuit(60, ConnectionType::Series);
-        lc_circuit.add_component(library[4]->clone()); //Tantalum capacitor
-        lc_circuit.add_component(library[5]->clone()); //RF choke inductor
+        auto lc_circuit = std::make_unique<Circuit>(60, ConnectionType::Series);
+        lc_circuit->add_component(library[4]->clone()); //Tantalum capacitor
+        lc_circuit->add_component(library[5]->clone()); //RF choke inductor
 
         //Print info about LC circuit
         print_all_circuit_info(lc_circuit, "LC circuit");
 
 
         //Add series circuits together in parallel
-        Circuit combined_parallel(55, ConnectionType::Parallel);
-        combined_parallel.add_component(std::make_unique<Circuit>(std::move(rlc_circuit)));
-        combined_parallel.add_component(std::make_unique<Circuit>(std::move(lc_circuit)));
+        auto combined_parallel = std::make_unique<Circuit>(55, ConnectionType::Parallel);
+        combined_parallel->add_component(std::move(rlc_circuit));
+        combined_parallel->add_component(std::move(lc_circuit));
 
         //Print info about parallel circuit
         print_all_circuit_info(combined_parallel, "Parallel (RLC + LC) circuit");
 
         //Try to modify frequency of circuit to a high value
-        combined_parallel.set_frequency(30e6);
+        //combined_parallel->set_frequency(30e6);
 
         //Try to print out info of moved circuit
         print_all_circuit_info(rlc_circuit, "RLC circuit (moved from)");
-
-        //If you want automatic deletion of a circuit after move, you must use a pointer to this circuit
-        //e.g. auto rlc_circuit = std::make_unique<Circuit>(50, ConnectionType::Series)
-        //rlc_circuit->add_component(...)
-
-
+        
     }
     catch(const std::exception& e)
     {

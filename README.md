@@ -2,17 +2,22 @@
 # PHYS30762 Project - Analogue Circuits
 
 ## Program Summary
-A brief summary of the program will go here
+This program allows a user to build their own circuit using a Resistor, Capacitor or Inductor. These are all classes derived from a Component abstract base class, which contains a frequency and a unique ID, as well as a function to calculate the impedance of the component, and its magntiude and phase difference (angle). The impedance function uses the complex number library from C++. All of the derived classes are then given a name (e.g. "Wirewound reistor") and a tolerance (e.g. 20%) which is not in the Component abstract class.
+ - **Resistor:** Also has resistance as member function, and then overrides impedance function to return 0 as the real entry, and $Z_C = -iX_C, X_C = 1/wC$ as the imaginary entry.
+ - **Capacitor:** Also has capacitance as member function, and then overrides impedance function to return the resistance value as the real entry, and 0 as the imaginary entry.
+
+The Component class has a base info function which outputs the component type, its ID, impedance, frequency, behaviour and impedance magnitude and phase difference. The derived classes also output the name and resistance, capacitance and inductance respectively.
 
 ## User Guidelines
 ### Running the program as-is
 This code was run on VSC using a Windows 11 device. The compilation line used was `g++ -std=c++17 main.cpp Circuit.cpp Resistor.cpp Capacitor.cpp Inductor.cpp Component.cpp -o main.exe -Wall`. The program can then be run by calling the file `main.exe`.
 
-Test run line:
-`g++ -std=c++17 test.cpp Circuit.cpp Resistor.cpp Capacitor.cpp Inductor.cpp Component.cpp -o test.exe -Wall`
-
 ### Modifying the main file, `main.cpp`
 These guidelines are for a user who wishes to use the classes in this program, but modify the main file provided (or make their own).
+
+## Additional information
+
+See [analogue_circuits_report.pdf](Report/analogue_circuits_report.pdf).
 
 
 ## Program reasoning
@@ -172,3 +177,7 @@ Copy assignment operator is more like changing the properties of a component (si
 - check for empty circuits before computing impedance
 - Add tolerance check when frequency is updated in circuit
 - What if user doesn't load a validation file first?
+- Get components from a circuit using their ID - AND MODIFY THEIR PROPERTIES
+- If user does not initialise ptr to circuit, they can still access info of moved from circuit - implement custom move which can return custom message if it has been moved from
+- Circuit diagram output
+- Tolerance - use distribution to randomise number
