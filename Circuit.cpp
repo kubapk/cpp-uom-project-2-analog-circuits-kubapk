@@ -77,24 +77,35 @@ Circuit& Circuit::operator=(const Circuit& circ)
 
 //Move constructor
 //Use std::move from smart pointer
+/*
 Circuit::Circuit(Circuit&& circ) noexcept :
-    components{std::move(circ.components)}
+    Component(std::move(circ)), components{std::move(circ.components)},
+    connection{circ.connection}
     {
+        component_id = circ.component_id;
+        circ.component_id = "";
         circ.moved_from = true;
     }
+*/
 
 //Move assignment operator
+/*
 Circuit& Circuit::operator=(Circuit&& circ) noexcept
 {
-    circ.moved_from = true;
-
     //Check for self-assignment
     if(&circ == this) return *this;
 
     //Move by assignment
+    Component::operator=(std::move(circ));
     components = std::move(circ.components);
+    connection = circ.connection;
+    component_id = circ.component_id;
+    circ.component_id = "";
+
+    circ.moved_from = true;
     return *this; //return this object
 }
+*/
 
 //SETTERS
 //Setter for frequency
@@ -111,10 +122,7 @@ void Circuit::set_frequency(const double frequency_in)
         }
         catch(const std::exception& e)
         {
-            throw std::invalid_argument("Frequency of circuit "+component_id+" could not be"
-                "changed to "+std::to_string(frequency_in)+" Hz. "+type_to_string(component_ptr_i->get_type())+" "+
-                component_ptr_i->get_id()+" complained about frequency change, returning "
-                "the following error message: \n "+e.what());
+            throw std::invalid_argument(component_id+" -> "+e.what());
         }
     }
     //"component_ptr_i" is std::unique_ptr<Component> but can let compiler decide with auto
@@ -175,9 +183,7 @@ void Circuit::add_component(std::unique_ptr<Component> component_ptr)
     }
     catch(const std::exception& e)
     {
-        throw std::invalid_argument(type_to_string(component_ptr->get_type())+" "+
-        component_ptr->get_id()+" could not be added to circuit "+component_id+
-        "."+component_ptr->get_id()+" returned the following error message: \n "+e.what());
+        throw std::invalid_argument(component_id+" -> "+e.what());
     }
 
     //Add component to vector
@@ -188,12 +194,6 @@ void Circuit::add_component(std::unique_ptr<Component> component_ptr)
 //Info member function
 void Circuit::info() const
 {
-    if(moved_from)
-    {
-        std::cout<<"Warning: Circuit has been moved from and no longer contains information"<<std::endl;
-        return;
-    }
-
     base_info();
 
     std::cout<<"Overall circuit type: ";
