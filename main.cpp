@@ -21,20 +21,25 @@ int main()
 {
     try
     {
+        //Load validation files
+        Resistor::load_validation_file("resistor_validation.txt");
+        Capacitor::load_validation_file("capacitor_validation.txt");
+        Inductor::load_validation_file("inductor_validation.txt");
+
         //Create a library of different components
         vector<std::unique_ptr<Component>> library;
 
         //Add components to the library
-        library.push_back(std::make_unique<Resistor>(50, 100, false)); //freq, resistace, assignID
-        library.push_back(std::make_unique<Capacitor>(50, 10e-6, false)); //freq, resistance, assignID
-        library.push_back(std::make_unique<Inductor>(50, 0.01, false)); //freq, inductance, assignID
-        library.push_back(std::make_unique<Resistor>(20, 100, false)); //freq, resistance, assignID
+        library.push_back(std::make_unique<Resistor>(100, 1e4, 0.2, "Wirewound", false)); //freq, resistace, tolerance, name, assignID
+        //library.push_back(std::make_unique<Capacitor>(50, 10e-6, false)); //freq, resistance, assignID
+        //library.push_back(std::make_unique<Inductor>(50, 0.01, false)); //freq, inductance, assignID
+        //library.push_back(std::make_unique<Resistor>(20, 100, false)); //freq, resistance, assignID
 
         Circuit series_circuit(60, ConnectionType::Series);
         series_circuit.add_component(library[0]->clone());
-        series_circuit.add_component(library[1]->clone());
-        series_circuit.add_component(library[0]->clone());
-        series_circuit.add_component(library[3]->clone());
+        //series_circuit.add_component(library[1]->clone());
+        //series_circuit.add_component(library[0]->clone());
+        //series_circuit.add_component(library[3]->clone());
 
         //Instead have a map which means the components from the library can be called with something that the user
         //recognises - that way it is clear what is being called

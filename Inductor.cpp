@@ -14,8 +14,13 @@ Created on Fri 08 May 2026
 #include<cmath>
 #include "Inductor.h"
 
+//DECLARATIONS
 //Set counter to 0
 int Inductor::inductor_counter{0};
+
+//Set vector of valid resistors to be blank
+vector<ValidationRecord> Inductor::valid_inductors{};
+
 
 //CONSTRUCTORS
 //Paramterised constructor
@@ -33,7 +38,9 @@ Inductor::Inductor(const double frequency_in, const double inductance_in, const 
 //Copy constructor
 Inductor::Inductor(const Inductor& ind):
     Component(ind),
-    inductance{ind.inductance}
+    inductance{ind.inductance},
+    tolerance{ind.tolerance},
+    name{ind.name}
     {
         component_id = "I"+std::to_string(++inductor_counter);
     }
@@ -45,6 +52,8 @@ Inductor& Inductor::operator=(const Inductor& ind)
     {
         frequency = ind.frequency;
         inductance = ind.inductance;
+        tolerance = ind.tolerance;
+        name = ind.name;
         //component_id not copied or updated
     }
 

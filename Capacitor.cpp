@@ -14,8 +14,13 @@ Created on Fri 08 May 2026
 #include<cmath>
 #include "Capacitor.h"
 
+//DECLARATIONS
 //Set counter to 0
 int Capacitor::capacitor_counter{0};
+
+//Set vector of valid resistors to be blank
+vector<ValidationRecord> Capacitor::valid_capacitors{};
+
 
 //CONSTRUCTORS
 //Paramterised constructor
@@ -33,7 +38,9 @@ Capacitor::Capacitor(const double frequency_in, const double capacitance_in, con
 //Copy constructor
 Capacitor::Capacitor(const Capacitor& cap):
     Component(cap),
-    capacitance{cap.capacitance}
+    capacitance{cap.capacitance},
+    tolerance{cap.tolerance},
+    name{cap.name}
     {
         component_id = "C"+std::to_string(++capacitor_counter);
     }
@@ -45,6 +52,8 @@ Capacitor& Capacitor::operator=(const Capacitor& cap)
     {
         frequency = cap.frequency;
         capacitance = cap.capacitance;
+        tolerance = cap.tolerance;
+        name = cap.name;
         //component_id not copied or updated
     }
 

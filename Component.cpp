@@ -210,6 +210,12 @@ void Component::validate_component(const vector<ValidationRecord>& all_records, 
   //Get component name string
   string type_str{type_to_string(comp_type)};
 
+  //Check if all_records is empty (no validation)
+  if(all_records.empty())
+    throw std::runtime_error(type_str+" validation records not loaded. Validation file must be loaded for each"
+      " component before they are initialised.");
+
+
   //For each record in all_records (vector of records)
   for(const ValidationRecord& record : all_records)
   {
@@ -243,7 +249,7 @@ void Component::validate_component(const vector<ValidationRecord>& all_records, 
 
     //No matching name found
     throw std::invalid_argument("'"+comp_name+"' was not found as a valid name in "+type_str+ 
-    "validation file. Check it is typed correctly in main file.");
+    " validation file. Check it is typed correctly in main file.");
       
   }
 

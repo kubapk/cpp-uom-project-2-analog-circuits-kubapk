@@ -3,5 +3,5 @@ Wirewound;0.1e3;100e3;0.2;50e3
 Carbon composition;1;22e6;0.05;1e9
 Carbon film;1;10e6;5;200e6
 Metal film;1;100e6;0.02;1e9
-Metal oxide film;100e-3;100e3;500e6
+Metal oxide film;100e-3;100e3;0.01;500e6
 Foil;1;1e6;0.001;6e9
