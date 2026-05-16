@@ -3,7 +3,7 @@
 
 ## Program Summary
 This program allows a user to build their own circuit using a Resistor, Capacitor or Inductor. These are all classes derived from a Component abstract base class, which contains a frequency and a unique ID, as well as a function to calculate the impedance of the component, and its magntiude and phase difference (angle). The impedance function uses the complex number library from C++. All of the derived classes are then given a name (e.g. "Wirewound reistor") and a tolerance (e.g. 20%) which is not in the Component abstract class.
- - **Resistor:** Also has resistance as member function, and then overrides impedance function to return 0 as the real entry, and $Z_C = -iX_C, X_C = 1/wC$ as the imaginary entry.
+ - **Resistor:** Also has resistance as member function, and then overrides impedance function to return 0 as the real entry, and $Z_C = -iX_C | X_C = 1/\omega C$ as the imaginary entry (where $Z_C$ is the capacitor impedance, $X_C$ is the capacitor $w$ is the angular frequency and $C$ is the capacitance).
  - **Capacitor:** Also has capacitance as member function, and then overrides impedance function to return the resistance value as the real entry, and 0 as the imaginary entry.
 
 The Component class has a base info function which outputs the component type, its ID, impedance, frequency, behaviour and impedance magnitude and phase difference. The derived classes also output the name and resistance, capacitance and inductance respectively.
@@ -16,8 +16,9 @@ This code was run on VSC using a Windows 11 device. The compilation line used wa
 These guidelines are for a user who wishes to use the classes in this program, but modify the main file provided (or make their own).
 
 ## Additional information
+For more information on this program, including how it works and design choices, please see [analogue_circuits_report.pdf](Report/analog_circuits_report.pdf).
 
-See [analogue_circuits_report.pdf](Report/analogue_circuits_report.pdf).
+For an enlarged version of the UML diagram, please see [analogue_circuits_uml.pdf](Report/analog_circuits_report.pdf), or visit the link https://lucid.app/lucidchart/1bbac6b7-964d-4fed-86ef-e02a48e03f28/view.
 
 
 ## Program reasoning
