@@ -213,3 +213,20 @@ Copy assignment operator is more like changing the properties of a component (si
 - If user does not initialise ptr to circuit, they can still access info of moved from circuit - implement custom move which can return custom message if it has been moved from
 - Circuit diagram output
 - Tolerance - use distribution to randomise number
+
+
+## Disclosure of Delegation to Generative AI
+The author (Kuba Kane) declares the use of generative AI in the research and coding process. The following tasks were delegated to GAI tools under full human supervision:
+
+- Idea generation
+- Code generation
+- Code optimisation
+- Code debugging
+
+The GAI tools used for these tasks were: ChatGPT-5.2 (Plus), Claude Sonnet 4.6.
+
+The author declares that the work does not contain any AI-generated code or text. GAI was used as a source of information for explaining code only, and as an inspiration to write original code. 
+
+Responsibility for the final manuscript lies entirely with the author.
+
+GAI tools are not listed as authors and do not bear responsibility for the final outcomes.
