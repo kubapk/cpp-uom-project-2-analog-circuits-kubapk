@@ -171,28 +171,24 @@ circuit1.info();             // component now thinks f=1000
 
 If the lab demonstrator lets the student take one component which they own, then it would no longer be in the library and no one else in the lab could use it, because it is stored using a unique pointer - there can only be one owner. The student must make a copy to use it in a circuit .In that sense it is not logical for identical components to be stored twice in the library, since infinitely many copies can be made of it. The lab demonstrator holds an "example" which must be copied to use. This idea is further supported by the fact that when added to the library, the components do not have IDs - controlled by setting a boolean parameter in the derived classes' constructors to \verb|false|. Note this is not a parameter which is a data member of the derived classes - it lives in the constructor. 
 
-One must be careful about the copy semantics for the component classes when it comes to the IDs of each component. When the student "copies" a component from the library, what happens to the ID? Does it keep the same ID as the ID of the component in the library? Given that the components owned by the library do not have IDs, this would mean when they are copied to a circuit they would also not have IDs. To avoid this, the copy constructor manually increments the ID, so that if a component is copied, its ID is incremented. This is especially useful if the user wants to copy one component from one circuit and use it in another circuit. This component is not the same, because adding it to another circuit may change its frequency, and so it needs to be given its own ID. For the assignment copy operator, it is a bit different, because it starts with two already-existing components. Consider listing \ref{list:ids}, which has two resistors \verb|r1| and \verb|r2|, which differ only b
+One must be careful about the copy semantics for the component classes when it comes to the IDs of each component. When the student "copies" a component from the library, what happens to the ID? Does it keep the same ID as the ID of the component in the library? Given that the components owned by the library do not have IDs, this would mean when they are copied to a circuit they would also not have IDs. To avoid this, the copy constructor manually increments the ID, so that if a component is copied, its ID is incremented. This is especially useful if the user wants to copy one component from one circuit and use it in another circuit. This component is not the same, because adding it to another circuit may change its frequency, and so it needs to be given its own ID. For the assignment copy operator, it is a bit different, because it starts with two already-existing components. 
+
+Consider listing \ref{list:ids}, which has two resistors \verb|r1| and \verb|r2|, and say when they were added to a circuit they were given IDs \verb|R1| and \verb|R2|. If we assign \verb|r1| to \verb|r2|, then by default it would copy the ID of \verb|r1| to \verb|r2|. This doesn't make much sense, since then there would be two components with the same ID. It also doesn't make much sense for \verb|r2| to be given a new ID, say \verb|R3|, because it is the \textit{same} component, just that it now has the same properties as \verb|r1|. So the assignment operator is customised to copy everything but the ID, leaving \verb|r2| with \verb|R2| as an ID. The copy constructor doesn't suffer this issue since it doesn't have to deal with two components which already exist, and so it remains the most sensible to make the copy constructor increment the ID. Note that the rule of 0 is applied here, since although we have a customised copy constructor and assignment operator, this is not because there are any non-class types (like pointers) in the class, and so the rule of 3 and 5 are not applicable.
 
 \begin{lstlisting}[language=C++, caption=Using assignment operator for components, label=list:ids]
-vector<std::unique_ptr<Component>> library;
-library.push_back(std::make_unique<Resistor>(100, 1e2, 0.2, "Wirewound", false));
-library.push_back(std::make_unique<Capacitor>(1000, 5e-7, 0.1, "Ceramic capacitor", false));
+Resistor r1(100, 1e2, 0.2, "Wirewound");
+Resistor r2(2e4, 3, 0.05, "Carbon film");
 
-auto circuit_1 = std::make_unique<Circuit>(50, ConnectionType::Series);
-circuit_1->add_component(library[0]->clone()); //Wirebound resistor
-circuit_2->add_component(library[1]->clone()); //Ceramic capacitor
-
-auto circuit_2 = std::make_unique<Circuit>(60, ConnectionType::Series);
-circuit_2->add_component(library[1]->clone()); //Ceramic capacitor
-
-auto combined_parallel = std::make_unique<Circuit>(55, ConnectionType::Parallel);
-combined_parallel->add_component(std::move(circuit_1));
- combined_parallel->add_component(std::move(circuit_2));
+r2=r1;
 \end{lstlisting}
 
 \section{Results}
 
-Listing \ref{list:example} shows a simplified version of the main file in this program. Line 1 creates the library of components using unique pointers, and then two components (Wirewound resistor and Ceramic capacitor) are added to the library. They are then both added to one circuit using the clone function, and the capacitor is added to another using the same clone function. These are both copies of the components from the library, so are stored in a different address and owned uniquely by the corresponding circuit. When they are added to the library, they are set to have no IDs (there is not much use in labelling them inside the library), 
+Listing \ref{list:example} shows a simplified version of the main file in this program. Line 1 creates the library of components using unique pointers, and then two components (Wirewound resistor and Ceramic capacitor) are added to the library. They are then both added to one circuit using the clone function, and the capacitor is added to another using the same clone function. These are both copies of the components from the library, so are stored in a different address and owned uniquely by the corresponding circuit. When they are added to the library, they are set to have no IDs (there is not much use in labelling them inside the library), but when they are added to the circuit, since the copy constructor needs to be used (via \verb|clone()|), they are given an ID. 
+
+The final two lines produce outputs for the parallel circuit. \verb|info()| gives the combined impedance of the circuit as well as its behaviour (capacitive or inductive). It also produces the number of components contained within the circuit via the *****
+
+ \verb|component_info()|
 
 \begin{lstlisting}[language=C++, caption=Example of program functionality, label=list:example]
 vector<std::unique_ptr<Component>> library;
@@ -208,11 +204,16 @@ circuit_2->add_component(library[1]->clone()); //Ceramic capacitor
 
 auto combined_parallel = std::make_unique<Circuit>(55, ConnectionType::Parallel);
 combined_parallel->add_component(std::move(circuit_1));
- combined_parallel->add_component(std::move(circuit_2));
+combined_parallel->add_component(std::move(circuit_2));
+
+combined_parallel->info();
+combined_parallel->component_info();
 \end{lstlisting}
 
 \section{Discussion and conclusions}
-Text goes here
+The program is effective in the scenario that has been described throughout this report, that of imagining a student in a lab building a circuit with limited actions (creating series and parallel circuits one by one), and constrained by the lab demonstrator's library of available components. One disadvantage of the program is that it does not account for validation files which give unreasonable values. For example, the user could use their own validation file which has a negative frequency or, the tolerance could be a number not between 0 and 1. There is no protection against this in the code.
+
+Another issue comes about if the user does not intialise circuits using a unique pointer, and instead just declares them as a \verb|Circuit| object. When a circuit is moved to another circuit, it is added as a component to that circuit, and so must be converted to a unique pointer. This means the pointer to the circuit in its old address becomes null, but that original circuit object still exists and its info function could be called. This produces an output but with all values set to 0, which doesn't make much sense. One way around this is to 
 
 \newpage
 \nocite{*}
