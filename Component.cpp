@@ -216,3 +216,19 @@ void Component::load_validation_file(const string& file_name_in, vector<Validati
 
     //ADD CHECKS FOR MIN, MAX, TOLERANCE, FREQUENCY, NAME CANNOT BE TOO LONG
   }
+
+//Protected member function to validate component (check exists in file)
+void Component::validate_component(const vector<ValidationRecord>& all_records, const ComponentType& type_in,
+        const string& name_in, const double frequency_in, const double value_in, const double tolerance_in)
+{
+  //Get component name string
+  string type_str{type_to_string(type_in)};
+
+  //For each record in all_records (vector of records)
+  for(const ValidationRecord& record : all_records)
+  {
+    //Check if name matches
+    if()
+  }
+
+}
