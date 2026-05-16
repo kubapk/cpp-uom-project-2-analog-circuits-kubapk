@@ -69,7 +69,6 @@ int main()
         //Print info about LC circuit
         print_all_circuit_info(lc_circuit, "LC circuit");
 
-
         //Add series circuits together in parallel
         auto combined_parallel = std::make_unique<Circuit>(55, ConnectionType::Parallel);
         combined_parallel->add_component(std::move(rlc_circuit));
@@ -78,12 +77,11 @@ int main()
         //Print info about parallel circuit
         print_all_circuit_info(combined_parallel, "Parallel (RLC + LC) circuit");
 
-        //Try to modify frequency of circuit to a high value
-        //combined_parallel->set_frequency(30e6);
-
         //Try to print out info of moved circuit
         print_all_circuit_info(rlc_circuit, "RLC circuit (moved from)");
-        
+
+        //Try to modify frequency of circuit to a high value
+        //combined_parallel->set_frequency(30e6);
     }
     catch(const std::exception& e)
     {
