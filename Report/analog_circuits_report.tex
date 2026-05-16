@@ -129,7 +129,7 @@ This program therefore gives the user an easy way of constructing circuits with 
 
 \begin{figure}
     \centering
-    \includegraphics[width=15cm]{analogue_circuits_uml.pdf}
+    \includegraphics[width=10cm]{analogue_circuits_uml.pdf}
     \caption{UML diagram of program, depicting all the classes in the program. Access online via \url{https://lucid.app/lucidchart/df2df27e-50a9-475c-90f7-234e81378d8d/view}. Enumerator classes and structs represented as nested classes where they are defined in the same implementation file.}
     \label{fig:UML}
 \end{figure}
@@ -169,10 +169,26 @@ circuit2.setFrequency(1000);  // overwrites the component's frequency
 circuit1.info();             // component now thinks f=1000
 \end{lstlisting}
 
-If the lab demonstrator lets the student take one component which they own, then it would no longer be in the library and no one else in the lab could use it, because it is stored using a unique pointer - there can only be one owner. The student must make a copy of the component from the library, at which point they can add it to their circuit. This is done via a \verb|clone()| function which all of the \verb|Component|-derived classes have.In that sense it is not logical for identical components to be stored twice in the library. 
-They could initialise a component just by itself and then move it to the circuit, but its easier to just clone inside the circuit infrastructure. 
+If the lab demonstrator lets the student take one component which they own, then it would no longer be in the library and no one else in the lab could use it, because it is stored using a unique pointer - there can only be one owner. The student must make a copy to use it in a circuit .In that sense it is not logical for identical components to be stored twice in the library, since infinitely many copies can be made of it. The lab demonstrator holds an "example" which must be copied to use. This idea is further supported by the fact that when added to the library, the components do not have IDs - controlled by setting a boolean parameter in the derived classes' constructors to \verb|false|. Note this is not a parameter which is a data member of the derived classes - it lives in the constructor. 
 
-One must be careful about the copy semantics for the component classes when it comes to the IDs of each component. Each component 
+One must be careful about the copy semantics for the component classes when it comes to the IDs of each component. When the student "copies" a component from the library, what happens to the ID? Does it keep the same ID as the ID of the component in the library? Given that the components owned by the library do not have IDs, this would mean when they are copied to a circuit they would also not have IDs. To avoid this, the copy constructor manually increments the ID, so that if a component is copied, its ID is incremented. This is especially useful if the user wants to copy one component from one circuit and use it in another circuit. This component is not the same, because adding it to another circuit may change its frequency, and so it needs to be given its own ID. For the assignment copy operator, it is a bit different, because it starts with two already-existing components. Consider listing \ref{list:ids}, which has two resistors \verb|r1| and \verb|r2|, which differ only b
+
+\begin{lstlisting}[language=C++, caption=Using assignment operator for components, label=list:ids]
+vector<std::unique_ptr<Component>> library;
+library.push_back(std::make_unique<Resistor>(100, 1e2, 0.2, "Wirewound", false));
+library.push_back(std::make_unique<Capacitor>(1000, 5e-7, 0.1, "Ceramic capacitor", false));
+
+auto circuit_1 = std::make_unique<Circuit>(50, ConnectionType::Series);
+circuit_1->add_component(library[0]->clone()); //Wirebound resistor
+circuit_2->add_component(library[1]->clone()); //Ceramic capacitor
+
+auto circuit_2 = std::make_unique<Circuit>(60, ConnectionType::Series);
+circuit_2->add_component(library[1]->clone()); //Ceramic capacitor
+
+auto combined_parallel = std::make_unique<Circuit>(55, ConnectionType::Parallel);
+combined_parallel->add_component(std::move(circuit_1));
+ combined_parallel->add_component(std::move(circuit_2));
+\end{lstlisting}
 
 \section{Results}
 
