@@ -20,11 +20,12 @@ int Capacitor::capacitor_counter{0};
 //CONSTRUCTORS
 //Default constructor
 Capacitor::Capacitor() :
-    Capacitor(0.0, 0.0) {}
+    Capacitor(0.0, 0.0, 0.0) {}
 
 //Paramterised constructor
-Capacitor::Capacitor(const double frequency_in, const double capacitance_in, const bool assign_id ) :
-    Component(frequency_in), capacitance{capacitance_in}
+Capacitor::Capacitor(const double frequency_in, const double capacitance_in, const double tolerance_in,
+    const bool assign_id ) :
+    Component(frequency_in), capacitance{capacitance_in}, tolerance{tolerance_in}
     {
         if(assign_id)
             component_id = "C"+std::to_string(++capacitor_counter); //add 1 to counter
@@ -91,6 +92,7 @@ void Capacitor::info() const
 {
     base_info();
     std::cout<<"Capacitance: "<<capacitance<<" Farads"<<std::endl;
+    std::cout<<"Tolerance: "<<tolerance*100<<"%"<<std::endl;
 }
 
 void Capacitor::component_info() const
@@ -103,3 +105,10 @@ std::unique_ptr<Component> Capacitor::clone() const
 {
     return std::make_unique<Capacitor>(*this);
 }
+
+//Static public member function to load in validation file
+void Capacitor::load_validation_file(const string& capacitor_file_name)
+{
+    Component::load_validation_file(capacitor_file_name, valid_capacitors, 
+        ComponentType::Capacitor);
+} 

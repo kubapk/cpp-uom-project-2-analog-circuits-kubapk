@@ -20,15 +20,16 @@ int Inductor::inductor_counter{0};
 //CONSTRUCTORS
 //Default constructor
 Inductor::Inductor() :
-    Inductor(0.0, 0.0) {}
+    Inductor(0.0, 0.0, 0.0) {}
 
 //Paramterised constructor
-Inductor::Inductor(const double frequency_in, const double inductance_in, const bool assign_id) :
-    Component(frequency_in), inductance{inductance_in}
-    {
-        if(assign_id)
-            component_id = "I"+std::to_string(++inductor_counter); //add 1 to counter
-    }
+Inductor::Inductor(const double frequency_in, const double inductance_in, const double tolerance_in, 
+    const bool assign_id) :
+        Component(frequency_in), inductance{inductance_in}, tolerance{tolerance_in}
+        {
+            if(assign_id)
+                component_id = "I"+std::to_string(++inductor_counter); //add 1 to counter
+        }
 
 //Copy constructor
 Inductor::Inductor(const Inductor& ind):
@@ -90,6 +91,7 @@ void Inductor::info() const
 {
     base_info();
     std::cout<<"Inductance: "<<inductance<<" Henries"<<std::endl;
+    std::cout<<"Tolerance: "<<tolerance*100<<"%"<<std::endl;
 }
 
 void Inductor::component_info() const
@@ -102,3 +104,10 @@ std::unique_ptr<Component> Inductor::clone() const
 {
     return std::make_unique<Inductor>(*this);
 }
+
+//Static public member function to load in validation file
+void Inductor::load_validation_file(const string& inductor_file_name)
+{
+    Component::load_validation_file(inductor_file_name, valid_inductors, 
+        ComponentType::Inductor);
+} 

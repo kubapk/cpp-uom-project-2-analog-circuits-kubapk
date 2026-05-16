@@ -21,14 +21,17 @@ class Capacitor : public Component
 {
 private:
     double capacitance; //Farads, F
+    double tolerance;
     static int capacitor_counter; 
+    static vector<ValidationRecord> valid_capacitors;
 
 public:
     //Default constructor
     Capacitor();
 
     //Declare parameterised constructor
-    Capacitor(const double frequency_in, const double capacitance_in, const bool assign_id = true);
+    Capacitor(const double frequency_in, const double capacitance_in, const double tolerance_in, 
+        const bool assign_id = true);
 
     //Destructor from Component class used
 
@@ -54,6 +57,7 @@ public:
     void info() const;
     void component_info() const;
     std::unique_ptr<Component> clone() const;
+    static void load_validation_file(const string& capacitor_file_name);
 };
 
 #endif

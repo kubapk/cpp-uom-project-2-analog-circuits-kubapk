@@ -21,14 +21,17 @@ class Inductor : public Component
 {
 private:
     double inductance; //Henrys, H
+    double tolerance;
     static int inductor_counter; 
+    static vector<ValidationRecord> valid_inductors;
 
 public:
     //Default constructor
     Inductor();
 
     //Declare parameterised constructor
-    Inductor(const double frequency_in, const double inductance_in, const bool assign_id = true);
+    Inductor(const double frequency_in, const double inductance_in, const double tolerance_in, 
+        const bool assign_id = true);
 
     //Destructor from Component class used
 
@@ -54,6 +57,7 @@ public:
     void info() const;
     void component_info() const;
     std::unique_ptr<Component> clone() const;
+    static void load_validation_file(const string& inductor_file_name);
 };
 
 #endif

@@ -12,23 +12,28 @@ Created on Fri 08 May 2026
 #include<iostream>
 #include "Resistor.h"
 
+//DECLARATIONS
 //Set counter to 0
 int Resistor::resistor_counter{0};
+
+//Set vector of valid resistors to be blank
+vector<ValidationRecord> Resistor::valid_resistors{};
 
 
 //CONSTRUCTORS
 //Default constructor
 Resistor::Resistor() :
-    Resistor(0.0, 0.0) {}
+    Resistor(0.0, 0.0, 0.0) {}
     //Use parameterised constructor to avoid repeating ID update code
 
 //Paramterised constructor
-Resistor::Resistor(const double frequency_in, const double resistance_in, const bool assign_id) :
-    Component(frequency_in), resistance{resistance_in} 
-    {
-        if(assign_id)
-            component_id = "R"+std::to_string(++resistor_counter); //add 1 to counter
-    }
+Resistor::Resistor(const double frequency_in, const double resistance_in, const double tolerance_in, 
+    const bool assign_id) :
+        Component(frequency_in), resistance{resistance_in}, tolerance{tolerance_in} 
+        {
+            if(assign_id)
+                component_id = "R"+std::to_string(++resistor_counter); //add 1 to counter
+        }
 
 //Copy constructor
 Resistor::Resistor(const Resistor& res):
@@ -76,10 +81,12 @@ const double& Resistor::get_resistance() const {return resistance;}
 
 
 //MEMBER FUNCTIONS
+//Info function
 void Resistor::info() const
 {
     base_info();
     std::cout<<"Resistance: "<<resistance<<" Ohms"<<std::endl;
+    std::cout<<"Tolerance: "<<tolerance*100<<"%"<<std::endl;
 }
 
 void Resistor::component_info() const
@@ -94,3 +101,10 @@ std::unique_ptr<Component> Resistor::clone() const
     //this is a ptr to the Resistor object itself, and clone
     //returns a copy of the object (dereferences "this")
 }
+
+//Static public member function to load in validation file
+void Resistor::load_validation_file(const string& resistor_file_name)
+{
+    Component::load_validation_file(resistor_file_name, valid_resistors, 
+        ComponentType::Resistor);
+} 

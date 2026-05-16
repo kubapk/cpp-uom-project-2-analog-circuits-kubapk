@@ -213,4 +213,6 @@ void Component::load_validation_file(const string& file_name_in, vector<Validati
       all_records.push_back(record);
 
     }
+
+    //ADD CHECKS FOR MIN, MAX, TOLERANCE, FREQUENCY, NAME CANNOT BE TOO LONG
   }

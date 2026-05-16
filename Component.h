@@ -41,6 +41,7 @@ class Component
 protected:
     //Variables/consts
     double frequency; //Hz
+    //double tolerance; //0 to 1 (0 to 100%)
     string component_id;
      
     //Functions
@@ -54,9 +55,13 @@ protected:
         const double value_in, const double tolerance_in, const double frequency_in);
 
     static void load_validation_file(const string& file_name_in, 
-        vector<ValidationRecord>& record_in, const ComponentType type_in);
+        vector<ValidationRecord>& all_records, const ComponentType type_in);
+        //pass all_records by reference so that original record is edited
+        //passing by value would give temporary of all_records which does not 
+        //modify all_records data member of derived classes
 
     static string type_to_string(const ComponentType type_in);
+    
 
 public:
     //Default constructor

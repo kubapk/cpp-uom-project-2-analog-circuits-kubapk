@@ -34,7 +34,6 @@ private:
     static int resistor_counter; 
     //static so there is one counter for for all resistors, not one counter for each resistor object
     static vector<ValidationRecord> valid_resistors;
-    void validate_resistor(string& name_in, double frequency_in, double resistance_in, double tolerance_in);
 
 public:
     //Default constructor
@@ -69,7 +68,7 @@ public:
     void info() const;
     void component_info() const;
     std::unique_ptr<Component> clone() const;
-    static void load_valid_resistors(const string& resistor_file_name);
+    static void load_validation_file(const string& resistor_file_name);
 
 };
 
