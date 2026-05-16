@@ -46,6 +46,7 @@ private:
     vector<std::unique_ptr<Component>> components;
     ConnectionType connection;
     static int circuit_counter; 
+    bool moved_from{false};
 
 public:
     //Declare default constructor
@@ -62,8 +63,8 @@ public:
     Circuit& operator=(const Circuit&); //assignment op
 
     //Declare copy & move assignment operators
-    Circuit(Circuit&&) noexcept = default; //constructor
-    Circuit& operator=(Circuit&&) noexcept = default; //assignment op
+    Circuit(Circuit&&) noexcept; //constructor
+    Circuit& operator=(Circuit&&) noexcept; //assignment op
     //if exception thrown during move, the vector stays in a broken state
     //User cannot handle the exception because everything is in an nondeterministic state
     //compiler doesn't like this so may use copy instead - but here we are moving pointers

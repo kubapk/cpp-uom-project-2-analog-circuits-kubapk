@@ -17,12 +17,21 @@ Created on Fri 15 May 2026
 #include "Circuit.h"
 using std::vector;
 
+void print_all_circuit_info(const Circuit& circuit_in, const string& circuit_name)
+{
+    std::cout<<std::endl;
+    std::cout<<circuit_name<<" info\n"<<string(60, '-')<<std::endl;
+    circuit_in.info();
+
+    std::cout<<std::endl;
+    std::cout<<circuit_name<<" component info\n"<<string(60, '-')<<std::endl;
+    circuit_in.component_info();
+}
+
 int main()
 {
     try
     {
-        std::cout << "DEBUG before library push\n";
-
         //Load validation files
         Resistor::load_validation_file("resistor_validation.txt");
         Capacitor::load_validation_file("capacitor_validation.txt");
@@ -31,40 +40,53 @@ int main()
         //Create a library of different components
         vector<std::unique_ptr<Component>> library;
 
-
         //Add components to the library
-        library.push_back(std::make_unique<Resistor>(100, 1e4, 0.2, "Wirewound", false)); //freq, resistace, tolerance, name, assignID
-        //library.push_back(std::make_unique<Capacitor>(50, 10e-6, false)); //freq, resistance, assignID
-        //library.push_back(std::make_unique<Inductor>(50, 0.01, false)); //freq, inductance, assignID
-        //library.push_back(std::make_unique<Resistor>(20, 100, false)); //freq, resistance, assignID
+        library.push_back(std::make_unique<Resistor>(100, 1e2, 0.2, "Wirewound", false)); //freq, value, tolerance, name, assignID
+        library.push_back(std::make_unique<Capacitor>(1000, 5e-7, 0.1, "Ceramic capacitor", false));
+        library.push_back(std::make_unique<Inductor>(60, 0.5, 0.2, "Power inductor", false)); 
+        library.push_back(std::make_unique<Resistor>(2e4, 3, 0.05, "Carbon film", false));
+        library.push_back(std::make_unique<Capacitor>(200, 2.4e-6, 0.1, "Tantalum capacitor", false));
+        library.push_back(std::make_unique<Inductor>(1e6, 45e-8, 0.05, "RF choke", false));
 
-        std::cout << "DEBUG before clone\n";
+        //Can clone separately if you wish
+        auto wirebound_cloned = library[0]->clone();
+        
+        //Create a series circuit with resistor, inductor, capacitor (RLC)
+        Circuit rlc_circuit(50, ConnectionType::Series);
+        rlc_circuit.add_component(std::move(wirebound_cloned)); //Wirebound resistor
+        rlc_circuit.add_component(library[4]->clone()); //Tantalum capacitor
+        rlc_circuit.add_component(library[2]->clone()); //Power inductor
 
-        auto cloned = library[0]->clone();
+        //Print info about RLC circuit
+        print_all_circuit_info(rlc_circuit, "RLC circuit");
 
-        Circuit series_circuit(1000, ConnectionType::Series);
-        series_circuit.add_component(std::move(cloned));
-        //series_circuit.add_component(library[1]->clone());
-        //series_circuit.add_component(library[0]->clone());
-        //series_circuit.add_component(library[3]->clone());
+        //Create another series circuit with inductor & capacitor (LC)
+        Circuit lc_circuit(60, ConnectionType::Series);
+        lc_circuit.add_component(library[4]->clone()); //Tantalum capacitor
+        lc_circuit.add_component(library[5]->clone()); //RF choke inductor
 
-        std::cout << "DEBUG after add_component\n";
+        //Print info about LC circuit
+        print_all_circuit_info(lc_circuit, "LC circuit");
 
-        series_circuit.set_frequency(50e6);
-        //Instead have a map which means the components from the library can be called with something that the user
-        //recognises - that way it is clear what is being called
 
-        std::cout<<"Circuit info"<<std::endl;
-        series_circuit.info();
+        //Add series circuits together in parallel
+        Circuit combined_parallel(55, ConnectionType::Parallel);
+        combined_parallel.add_component(std::make_unique<Circuit>(std::move(rlc_circuit)));
+        combined_parallel.add_component(std::make_unique<Circuit>(std::move(lc_circuit)));
 
-        std::cout<<"\nCircuit component info"<<std::endl;
-        series_circuit.component_info();
+        //Print info about parallel circuit
+        print_all_circuit_info(combined_parallel, "Parallel (RLC + LC) circuit");
 
-        //Or make it a map so you can call it by a name - i.e. give the component a nickname
-        //(all nicknames would need to be unique - could not have two components exactly the same as
-        //how would you extract one and not the other?)
-        //Use std map or container to manage IDs of components - much better to make hard copy so that
-        //IDs of the resistors are unique (resistor cannot physically be in 2 places at once)
+        //Try to modify frequency of circuit to a high value
+        combined_parallel.set_frequency(30e6);
+
+        //Try to print out info of moved circuit
+        print_all_circuit_info(rlc_circuit, "RLC circuit (moved from)");
+
+        //If you want automatic deletion of a circuit after move, you must use a pointer to this circuit
+        //e.g. auto rlc_circuit = std::make_unique<Circuit>(50, ConnectionType::Series)
+        //rlc_circuit->add_component(...)
+
 
     }
     catch(const std::exception& e)

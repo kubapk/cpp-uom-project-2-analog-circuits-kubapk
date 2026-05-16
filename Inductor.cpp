@@ -115,6 +115,7 @@ double Inductor::get_phase_difference() const {return arg(get_impedance());}
 ComponentType Inductor::get_type() const {return ComponentType::Inductor;}
 const double& Inductor::get_inductance() const {return inductance;}
 const double& Inductor::get_tolerance() const {return tolerance;}
+const string& Inductor::get_name() const {return name;}
 
 
 //MEMBER FUNCTION
@@ -142,4 +143,4 @@ void Inductor::load_validation_file(const string& inductor_file_name)
 {
     Component::load_validation_file(inductor_file_name, valid_inductors, 
         ComponentType::Inductor);
-} 
+}

@@ -246,12 +246,13 @@ void Component::validate_component(const vector<ValidationRecord>& all_records, 
 
       //If all fields pass
       return;
-    }
-
-    //No matching name found
-    throw std::invalid_argument("'"+comp_name+"' was not found as a valid name in "+type_str+ 
-    " validation file. Check it is typed correctly in main file.");
-      
+    } 
   }
+
+  //No matching name found after checking all records in record
+  //If the name doesn't match for all records, then it does not pass the if statement
+  //Cannot be inside loop as needs to have chance to check all records first
+  throw std::invalid_argument("'"+comp_name+"' was not found as a valid name in "+type_str+ 
+    " validation file. Check it is typed correctly in main file.");
 
 }

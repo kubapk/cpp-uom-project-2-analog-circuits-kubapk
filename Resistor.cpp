@@ -105,6 +105,7 @@ double Resistor::get_phase_difference() const {return arg(get_impedance());}
 ComponentType Resistor::get_type() const {return ComponentType::Resistor;}
 const double& Resistor::get_resistance() const {return resistance;}
 const double& Resistor::get_tolerance() const {return tolerance;}
+const string& Resistor::get_name() const {return name;}
 
 
 //MEMBER FUNCTIONS

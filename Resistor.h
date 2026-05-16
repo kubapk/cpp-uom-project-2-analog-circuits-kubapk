@@ -68,6 +68,7 @@ public:
     ComponentType get_type() const;
     const double& get_resistance() const;
     const double& get_tolerance() const;
+    const string& get_name() const;
     
     //Member functions
     void info() const;

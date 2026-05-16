@@ -116,6 +116,7 @@ double Capacitor::get_phase_difference() const {return arg(get_impedance());}
 ComponentType Capacitor::get_type() const {return ComponentType::Capacitor;}
 const double& Capacitor::get_capacitance() const {return capacitance;}
 const double& Capacitor::get_tolerance() const {return tolerance;}
+const string& Capacitor::get_name() const {return name;}
 
 
 //MEMBER FUNCTIONS

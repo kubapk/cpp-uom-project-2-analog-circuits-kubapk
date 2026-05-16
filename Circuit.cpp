@@ -77,7 +77,24 @@ Circuit& Circuit::operator=(const Circuit& circ)
 
 //Move constructor
 //Use std::move from smart pointer
+Circuit::Circuit(Circuit&& circ) noexcept :
+    components{std::move(circ.components)}
+    {
+        circ.moved_from = true;
+    }
 
+//Move assignment operator
+Circuit& Circuit::operator=(Circuit&& circ) noexcept
+{
+    circ.moved_from = true;
+
+    //Check for self-assignment
+    if(&circ == this) return *this;
+
+    //Move by assignment
+    components = std::move(circ.components);
+    return *this; //return this object
+}
 
 //SETTERS
 //Setter for frequency
@@ -171,6 +188,12 @@ void Circuit::add_component(std::unique_ptr<Component> component_ptr)
 //Info member function
 void Circuit::info() const
 {
+    if(moved_from)
+    {
+        std::cout<<"Warning: Circuit has been moved from and no longer contains information"<<std::endl;
+        return;
+    }
+
     base_info();
 
     std::cout<<"Overall circuit type: ";
