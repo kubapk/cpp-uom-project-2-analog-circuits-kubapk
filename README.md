@@ -170,3 +170,5 @@ Copy assignment operator is more like changing the properties of a component (si
 - Circuit class able to detect how many resistors, capacitors, etc in total (component_info, component_list, all_info)
 - Potential issue with assignment operator - try copying components and see if any error comes up
 - check for empty circuits before computing impedance
+- Add tolerance check when frequency is updated in circuit
+- What if user doesn't load a validation file first?

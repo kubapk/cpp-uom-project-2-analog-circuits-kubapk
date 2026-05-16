@@ -41,7 +41,6 @@ class Component
 protected:
     //Variables/consts
     double frequency; //Hz
-    //double tolerance; //0 to 1 (0 to 100%)
     string component_id;
      
     //Functions
@@ -51,8 +50,8 @@ protected:
     static constexpr double numerical_tolerance = 1e-12;
     //much smaller than any physical parameters but greater than double precison (1e-15)
 
-    static void validate_component(const vector<ValidationRecord>& all_records, const ComponentType& type_in,
-        const string& name_in, const double frequency_in, const double value_in, const double tolerance_in);
+    static void validate_component(const vector<ValidationRecord>& all_records, const ComponentType& comp_type,
+        const string& comp_name, const double comp_frequency, const double comp_value, const double comp_tolerance);
 
     static void load_validation_file(const string& file_name_in, 
         vector<ValidationRecord>& all_records, const ComponentType type_in);

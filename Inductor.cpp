@@ -18,15 +18,14 @@ Created on Fri 08 May 2026
 int Inductor::inductor_counter{0};
 
 //CONSTRUCTORS
-//Default constructor
-Inductor::Inductor() :
-    Inductor(0.0, 0.0, 0.0) {}
-
 //Paramterised constructor
 Inductor::Inductor(const double frequency_in, const double inductance_in, const double tolerance_in, 
-    const bool assign_id) :
-        Component(frequency_in), inductance{inductance_in}, tolerance{tolerance_in}
+   const string name_in, const bool assign_id) :
+        Component(frequency_in), inductance{inductance_in}, tolerance{tolerance_in}, name{name_in}
         {
+            validate_component(valid_inductors, ComponentType::Inductor, name_in, frequency_in, inductance_in,
+                tolerance_in);
+
             if(assign_id)
                 component_id = "I"+std::to_string(++inductor_counter); //add 1 to counter
         }
@@ -56,15 +55,38 @@ Inductor& Inductor::operator=(const Inductor& ind)
 //Setter for frequency
 void Inductor::set_frequency(const double frequency_in) 
 {
+    validate_component(valid_inductors, ComponentType::Inductor, name, frequency_in, inductance,
+                tolerance);
+
     frequency = frequency_in;
 }
 
 //Setter for inductance
 void Inductor::set_inductance(const double inductance_in)
 {
+    validate_component(valid_inductors, ComponentType::Inductor, name, frequency, inductance_in,
+                tolerance);
+
     inductance = inductance_in;
 }
 
+//Setter for tolerance
+void Inductor::set_tolerance(const double tolerance_in)
+{
+    validate_component(valid_inductors, ComponentType::Inductor, name, frequency, inductance,
+                tolerance_in);
+
+    tolerance = tolerance_in;
+}
+
+//Setter for name
+void Inductor::set_name(const string name_in)
+{
+    validate_component(valid_inductors, ComponentType::Inductor, name_in, frequency, inductance,
+                tolerance);
+
+    name = name_in;
+}
 
 //GETTERS
 //Frequency getter
@@ -83,6 +105,7 @@ double Inductor::get_impedance_magnitude() const {return abs(get_impedance());}
 double Inductor::get_phase_difference() const {return arg(get_impedance());}
 ComponentType Inductor::get_type() const {return ComponentType::Inductor;}
 const double& Inductor::get_inductance() const {return inductance;}
+const double& Inductor::get_tolerance() const {return tolerance;}
 
 
 //MEMBER FUNCTION

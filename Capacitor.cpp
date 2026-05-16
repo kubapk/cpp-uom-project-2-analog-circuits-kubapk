@@ -18,15 +18,14 @@ Created on Fri 08 May 2026
 int Capacitor::capacitor_counter{0};
 
 //CONSTRUCTORS
-//Default constructor
-Capacitor::Capacitor() :
-    Capacitor(0.0, 0.0, 0.0) {}
-
 //Paramterised constructor
 Capacitor::Capacitor(const double frequency_in, const double capacitance_in, const double tolerance_in,
-    const bool assign_id ) :
-    Component(frequency_in), capacitance{capacitance_in}, tolerance{tolerance_in}
+    const string name_in, const bool assign_id) :
+    Component(frequency_in), capacitance{capacitance_in}, tolerance{tolerance_in}, name{name_in}
     {
+        validate_component(valid_capacitors, ComponentType::Capacitor, name_in, frequency_in, capacitance_in,
+                tolerance_in);
+
         if(assign_id)
             component_id = "C"+std::to_string(++capacitor_counter); //add 1 to counter
     }
@@ -57,15 +56,38 @@ Capacitor& Capacitor::operator=(const Capacitor& cap)
 //Setter for frequency
 void Capacitor::set_frequency(const double frequency_in) 
 {
+    validate_component(valid_capacitors, ComponentType::Capacitor, name, frequency_in, capacitance,
+                tolerance);
+
     frequency = frequency_in;
 }
 
 //Setter for capacitance
 void Capacitor::set_capacitance(const double capacitance_in)
 {
+    validate_component(valid_capacitors, ComponentType::Capacitor, name, frequency, capacitance_in,
+                tolerance);
+
     capacitance = capacitance_in;
 }
 
+//Setter for tolerance
+void Capacitor::set_tolerance(const double tolerance_in)
+{
+    validate_component(valid_capacitors, ComponentType::Capacitor, name, frequency, capacitance,
+                tolerance_in);
+
+    tolerance = tolerance_in;
+}
+
+//Setter for name
+void Capacitor::set_name(const string name_in)
+{
+    validate_component(valid_capacitors, ComponentType::Capacitor, name_in, frequency, capacitance,
+                tolerance);
+
+    name = name_in;
+}
 
 //GETTERS
 //Frequency getter
@@ -84,6 +106,7 @@ double Capacitor::get_impedance_magnitude() const {return abs(get_impedance());}
 double Capacitor::get_phase_difference() const {return arg(get_impedance());}
 ComponentType Capacitor::get_type() const {return ComponentType::Capacitor;}
 const double& Capacitor::get_capacitance() const {return capacitance;}
+const double& Capacitor::get_tolerance() const {return tolerance;}
 
 
 //MEMBER FUNCTIONS

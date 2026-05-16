@@ -21,16 +21,14 @@ vector<ValidationRecord> Resistor::valid_resistors{};
 
 
 //CONSTRUCTORS
-//Default constructor
-Resistor::Resistor() :
-    Resistor(0.0, 0.0, 0.0) {}
-    //Use parameterised constructor to avoid repeating ID update code
-
 //Paramterised constructor
 Resistor::Resistor(const double frequency_in, const double resistance_in, const double tolerance_in, 
-    const bool assign_id) :
-        Component(frequency_in), resistance{resistance_in}, tolerance{tolerance_in} 
+    const string name_in, const bool assign_id) :
+        Component(frequency_in), resistance{resistance_in}, tolerance{tolerance_in}, name{name_in} 
         {
+            validate_component(valid_resistors, ComponentType::Resistor, name_in, frequency_in, resistance_in,
+                tolerance_in);
+
             if(assign_id)
                 component_id = "R"+std::to_string(++resistor_counter); //add 1 to counter
         }
@@ -61,13 +59,37 @@ Resistor& Resistor::operator=(const Resistor& res)
 //Setter for frequency
 void Resistor::set_frequency(const double frequency_in) 
 {
+    validate_component(valid_resistors, ComponentType::Resistor, name, frequency_in, resistance,
+                tolerance);
+
     frequency = frequency_in;
 }
 
 //Setter for resistance
 void Resistor::set_resistance(const double resistance_in)
 {
+    validate_component(valid_resistors, ComponentType::Resistor, name, frequency, resistance_in,
+                tolerance);
+
     resistance = resistance_in;
+}
+
+//Setter for tolerance
+void Resistor::set_tolerance(const double tolerance_in)
+{
+    validate_component(valid_resistors, ComponentType::Resistor, name, frequency, resistance,
+                tolerance_in);
+
+    tolerance = tolerance_in;
+}
+
+//Setter for name
+void Resistor::set_name(const string name_in)
+{
+    validate_component(valid_resistors, ComponentType::Resistor, name_in, frequency, resistance,
+                tolerance);
+
+    name = name_in;
 }
 
 
@@ -78,6 +100,7 @@ double Resistor::get_impedance_magnitude() const {return abs(get_impedance());}
 double Resistor::get_phase_difference() const {return arg(get_impedance());}
 ComponentType Resistor::get_type() const {return ComponentType::Resistor;}
 const double& Resistor::get_resistance() const {return resistance;}
+const double& Resistor::get_tolerance() const {return tolerance;}
 
 
 //MEMBER FUNCTIONS

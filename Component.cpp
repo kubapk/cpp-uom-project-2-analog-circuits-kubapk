@@ -19,16 +19,11 @@ using std::string;
 //CONSTRUCTORS
 //Default constructor
 Component::Component() :
-  frequency{0} {}
+  Component(0.0) {}
 
 //Paramterised constructor
 Component::Component(const double frequency_in) :
     frequency{frequency_in} {}
-
-//Copy constructor
-//Copy assignment operator
-//Move constructor
-//Move assignment operator
 
 
 //SETTERS
@@ -36,15 +31,6 @@ Component::Component(const double frequency_in) :
 //You may want private member function which does general validatio needed in setter and 
 //parameterised constructor 
 //Maybe validation comes after implementing everything else
-
-//Setter for frequency
-/* Could have the setter below - but its pointless because in .h we have defined it as pure virtual
-so it will be ovewritten anyway
-void Component::set_frequency(const double frequency_in)
-{
-  frequency = frequency_in;
-}
-*/
 
 //Getter
 //Component ID getter
@@ -218,17 +204,47 @@ void Component::load_validation_file(const string& file_name_in, vector<Validati
   }
 
 //Protected member function to validate component (check exists in file)
-void Component::validate_component(const vector<ValidationRecord>& all_records, const ComponentType& type_in,
-        const string& name_in, const double frequency_in, const double value_in, const double tolerance_in)
+void Component::validate_component(const vector<ValidationRecord>& all_records, const ComponentType& comp_type,
+        const string& comp_name, const double comp_frequency, const double comp_value, const double comp_tolerance)
 {
   //Get component name string
-  string type_str{type_to_string(type_in)};
+  string type_str{type_to_string(comp_type)};
 
   //For each record in all_records (vector of records)
   for(const ValidationRecord& record : all_records)
   {
     //Check if name matches
-    if()
+    if(record.name == comp_name)
+    {
+      //Check frequency is less than maximum frequency + tolerance
+      bool valid_frequency
+      {
+        comp_frequency <= record.max_frequency + numerical_tolerance
+      };
+
+      //Check value is between range specified + tolerance
+      bool valid_value
+      {
+        comp_value >= record.min_value - numerical_tolerance
+        &&
+        comp_value <= record.max_value + numerical_tolerance
+      };
+
+      //Check tolerance matches + tolerance
+      bool valid_tolerance
+      {
+        std::abs(comp_tolerance - record.tolerance) < numerical_tolerance
+      };
+
+      //If all fields pass
+      if(valid_frequency && valid_value && valid_tolerance)
+        return;
+    }
+
+    //No matching name found
+    throw std::invalid_argument("'"+comp_name+"' was not found as a valid name in "+type_str+ 
+    "validation file. Check it is typed correctly in main file.");
+      
   }
 
 }

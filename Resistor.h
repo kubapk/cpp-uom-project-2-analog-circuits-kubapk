@@ -31,16 +31,18 @@ class Resistor : public Component
 private:
     double resistance;
     double tolerance;
+    string name;
     static int resistor_counter; 
     //static so there is one counter for for all resistors, not one counter for each resistor object
     static vector<ValidationRecord> valid_resistors;
 
 public:
     //Default constructor
-    Resistor();
+    Resistor()=delete; //must be a resistor in validation file so no default
 
     //Declare parameterised constructor
-    Resistor(const double frequency_in, const double resistance_in, const double tolerance_in, const bool assign_id = true);
+    Resistor(const double frequency_in, const double resistance_in, const double tolerance_in, const string name_in,
+        const bool assign_id = true);
 
     //Destructor from Component class used
 
@@ -55,6 +57,8 @@ public:
     //Setters
     void set_frequency(const double frequency_in);
     void set_resistance(const double resistance_in);
+    void set_tolerance(const double tolerance_in);
+    void set_name(const string name);
 
     //Getters
     const double& get_frequency() const;
@@ -63,6 +67,7 @@ public:
     double get_phase_difference() const;
     ComponentType get_type() const;
     const double& get_resistance() const;
+    const double& get_tolerance() const;
     
     //Member functions
     void info() const;

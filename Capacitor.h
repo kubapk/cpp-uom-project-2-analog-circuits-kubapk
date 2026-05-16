@@ -22,15 +22,16 @@ class Capacitor : public Component
 private:
     double capacitance; //Farads, F
     double tolerance;
+    string name;
     static int capacitor_counter; 
     static vector<ValidationRecord> valid_capacitors;
 
 public:
     //Default constructor
-    Capacitor();
+    Capacitor()=delete;
 
     //Declare parameterised constructor
-    Capacitor(const double frequency_in, const double capacitance_in, const double tolerance_in, 
+    Capacitor(const double frequency_in, const double capacitance_in, const double tolerance_in, const string name_in,
         const bool assign_id = true);
 
     //Destructor from Component class used
@@ -44,6 +45,9 @@ public:
     //Setters
     void set_frequency(const double frequency_in);
     void set_capacitance(const double capacitance_in);
+    void set_tolerance(const double tolerance_in);
+    void set_name(const string name);
+
 
     //Getters
     const double& get_frequency() const;
@@ -52,6 +56,7 @@ public:
     double get_phase_difference() const;
     ComponentType get_type() const;
     const double& get_capacitance() const;
+    const double& get_tolerance() const;
 
     //Member functions
     void info() const;
