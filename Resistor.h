@@ -34,14 +34,14 @@ private:
     static int resistor_counter; 
     //static so there is one counter for for all resistors, not one counter for each resistor object
     static vector<ValidationRecord> valid_resistors;
-    void validate_resistor(string& name_in, double resistance_in, double tolerance_in, double frequency_in);
+    void validate_resistor(string& name_in, double frequency_in, double resistance_in, double tolerance_in);
 
 public:
     //Default constructor
     Resistor();
 
     //Declare parameterised constructor
-    Resistor(const double frequency_in, const double resistance_in, const bool assign_id = true);
+    Resistor(const double frequency_in, const double resistance_in, const double tolerance_in, const bool assign_id = true);
 
     //Destructor from Component class used
 

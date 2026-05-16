@@ -10,7 +10,7 @@ Created by Kuba Kane (ID: 11019699)
 Created on Sat 16 May 2026
 */
 
-//Include gaurd
+//Include guard
 #ifndef VALIDATION_RECORD_H
 #define VALIDATION_RECORD_H
 

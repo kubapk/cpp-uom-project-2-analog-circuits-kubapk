@@ -18,7 +18,10 @@ Created on Mon 04 May 2026
 #include<complex> //for using complex numbers
 #include<memory> //for unique ptr
 #include<string>
+#include<vector>
+#include "ValidationRecord.h"
 using std::string;
+using std::vector;
 
 
 //Enumerator class for all types of components
@@ -36,12 +39,24 @@ enum class ComponentType
 class Component
 {
 protected:
-    //Variables
+    //Variables/consts
     double frequency; //Hz
     string component_id;
      
     //Functions
     void base_info() const; //info in common for all components
+
+    //Consts
+    static constexpr double numerical_tolerance = 1e-12;
+    //much smaller than any physical parameters but greater than double precison (1e-15)
+
+    static void validate_component(const vector<ValidationRecord>& record_in, string& name_in,
+        const double value_in, const double tolerance_in, const double frequency_in);
+
+    static void load_validation_file(const string& file_name_in, 
+        vector<ValidationRecord>& record_in, const ComponentType type_in);
+
+    static string type_to_string(const ComponentType type_in);
 
 public:
     //Default constructor
@@ -49,7 +64,6 @@ public:
 
     //Declare parameterised constructor
     Component(const double frequency_in); 
-    static string type_to_string(const ComponentType type_in);
 
     //Destructor
     virtual ~Component() {}

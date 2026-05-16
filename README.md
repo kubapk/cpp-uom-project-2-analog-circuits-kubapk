@@ -132,6 +132,14 @@ Copy assignment operator is more like changing the properties of a component (si
 - So no need for custom copy assignment operator or move semantics
 - Rule of 3/5 is not applied here since there is not objects of non-class type (like pointer), the Components do not manually manage the memory and so the default ones are ok as long as the desired task is performed
 
+### Input validation
+- User is only allowed to enter values which match values in the file
+- validate_component and load_validation file are protected member functions (do not want user to be able to see this or adjust anything inside it), and they are static as we don't want each component to have its own copy of this - each derived class can use the function once to make a difference.
+
+### Analogy
+- To have some intuition as to how this program works, consider yourself to be a student in an undergraduate circuits lab. You want to build a circuit using components from the lab demonstrator, who has a "library" of components available. The library which the lab demonstrator has must be components which actually exist - they must past the validation checks in the validation file. You could think of the validation files as catalogues of components which the lab demonstrator can browse and use to choose certain materials or properties which they want to "buy" and have available in their library.
+- You want to use one of the components from the library of the lab demonstrator, but you cannot take it directly away from the lab demonstrator, as they are the owner of that specific component, and if they let you take that one component which they own, then no one else in the lab could use it (or you wouldn't be able to use it again). So you must make a copy of the component from the library, at which point you can add it to your circuit. You could initialise a component just by itself and then std::move it to the circuit, but its easier to just clone inside the circuit infastructure. 
+- Once you add it to the circuit, it is automatically labelled for you. The lab demonstrator doesn't need to deal with many copies (although they could if they wanted to), so there is no need for the library to have labelled components.
 
 ## Notes
 - A resistor has a defined resistance, so it should be a VARIABLE of the resistor - user can then specify what type of resistor / its resistance
