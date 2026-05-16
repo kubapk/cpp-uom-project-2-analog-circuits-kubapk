@@ -3,10 +3,15 @@
 
 ## Program Summary
 This program allows a user to build their own circuit using a Resistor, Capacitor or Inductor. These are all classes derived from a Component abstract base class, which contains a frequency and a unique ID, as well as a function to calculate the impedance of the component, and its magntiude and phase difference (angle). The impedance function uses the complex number library from C++. All of the derived classes are then given a name (e.g. "Wirewound reistor") and a tolerance (e.g. 20%) which is not in the Component abstract class.
- - **Resistor:** Also has resistance as member function, and then overrides impedance function to return 0 as the real entry, and $Z_C = -iX_C | X_C = 1/\omega C$ as the imaginary entry (where $Z_C$ is the capacitor impedance, $X_C$ is the capacitor $w$ is the angular frequency and $C$ is the capacitance).
- - **Capacitor:** Also has capacitance as member function, and then overrides impedance function to return the resistance value as the real entry, and 0 as the imaginary entry.
+ - **Resistor:** Also has capacitance as member function, and then overrides impedance function to return the resistance value as the real entry, and 0 as the imaginary entry.
+ - **Capacitor:** Also has resistance as member function, and then overrides impedance function to return 0 as the real entry, and $Z_C = -X_C$ as the imaginary entry (where $Z_C$ is the capacitor impedance, $X_C = 1/\omega C$ is the capacitor reactance, $\omega$ is the angular frequency and $C$ is the capacitance).
+ - **Inductor:** Also has inductance as member function, and then overrides impedance function to return 0 as the real entry, and $Z_L = X_L$ as the imaginary entry (where $Z_L$ is the inductor impedance, $X_L = \omega L$ is the inductor reactance, $\omega$ is the angular frequency and $L$ is the inductance).
 
 The Component class has a base info function which outputs the component type, its ID, impedance, frequency, behaviour and impedance magnitude and phase difference. The derived classes also output the name and resistance, capacitance and inductance respectively.
+
+The Circuit class inherits from the Component class, and contains connection as an additional data member which can be Series or Parallel (via enum class).
+
+The user is able to add a Circuit as a Component in the Circuit, thus allowing for nesting of circuits.
 
 ## User Guidelines
 ### Running the program as-is

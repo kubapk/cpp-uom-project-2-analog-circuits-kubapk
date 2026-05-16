@@ -21,6 +21,7 @@
 \usepackage{multirow} 
 \usepackage{amsmath}  % improve math presentation
 \usepackage{siunitx}
+\usepackage{hyperref}
 
 \usepackage{titlesec} % Customising section titles
 \titleformat{\section}{\large\bfseries}{\thesection.}{1em}{} % Makes section headers bold, and adds a period after number
@@ -112,6 +113,10 @@
 
 \newpage
 \vspace{5pt}
+\tableofcontents
+
+\newpage
+\vspace{5pt}
 
 \section{Introduction}
 Text goes here
@@ -125,10 +130,13 @@ Text goes here
 \section{Discussion and conclusions}
 Text goes here
 
+\newpage
 \nocite{*}
-
+\phantomsection     
+\addcontentsline{toc}{section}{References} 
 \bibliographystyle{plain}  % or alpha, abbrv, unsrt, etc.
 \bibliography{ref.bib} % name of your .bib file (without .bib extension)
+
 
 
 \end{document}
