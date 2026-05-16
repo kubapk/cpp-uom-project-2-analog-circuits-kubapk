@@ -35,7 +35,7 @@ int main()
         //library.push_back(std::make_unique<Inductor>(50, 0.01, false)); //freq, inductance, assignID
         //library.push_back(std::make_unique<Resistor>(20, 100, false)); //freq, resistance, assignID
 
-        Circuit series_circuit(60, ConnectionType::Series);
+        Circuit series_circuit(60e3, ConnectionType::Series);
         series_circuit.add_component(library[0]->clone());
         //series_circuit.add_component(library[1]->clone());
         //series_circuit.add_component(library[0]->clone());
