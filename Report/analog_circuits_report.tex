@@ -105,7 +105,7 @@
 
 	\textbf{Abstract}
     
-	\vspace{12pt} Abstract text goes here
+	\vspace{12pt} This report explains the considerations taken when building a program which allows the construction of analogue circuits made up of resistors, capacitors and inductors. The program is built on the paradigm of object oriented programming, using classes to represent the three possible components and a generic series or parallel circuit. Inheritance is used maximally, where all components and the circuit classes are inherited from an abstract base class for a generic component, allowing for circuits themselves to be added as components to different circuits. All classes are abstracted in the sense that they have implementation files, apart from simple structs and enumerator classes which are used by one class only. This program provides a way of building a \textit{realistic} circuit, enforcing components to be in ranges of real resistors, capacitors and inductors as specified by validation files and functions. Such functions have been kept as private or protected, ensuring that a program user is unable to bypass checks and build a circuit with unrealistic components. The introduction of IDs and counters have enabled components within a circuit to be kept a track of efficiently, and function overriding has allowed the calculation of impedance for all components and the circuit without code repetition.
     
     \vspace{\fill}
     
@@ -186,9 +186,7 @@ r2=r1;
 
 Listing \ref{list:example} shows a simplified version of the main file in this program. Line 1 creates the library of components using unique pointers, and then two components (Wirewound resistor and Ceramic capacitor) are added to the library. They are then both added to one circuit using the clone function, and the capacitor is added to another using the same clone function. These are both copies of the components from the library, so are stored in a different address and owned uniquely by the corresponding circuit. When they are added to the library, they are set to have no IDs (there is not much use in labelling them inside the library), but when they are added to the circuit, since the copy constructor needs to be used (via \verb|clone()|), they are given an ID. 
 
-The final two lines produce outputs for the parallel circuit. \verb|info()| gives the combined impedance of the circuit as well as its behaviour (capacitive or inductive). It also produces the number of components contained within the circuit via the *****
-
- \verb|component_info()|
+The final two lines produce outputs for the parallel circuit. \verb|info()| gives the combined impedance of the circuit as well as its behaviour (capacitive or inductive). It also produces the number of components contained within the circuit via the \verb|count_components()| function. This function makes use of the \verb|CircuitStats| struct to store the number of occurrences of each component as one object. \verb|count_components()| is a recursive function which deals with 2 levels of hierarchy (i.e. a circuit within a circuit) in order to not only produce the correct number of components, but also the correct number of nested series and parallel circuits.
 
 \begin{lstlisting}[language=C++, caption=Example of program functionality, label=list:example]
 vector<std::unique_ptr<Component>> library;
@@ -211,9 +209,9 @@ combined_parallel->component_info();
 \end{lstlisting}
 
 \section{Discussion and conclusions}
-The program is effective in the scenario that has been described throughout this report, that of imagining a student in a lab building a circuit with limited actions (creating series and parallel circuits one by one), and constrained by the lab demonstrator's library of available components. One disadvantage of the program is that it does not account for validation files which give unreasonable values. For example, the user could use their own validation file which has a negative frequency or, the tolerance could be a number not between 0 and 1. There is no protection against this in the code.
+The program is effective in the scenario that has been described throughout this report, that of imagining a student in a lab, building a circuit with limited actions (creating series and parallel circuits one by one), and constrained by the lab demonstrator's library of available components. One disadvantage of the program is that it does not account for validation files which give unreasonable values. For example, the user could use their own validation file which has a negative frequency or, the tolerance could be a number not between 0 and 1. There is no protection against this in the code.
 
-Another issue comes about if the user does not intialise circuits using a unique pointer, and instead just declares them as a \verb|Circuit| object. When a circuit is moved to another circuit, it is added as a component to that circuit, and so must be converted to a unique pointer. This means the pointer to the circuit in its old address becomes null, but that original circuit object still exists and its info function could be called. This produces an output but with all values set to 0, which doesn't make much sense. One way around this is to 
+Another issue comes about if the user does not intialise circuits using a unique pointer, and instead just declares them as a \verb|Circuit| object. When a circuit is moved to another circuit, it is added as a component to that circuit, and so must be converted to a unique pointer. This means the pointer to the circuit in its old address becomes null, but that original circuit object still exists and its info function could be called. This produces an output but with all values set to 0, which doesn't make much sense. One way around this is to use a boolean value to keep track of whether a circuit has been moved, and if it has, print out a different message over the normal info function message warning the user that it is a moved function. Also, once a function is moved into a circuit, it cannot be modified or accessed individually. A nice feature would be to let the user access the components in a circuit using their IDs, and then be able to call a setter or getter on a specific component. 
 
 \newpage
 \nocite{*}

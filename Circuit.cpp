@@ -75,38 +75,6 @@ Circuit& Circuit::operator=(const Circuit& circ)
 //Need to use push_back and so must clear memory first
 //Not issue with copy constructor as it does not already have an object 
 
-//Move constructor
-//Use std::move from smart pointer
-/*
-Circuit::Circuit(Circuit&& circ) noexcept :
-    Component(std::move(circ)), components{std::move(circ.components)},
-    connection{circ.connection}
-    {
-        component_id = circ.component_id;
-        circ.component_id = "";
-        circ.moved_from = true;
-    }
-*/
-
-//Move assignment operator
-/*
-Circuit& Circuit::operator=(Circuit&& circ) noexcept
-{
-    //Check for self-assignment
-    if(&circ == this) return *this;
-
-    //Move by assignment
-    Component::operator=(std::move(circ));
-    components = std::move(circ.components);
-    connection = circ.connection;
-    component_id = circ.component_id;
-    circ.component_id = "";
-
-    circ.moved_from = true;
-    return *this; //return this object
-}
-*/
-
 //SETTERS
 //Setter for frequency
 void Circuit::set_frequency(const double frequency_in) 
