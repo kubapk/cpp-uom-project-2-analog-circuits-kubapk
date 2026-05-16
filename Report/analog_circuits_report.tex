@@ -123,7 +123,7 @@ This program allows users to build analogue circuits using resistors, capacitors
 
 In the main file of this program, a \textit{library} of components is created, which stores different types of resistors, capacitors and inductors. These components are validated through the use of validation files, such that if the user tries to initialise a component with properties which do not match those specified in the validation file, an error message will be returned. The validation files specify a component name, like \textit{Wirewound} for resistor, as well as a tolerance to dissipative effects, and a maximum frequency to which they can withstand \cite{eepower_resistormaterials}. Each validation file then contains maximum and minimum possible values for the resistance, capacitance and inductance respectively. 
 
-The \verb|Component| base class contains an operating frequency \verb|frequency| and a unique ID \verb|component_id|, as well as a function to calculate the impedance of the component (using the complex library in C++), and its magnitude and phase difference (\verb|get_impedance()|, \verb|get_impedance_magnitude|, \verb|get_phase_difference|). It also has a \verb|base_info()| function which outputs these properties, and which is overriden in the derived classes to print the resistance, capacitance and inductance of the corresponding classes. 
+The \verb|Component| base class contains an operating frequency \verb|frequency| and a unique ID \verb|component_id|, as well as a function to calculate the impedance of the component (using the complex library in C++), and its magnitude and phase difference (\verb|get_impedance()|, \verb|get_impedance_magnitude|, \verb|get_phase_difference|). It also has a \verb|base_info()| function which outputs these properties, and which is overriden in the derived classes to print the resistance, capacitance and inductance of the corresponding classes. A summary of the data members and member functions can be seen in figure X.
 
 This program therefore gives the user an easy way of constructing circuits with nested branches and varying topologies, as well as ensuring at the same time that the components are physically meaningful, much like an undergraduate circuit labaratory where only certain types of components are available and can be used to build circuits.
 
@@ -152,22 +152,21 @@ Within the validation function, it was useful to use a lambda function because c
         return true;
 \end{lstlisting}
 
-If the student wants to use one of the components from the library of the lab demonstrator, they cannot take it directly away from the lab demonstrator, as they are the owner of that specific component. This follows from the fact that the the library which is set up in main is a vector of unique pointers. There was a consideration to make it a vector of shared pointers, in which case the student could "share" the component with the lab demonstrator, and put it in the circuit (which would also share ownership). This came with a big drawback, which was that if a component is added to a circuit, its frequency would be updated, and since its shared, this would affect the component in all places it was used.
+If the student wants to use one of the components from the library of the lab demonstrator, they cannot take it directly away from the lab demonstrator, as they are the owner of that specific component. This follows from the fact that the the library which is set up in main is a vector of unique pointers. There was a consideration to make it a vector of shared pointers, in which case the student could "share" the component with the lab demonstrator, and put it in the circuit (which would also share ownership). This came with a big drawback, which was that if a component is added to a circuit, its frequency would be updated, and since its shared, this would affect the component in all places it was used. Listing \ref{list:sharedptr} shows the case where the component is shared amongst two circuits, and when the frequency of the second one is set to a different value of the first, and then we try to access the info of the first circuit, the component's frequency will not match the circuit's frequency, giving the incorrect calculation of impedance for that circuit.
 
-To avoid this, the student must make a copy of the component from the library, at which point they can add it to their circuit. This is done via a \verb|clone()| function which all of the \verb|Component|-derived classes have.
-They could initialise a component just by itself and then move it to the circuit, but its easier to just clone inside the circuit infrastructure. 
+To avoid this, the student must make a copy of the component from the library, at which point they can add it to their circuit. This required the introduction of a \verb|clone()| function which all of the \verb|Component|-derived classes were given. It performs a deep copy of the component, akin to how a copy constructor works. This also came to be very useful for the copy constructor and assignment operator in the Circuit class, which containing a vector of unique pointers must obide by at least the rule of 3. Since we do want the user to also be able to move the circuit from one place to another, we implement the rule of 5, but set the move copy constructor and assignment operator to be default, as it is correctly handled by the unique pointer's \verb|std::move| function.
 
 \begin{lstlisting}[language=C++, caption=Shared pointers don't work well for library of components, label=list:sharedptr]
 circuit1.setFrequency(50);
-circuit2.setFrequency(1000);  // overwrites the component's frequency!
-circuit1.print();             // component now thinks f=1000
+circuit2.setFrequency(1000);  // overwrites the component's frequency
+circuit1.info();             // component now thinks f=1000
 \end{lstlisting}
-
-IDs
 
 
 If they let the student take that one component which they own, then no one else in the lab could use it. In that sense it is not logical for identical components to be stored twice in the library. The student must make a copy of the component from the library, at which point they can add it to their circuit. This is done via a \verb|clone()| function which all of the \verb|Component|-derived classes have.
 They could initialise a component just by itself and then move it to the circuit, but its easier to just clone inside the circuit infrastructure. 
+
+One must be careful about the copy semantics for the component classes when it comes to the IDs of each component.
 
 \section{Results}
 Text goes here
