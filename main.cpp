@@ -21,6 +21,8 @@ int main()
 {
     try
     {
+        std::cout << "DEBUG before library push\n";
+
         //Load validation files
         Resistor::load_validation_file("resistor_validation.txt");
         Capacitor::load_validation_file("capacitor_validation.txt");
@@ -29,18 +31,26 @@ int main()
         //Create a library of different components
         vector<std::unique_ptr<Component>> library;
 
+
         //Add components to the library
         library.push_back(std::make_unique<Resistor>(100, 1e4, 0.2, "Wirewound", false)); //freq, resistace, tolerance, name, assignID
         //library.push_back(std::make_unique<Capacitor>(50, 10e-6, false)); //freq, resistance, assignID
         //library.push_back(std::make_unique<Inductor>(50, 0.01, false)); //freq, inductance, assignID
         //library.push_back(std::make_unique<Resistor>(20, 100, false)); //freq, resistance, assignID
 
-        Circuit series_circuit(60e3, ConnectionType::Series);
-        series_circuit.add_component(library[0]->clone());
+        std::cout << "DEBUG before clone\n";
+
+        auto cloned = library[0]->clone();
+
+        Circuit series_circuit(1000, ConnectionType::Series);
+        series_circuit.add_component(std::move(cloned));
         //series_circuit.add_component(library[1]->clone());
         //series_circuit.add_component(library[0]->clone());
         //series_circuit.add_component(library[3]->clone());
 
+        std::cout << "DEBUG after add_component\n";
+
+        series_circuit.set_frequency(50e6);
         //Instead have a map which means the components from the library can be called with something that the user
         //recognises - that way it is clear what is being called
 

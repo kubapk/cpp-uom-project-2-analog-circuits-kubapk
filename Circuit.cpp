@@ -87,7 +87,19 @@ void Circuit::set_frequency(const double frequency_in)
 
     //Syncronise: Set frequency of each component to match frequency_in
     for(const auto& component_ptr_i : components)
-        component_ptr_i->set_frequency(frequency_in);
+    {
+        try
+        {
+            component_ptr_i->set_frequency(frequency_in);
+        }
+        catch(const std::exception& e)
+        {
+            throw std::invalid_argument("Frequency of circuit "+component_id+" could not be"
+                "changed to "+std::to_string(frequency_in)+" Hz. "+type_to_string(component_ptr_i->get_type())+" "+
+                component_ptr_i->get_id()+" complained about frequency change, returning "
+                "the following error message: \n "+e.what());
+        }
+    }
     //"component_ptr_i" is std::unique_ptr<Component> but can let compiler decide with auto
     //cannot pass component_ptr_i by value as unique pointer cannot be copied (it can only have one owner at once)
     //Set the reference to std::unique_ptr<Component> to be const as it shouldn't be modified -
@@ -140,8 +152,16 @@ const ConnectionType& Circuit::get_connection() const {return connection;}
 //Function to add component to circuit
 void Circuit::add_component(std::unique_ptr<Component> component_ptr)
 {
-    //Syncronise: Set the frequency of component to match that of circuit
-    component_ptr->set_frequency(frequency);
+    try
+    {
+        component_ptr->set_frequency(frequency);
+    }
+    catch(const std::exception& e)
+    {
+        throw std::invalid_argument(type_to_string(component_ptr->get_type())+" "+
+        component_ptr->get_id()+" could not be added to circuit "+component_id+
+        "."+component_ptr->get_id()+" returned the following error message: \n "+e.what());
+    }
 
     //Add component to vector
     components.emplace_back(std::move(component_ptr));

@@ -223,7 +223,7 @@ void Component::validate_component(const vector<ValidationRecord>& all_records, 
     if(record.name == comp_name)
     {
       //Check frequency is less than maximum frequency + tolerance
-      if(comp_frequency <= record.max_frequency + numerical_tolerance)
+      if(comp_frequency > record.max_frequency + numerical_tolerance)
         throw std::invalid_argument("Frequency is too high for "+comp_name+
           " in "+type_str+" validation file. Maximum frequency for "+comp_name+" is "
           +std::to_string(record.max_frequency)+" Hz.");
@@ -231,14 +231,14 @@ void Component::validate_component(const vector<ValidationRecord>& all_records, 
       //Check value is between range specified + tolerance
       if
       (
-        comp_value >= record.min_value - numerical_tolerance ||
-        comp_value <= record.max_value + numerical_tolerance
+        comp_value < record.min_value - numerical_tolerance ||
+        comp_value > record.max_value + numerical_tolerance
       )
         throw std::invalid_argument(type_str+" value is not in specified range"
           " for "+comp_name+".");
 
       //Check tolerance matches + tolerance
-      if(std::abs(comp_tolerance - record.tolerance) < numerical_tolerance)
+      if(std::abs(comp_tolerance - record.tolerance) > numerical_tolerance)
       {
         throw std::invalid_argument("Tolerance does not match that of "+comp_name+
           " in "+type_str+" validation file.");
